@@ -1,3 +1,78 @@
+import { useLayoutEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Autorization, Registration } from './pages';
+import { Header } from './components';
+import { setUser } from './actions';
+import styled from 'styled-components';
+
+const AppColumn = styled.div`
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	margin: 0 auto;
+	width: 1000px;
+	min-height: 100%;
+	background-color: #fff;
+`;
+
+const Page = styled.div`
+	height: 100%;
+	padding: 120px 0 20px;
+`;
+
 export const App = () => {
-	return <div className="App">Привет мир!</div>;
+	const dispatch = useDispatch();
+
+	useLayoutEffect(() => {
+		const currentUserDataJSON = sessionStorage.getItem('userData');
+
+		if (!currentUserDataJSON) {
+			return;
+		}
+
+		const currentUserData = JSON.parse(currentUserDataJSON);
+
+		dispatch(
+			setUser({
+				...currentUserData,
+				roleId: Number(currentUserData.roleId),
+			}),
+		);
+	}, [dispatch]);
+
+	return (
+		<AppColumn>
+			<Header />
+			<Page>
+				<Routes>
+					<Route path="/" element={<div>Главная страница</div>} />
+					<Route
+						path="/operation"
+						element={<div>Страница создания и редактирования операции</div>}
+					/>
+					<Route
+						path="/category"
+						element={<div>Страница создания и редактирования категории</div>}
+					/>
+					<Route
+						path="/account"
+						element={<div>Страница создания и редактирования счёта</div>}
+					/>
+					<Route
+						path="/operations"
+						element={<div>Страница истории опрецаций</div>}
+					/>
+					<Route
+						path="/personal"
+						element={<div>Персональная страница пользователя</div>}
+					/>
+					<Route path="/autorization" element={<Autorization />} />
+					<Route path="/registration" element={<Registration />} />
+					<Route path="*" element={<div>Ошибка</div>} />
+				</Routes>
+			</Page>
+		</AppColumn>
+	);
 };
