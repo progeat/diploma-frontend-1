@@ -29,7 +29,7 @@ const HeaderContainer = ({ className }) => {
 			<div className="login-control">
 				{roleId === ROLE.GUEST ? (
 					<Button>
-						<Link to="/autorization">Войти</Link>
+						<Link to="/login">Войти</Link>
 					</Button>
 				) : (
 					<>
@@ -47,9 +47,9 @@ export const Header = styled(HeaderContainer)`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 0 30px;
 	height: 70px;
-	width: 100%;
+	width: 1000px;
+	padding: 0 30px;
 	background-color: #ddd;
 
 	& .buttons > a:not(:last-child) {

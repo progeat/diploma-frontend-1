@@ -1,13 +1,16 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AuthFormError, Button, Input } from '../../components';
-import { useResetForm } from '../../hooks';
 import { server } from '../../bff';
-import styled from 'styled-components';
+import { useResetForm } from '../../hooks';
 import { setUser } from '../../actions';
+import { selectUserRole } from '../../selectors';
+import { ROLE } from '../../constants';
+import styled from 'styled-components';
 
 const regFormSchema = yup.object().shape({
 	login: yup
@@ -50,6 +53,8 @@ const RegistrationContainer = ({ className }) => {
 
 	const dispatch = useDispatch();
 
+	const roleId = useSelector(selectUserRole);
+
 	useResetForm(reset);
 
 	const onSubmit = ({ login, password }) => {
@@ -67,6 +72,10 @@ const RegistrationContainer = ({ className }) => {
 	const formError =
 		errors?.login?.message || errors?.password?.message || errors?.passcheck?.message;
 	const errorMessage = formError || serverError;
+
+	if (roleId !== ROLE.GUEST) {
+		return <Navigate to="/" />;
+	}
 
 	return (
 		<div className={className}>
@@ -112,6 +121,7 @@ export const Registration = styled(RegistrationContainer)`
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		width: 281px;
 		padding: 20px;
 		background-color: #ddd;
 	}
