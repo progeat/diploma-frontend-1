@@ -11,7 +11,6 @@
 -   счёт: БД (список счетов), стор (отображение в браузере)
 -   категория: БД (список категорий), стор (отображение в браузере)
 -   операция: БД (список операций), стор (отображение в браузере)
--   комментарий к операции: БД (список комментариев), стор (отображение в браузере)
 
 Таблицы БД:
 
@@ -19,8 +18,7 @@
 -   роли - roles: id / name
 -   счета - accounts: id / title / type / amount / icon / created_at
 -   категории - categories: id / title / type / icon / created_at
--   операции - operations: id / account_id / category_id / amount / comment_id / created_at
--   комментарии - comments: id / content
+-   операции - operations: id / account_id / category_id / amount / comment / created_at
 
 Схема состояния на BFF:
 
@@ -28,12 +26,11 @@
 
 Схема для редакс стора (на клиенте):
 
+-   users: массив user: id / login / registeredAt / role
 -   user: id / login / roleId / session
 -   accounts: массив account: id / title / type / amount / icon
 -   account: id / title / type / amount / icon / createdAt
 -   categories: массив category: id / title / type / icon
 -   category: id / title / type / icon / createdAt
--   operations: массив operation: id / accountId / categoryId / amount / commentId / createdAt
--   operation: id / accountId / categoryId / amount / commentId / createdAt
--   comments: массив comment: id / content
--   users: массив user: id / login / registeredAt / role
+-   operations: массив operation: id / accountId / categoryId / amount / comment / createdAt
+-   operation: id / accountId / categoryId / amount / comment / createdAt

@@ -1,7 +1,7 @@
 import { useLayoutEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { Authorization, Registration } from './pages';
+import { Authorization, Operations, Registration } from './pages';
 import { Header } from './components';
 import { setUser } from './actions';
 import styled from 'styled-components';
@@ -60,10 +60,7 @@ export const App = () => {
 						path="/account"
 						element={<div>Страница создания и редактирования счёта</div>}
 					/>
-					<Route
-						path="/operations"
-						element={<div>Страница истории опрецаций</div>}
-					/>
+					<Route path="/operations" element={<Operations />} />
 					<Route
 						path="/personal"
 						element={<div>Персональная страница пользователя</div>}
