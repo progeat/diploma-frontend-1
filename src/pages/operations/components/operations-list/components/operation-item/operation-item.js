@@ -12,11 +12,11 @@ const OperationItemContainer = ({
 }) => {
 	return (
 		<div className={className}>
-			<div className="item-info">{amount}</div>
 			<div className="item-comment">{comment}</div>
+			<div className="item-info">{amount} ₽</div>
 			<div className="item-control">
-				<Icon inactive={true} id="fa-pencil" margin="0 7px 0 0" size="18px" />
-				<Icon inactive={true} id="fa-trash-o" margin="0 7px 0 0" size="18px" />
+				<Icon id="fa-pencil" margin="0 7px 0 0" size="18px" />
+				<Icon id="fa-trash-o" margin="0 7px 0 0" size="18px" />
 			</div>
 		</div>
 	);
