@@ -1,110 +1,122 @@
 {
-	"users": [
-		{
-			"id": "001",
-			"login": "admin",
-			"password": "qwerty123",
-			"registed_at": "2024-05-25",
-			"role_id": 0
-		},
-		{
-			"login": "user",
-			"password": "qwerty123",
-			"registed_at": "2024-10-20 18:12",
-			"role_id": 2,
-			"id": "dgKMCQg"
-		},
-		{
-			"login": "user2",
-			"password": "qwerty123",
-			"registed_at": "2024-10-21 08:10",
-			"role_id": 2,
-			"id": "CIhvPnD"
-		},
-		{
-			"login": "user3",
-			"password": "qwerty123",
-			"registed_at": "2024-10-21 08:11",
-			"role_id": 2,
-			"id": "juw717q"
-		},
-		{
-			"login": "user4",
-			"password": "qwerty123",
-			"registed_at": "2024-10-21 08:17",
-			"role_id": 2,
-			"id": "1JVQZkG"
-		}
-	],
-	"roles": [
-		{
-			"id": 0,
-			"name": "Администратор"
-		},
-		{
-			"id": 1,
-			"name": "Подписка активна"
-		},
-		{
-			"id": 2,
-			"name": "Без подписки"
-		},
-		{
-			"id": 3,
-			"name": "Не зарегистрирован"
-		}
-	],
-	"accounts": [
-		{
-			"id": "001",
-			"title": "Дебетовая",
-			"type": "https://placebeard.it/280x150",
-			"amount": 11045,
-			"icon": "standard-card",
-			"created_at": "2024-10-20"
-		}
-	],
-	"operations": [
-		{
-			"id": "001",
-			"account_id": "001",
-			"category_id": "001",
-			"amount": 16045,
-			"comment": "Зарплата",
-			"created_at": "2024-10-22"
-		},
-		{
-			"id": "002",
-			"account_id": "001",
-			"category_id": "001",
-			"amount": 990,
-			"comment": "Продукты",
-			"created_at": "2024-10-22"
-		},
-		{
-			"id": "003",
-			"account_id": "001",
-			"category_id": "001",
-			"amount": 5600,
-			"comment": "Поступление",
-			"created_at": "2024-10-22"
-		},
-		{
-			"id": "004",
-			"account_id": "001",
-			"category_id": "001",
-			"amount": 340,
-			"comment": "Обед",
-			"created_at": "2024-10-22"
-		},
-		{
-			"id": "005",
-			"account_id": "001",
-			"category_id": "001",
-			"amount": 2850,
-			"comment": "Заправка",
-			"created_at": "2024-10-22"
-		}
-	],
-	"sessions": []
+  "users": [
+    {
+      "id": "001",
+      "login": "admin",
+      "password": "qwerty123",
+      "registed_at": "2024-05-25",
+      "role_id": 0
+    },
+    {
+      "login": "user",
+      "password": "qwerty123",
+      "registed_at": "2024-10-20 18:12",
+      "role_id": 2,
+      "id": "dgKMCQg"
+    },
+    {
+      "login": "user2",
+      "password": "qwerty123",
+      "registed_at": "2024-10-21 08:10",
+      "role_id": 2,
+      "id": "CIhvPnD"
+    },
+    {
+      "login": "user3",
+      "password": "qwerty123",
+      "registed_at": "2024-10-21 08:11",
+      "role_id": 2,
+      "id": "juw717q"
+    },
+    {
+      "login": "user4",
+      "password": "qwerty123",
+      "registed_at": "2024-10-21 08:17",
+      "role_id": 2,
+      "id": "1JVQZkG"
+    }
+  ],
+  "roles": [
+    {
+      "id": 0,
+      "name": "Администратор"
+    },
+    {
+      "id": 1,
+      "name": "Подписка активна"
+    },
+    {
+      "id": 2,
+      "name": "Без подписки"
+    },
+    {
+      "id": 3,
+      "name": "Не зарегистрирован"
+    }
+  ],
+  "accounts": [
+    {
+      "id": "001",
+      "title": "Дебетовая",
+      "type": "https://placebeard.it/280x150",
+      "balance": 11045,
+      "icon": "standard-card",
+      "created_at": "2024-10-20"
+    }
+  ],
+  "operations": [
+    {
+      "id": "001",
+      "account_id": "001",
+      "category_id": "001",
+      "amount": 16045,
+      "comment": "Зарплата",
+      "created_at": "2024-10-22"
+    },
+    {
+      "id": "002",
+      "account_id": "001",
+      "category_id": "001",
+      "amount": 990,
+      "comment": "Продукты",
+      "created_at": "2024-10-22"
+    },
+    {
+      "id": "003",
+      "account_id": "001",
+      "category_id": "001",
+      "amount": 5600,
+      "comment": "Поступление",
+      "created_at": "2024-10-22"
+    },
+    {
+      "id": "004",
+      "account_id": "001",
+      "category_id": "001",
+      "amount": 340,
+      "comment": "Обед",
+      "created_at": "2024-10-22"
+    },
+    {
+      "id": "005",
+      "account_id": "001",
+      "category_id": "001",
+      "amount": 2850,
+      "comment": "Заправка",
+      "created_at": "2024-10-22"
+    }
+  ],
+  "sessions": [
+    {
+      "hash": "0.46312666296265914134266949986340478062629699707031",
+      "user": {
+        "id": "001",
+        "login": "admin",
+        "password": "qwerty123",
+        "registeredAt": "2024-05-25",
+        "roleId": 0
+      },
+      "id": 1
+    }
+  ]
 }

@@ -16,7 +16,7 @@
 
 -   пользователи - users: id / login / password / registed_at / role_id
 -   роли - roles: id / name
--   счета - accounts: id / title / type / amount / icon / created_at
+-   счета - accounts: id / title / type / balance / icon / created_at
 -   категории - categories: id / title / type / icon / created_at
 -   операции - operations: id / account_id / category_id / amount / comment / created_at
 
@@ -28,8 +28,8 @@
 
 -   users: массив user: id / login / registeredAt / role
 -   user: id / login / roleId / session
--   accounts: массив account: id / title / type / amount / icon
--   account: id / title / type / amount / icon / createdAt
+-   accounts: массив account: id / title / type / balance / icon
+-   account: id / title / type / balance / icon / createdAt
 -   categories: массив category: id / title / type / icon
 -   category: id / title / type / icon / createdAt
 -   operations: массив operation: id / accountId / categoryId / amount / comment / createdAt

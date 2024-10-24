@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import { Icon } from '../../../../../../components';
+import styled from 'styled-components';
 
 const OperationItemContainer = ({
 	className,
