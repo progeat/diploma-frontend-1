@@ -23,7 +23,7 @@ const HeaderContainer = ({ className }) => {
 		<div className={className}>
 			<div className="buttons">
 				<Link to="/">Главная</Link>
-				<Link to="/operations">История</Link>
+				<Link to="/transactions">История</Link>
 				<button onClick={() => navigate(-1)}>Назад</button>
 			</div>
 			<div className="login-control">

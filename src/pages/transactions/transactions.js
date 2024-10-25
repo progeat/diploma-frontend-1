@@ -1,19 +1,19 @@
 import styled from 'styled-components';
-import { ControlPanel, OperationsList } from './components';
+import { ControlPanel, TransactionsList } from './components';
 
-const OperationsContainer = ({ className }) => {
+const TransactionsContainer = ({ className }) => {
 	return (
 		<div className={className}>
 			<div className="header">
 				<h2>История операций</h2>
 				<ControlPanel />
 			</div>
-			<OperationsList />
+			<TransactionsList />
 		</div>
 	);
 };
 
-export const Operations = styled(OperationsContainer)`
+export const Transactions = styled(TransactionsContainer)`
 	& .header {
 		display: flex;
 		justify-content: space-between;

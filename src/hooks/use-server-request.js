@@ -10,7 +10,7 @@ export const useServerRequest = () => {
 
 	return useCallback(
 		(operation, ...params) => {
-			const request = ['fetchOperations'].includes(operation)
+			const request = ['fetchTransactions'].includes(operation)
 				? params
 				: [session, ...params];
 

@@ -1,26 +1,28 @@
 import { useEffect, useState } from 'react';
-import { OperationItem } from './components';
+import { TransactionItem } from './components';
 import { useServerRequest } from '../../../../hooks';
 import styled from 'styled-components';
 
-const OperationsListContainer = ({ className }) => {
-	const [operations, setOperations] = useState([]);
+const TransactionsListContainer = ({ className }) => {
+	const [transactions, setTransactions] = useState([]);
 	const requestServer = useServerRequest();
 
 	useEffect(() => {
-		requestServer('fetchOperations').then(({ res }) => setOperations(res.operations));
+		requestServer('fetchTransactions').then(({ res }) =>
+			setTransactions(res.transactions),
+		);
 	}, [requestServer]);
 
-	console.log('operationsList', operations);
-	console.log('Сколько?', operations.length);
+	console.log('transactionsList', transactions);
+	console.log('Сколько?', transactions.length);
 
 	return (
 		<>
-			{operations.length > 0 ? (
+			{transactions.length > 0 ? (
 				<div className={className}>
-					{operations.map(
+					{transactions.map(
 						({ id, accountId, categoryId, amount, comment, createdAt }) => (
-							<OperationItem
+							<TransactionItem
 								key={id}
 								id={id}
 								accountId={accountId}
@@ -33,13 +35,13 @@ const OperationsListContainer = ({ className }) => {
 					)}
 				</div>
 			) : (
-				<div className="no-operations-found">Операции не найдены</div>
+				<div className="no-transactions-found">Операции не найдены</div>
 			)}
 		</>
 	);
 };
 
-export const OperationsList = styled(OperationsListContainer)`
+export const TransactionsList = styled(TransactionsListContainer)`
 	& > div:not(:last-child) {
 		margin-bottom: 10px;
 	}

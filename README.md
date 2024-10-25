@@ -18,7 +18,7 @@
 -   роли - roles: id / name
 -   счета - accounts: id / title / type / balance / icon / created_at
 -   категории - categories: id / title / type / icon / created_at
--   операции - operations: id / account_id / category_id / amount / comment / created_at
+-   операции - transactions: id / account_id / category_id / amount / comment / created_at
 
 Схема состояния на BFF:
 
@@ -32,5 +32,5 @@
 -   account: id / title / type / balance / icon / createdAt
 -   categories: массив category: id / title / type / icon
 -   category: id / title / type / icon / createdAt
--   operations: массив operation: id / accountId / categoryId / amount / comment / createdAt
--   operation: id / accountId / categoryId / amount / comment / createdAt
+-   transactions: массив transaction: id / accountId / categoryId / amount / comment / createdAt
+-   transaction: id / accountId / categoryId / amount / comment / createdAt
