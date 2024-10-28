@@ -14,7 +14,6 @@ const TransactionsListContainer = ({ className }) => {
 	}, [requestServer]);
 
 	console.log('transactionsList', transactions);
-	console.log('Сколько?', transactions.length);
 
 	return (
 		<>
