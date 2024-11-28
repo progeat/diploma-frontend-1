@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import { ControlPanel, TransactionsList } from './components';
+import styled from 'styled-components';
 
 const TransactionsContainer = ({ className }) => {
 	return (
