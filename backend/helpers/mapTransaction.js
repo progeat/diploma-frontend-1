@@ -5,7 +5,7 @@ module.exports = function (transaction) {
   return {
     id: transaction.id,
     accountId: transaction.account_id,
-    imageUrl: transaction.category_id,
+    categoryId: transaction.category_id,
     amount: transaction.amount,
     comment: transaction.comment,
     // comments: transaction.comments.map((comment) =>

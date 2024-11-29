@@ -1,17 +1,15 @@
-import { useEffect, useState } from 'react';
 import { TransactionItem } from './components';
-import { useServerRequest } from '../../../../hooks';
 import styled from 'styled-components';
 
-const TransactionsListContainer = ({ className }) => {
-	const [transactions, setTransactions] = useState([]);
-	const requestServer = useServerRequest();
+const TransactionsListContainer = ({ className, transactions }) => {
+	// const [transactions, setTransactions] = useState([]);
+	// const requestServer = useServerRequest();
 
-	useEffect(() => {
-		requestServer('fetchTransactions').then(({ res }) =>
-			setTransactions(res.transactions),
-		);
-	}, [requestServer]);
+	// useEffect(() => {
+	// 	requestServer('fetchTransactions').then(({ res }) =>
+	// 		setTransactions(res.transactions),
+	// 	);
+	// }, [requestServer]);
 
 	console.log('transactionsList', transactions);
 
