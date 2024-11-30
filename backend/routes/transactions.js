@@ -9,9 +9,7 @@ const {
 const authenticated = require('../middlewares/authenticated.js');
 const hasRole = require('../middlewares/hasRole');
 const mapTransaction = require('../helpers/mapTransaction');
-const mapAccount = require('../helpers/mapAccount');
 const ROLES = require('../constants/roles');
-const mapTransaction = require('../helpers/mapTransaction.js');
 
 const router = express.Router({ mergeParams: true });
 

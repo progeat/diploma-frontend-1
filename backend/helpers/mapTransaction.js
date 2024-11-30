@@ -1,6 +1,3 @@
-const mongoose = require('mongoose');
-const mapAccount = require('./mapAccount');
-
 module.exports = function (transaction) {
   return {
     id: transaction.id,
@@ -8,9 +5,6 @@ module.exports = function (transaction) {
     categoryId: transaction.category_id,
     amount: transaction.amount,
     comment: transaction.comment,
-    // comments: transaction.comments.map((comment) =>
-    //   mongoose.isObjectIdOrHexString(comment) ? comment : mapAccount(comment)
-    // ),
     createdAt: transaction.createdAt,
   };
 };

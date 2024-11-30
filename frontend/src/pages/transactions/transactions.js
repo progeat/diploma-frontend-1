@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ControlPanel, Pagination, Search, TransactionsList } from './components';
-import { useMemo } from 'react';
 import { request } from '../../utils';
 import { debounce } from './utils';
 import { PAGINATION_LIMIT } from '../../constants';
