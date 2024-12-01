@@ -38,11 +38,14 @@ function deleteTransaction(id) {
 // get list with search and pagination
 async function getTransactions(search = '', limit = 10, page = 1) {
   const [transactions, count] = await Promise.all([
-    Transaction.find({ title: { $regex: search, $options: 'i' } })
+    // TODO сделать поиск по всем значениям
+    Transaction.find({ comment: { $regex: search, $options: 'i' } })
       .limit(limit)
       .skip((page - 1) * limit)
       .sort({ createdAt: -1 }),
-    Transaction.countDocuments({ title: { $regex: search, $options: 'i' } }),
+
+    // TODO сделать поиск по всем значениям
+    Transaction.countDocuments({ comment: { $regex: search, $options: 'i' } }),
   ]);
 
   return {

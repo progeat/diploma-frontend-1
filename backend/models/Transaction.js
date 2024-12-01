@@ -2,12 +2,12 @@ const mongoose = require('mongoose');
 
 const TransactionSchema = mongoose.Schema(
   {
-    accountId: {
+    account_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Account',
       required: true,
     },
-    categoryId: {
+    category_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Category',
       required: true,
