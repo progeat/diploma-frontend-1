@@ -1,12 +1,10 @@
 module.exports = function (roles) {
   return (req, res, next) => {
-    // TODO расскомментировать после тестов
+    if (!roles.includes(req.user.role)) {
+      res.send({ error: 'Access denied' });
 
-    // if (!roles.includes(req.user.role)) {
-    //   res.send({ error: 'Access denied' });
-
-    //   return;
-    // }
+      return;
+    }
 
     next();
   };

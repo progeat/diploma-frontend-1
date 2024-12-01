@@ -4,20 +4,24 @@ import { request } from '../../utils';
 import { debounce } from './utils';
 import { PAGINATION_LIMIT } from '../../constants';
 import styled from 'styled-components';
+import { Loader } from '../../components';
 
 const TransactionsContainer = ({ className }) => {
 	const [transactions, setTransactions] = useState([]);
 	const [page, setPage] = useState(1);
 	const [lastPage, setLastPage] = useState(1);
 	const [searchPhrase, setSearchPhrase] = useState('');
-	const [shouldSearch, setShouldSearch] = useState('');
+	const [shouldSearch, setShouldSearch] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
+		setIsLoading(true);
 		request(
 			`/transactions?search=${searchPhrase}&page=${page}&limit=${PAGINATION_LIMIT}`,
-		).then(({ data: { transactionsRes, lastPageRes } }) => {
-			setTransactions(transactionsRes);
-			setLastPage(lastPageRes);
+		).then(({ data: { transactions, lastPage } }) => {
+			setTransactions(transactions);
+			setLastPage(lastPage);
+			setIsLoading(false);
 		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [page, shouldSearch]);
@@ -28,6 +32,10 @@ const TransactionsContainer = ({ className }) => {
 		setSearchPhrase(target.value);
 		startDelayedSearch(!shouldSearch);
 	};
+
+	if (isLoading) {
+		return <Loader />;
+	}
 
 	return (
 		<div className={className}>

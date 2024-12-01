@@ -11,8 +11,6 @@ const TransactionsListContainer = ({ className, transactions }) => {
 	// 	);
 	// }, [requestServer]);
 
-	console.log('transactionsList', transactions);
-
 	return (
 		<>
 			{transactions.length > 0 ? (
