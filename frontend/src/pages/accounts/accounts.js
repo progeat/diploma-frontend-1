@@ -48,13 +48,13 @@ const AccountsContainer = ({ className }) => {
 		// console.log('type', type.value);
 		// console.log('balance', balance);
 		request('/accounts', 'POST', { name, type: type.value, balance }).then(
-			({ error, account }) => {
+			({ error, data }) => {
 				if (error) {
 					setServerError(`Ошибка запроса: ${error}`);
 					return;
 				}
 
-				console.log('resp', account);
+				console.log('resp', data);
 				// dispatch(setUser(user));
 				reset();
 			},

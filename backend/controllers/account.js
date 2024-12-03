@@ -4,13 +4,6 @@ const Account = require('../models/Account');
 async function addAccount(account) {
   const newAccount = await Account.create(account);
 
-  // TODO добавлять id счета
-
-  // await newTransaction.populate({
-  //   path: 'comments',
-  //   populate: 'author',
-  // });
-
   return newAccount;
 }
 
