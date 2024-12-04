@@ -7,6 +7,7 @@ const SearchContainer = ({ className, searchPhrase, onChange }) => {
 			<Input
 				value={searchPhrase}
 				placeholder="Поиск по заголовкам..."
+				margin="0"
 				onChange={onChange}
 			/>
 			<Icon inactive="true" id="fa-search" size="21px" />
@@ -17,7 +18,6 @@ const SearchContainer = ({ className, searchPhrase, onChange }) => {
 export const Search = styled(SearchContainer)`
 	position: relative;
 	display: flex;
-	margin: 40px auto 0;
 	width: 340px;
 	height: 40px;
 

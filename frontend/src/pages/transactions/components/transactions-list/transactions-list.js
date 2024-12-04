@@ -11,17 +11,19 @@ const TransactionsListContainer = ({ className, transactions }) => {
 	// 	);
 	// }, [requestServer]);
 
+	console.log('Операции с бека', transactions);
+
 	return (
 		<>
 			{transactions.length > 0 ? (
 				<div className={className}>
 					{transactions.map(
-						({ id, accountId, categoryId, amount, comment, createdAt }) => (
+						({ id, account, category, amount, comment, createdAt }) => (
 							<TransactionItem
 								key={id}
 								id={id}
-								accountId={accountId}
-								categoryId={categoryId}
+								account={account}
+								category={category}
 								amount={amount}
 								comment={comment}
 								createdAt={createdAt}

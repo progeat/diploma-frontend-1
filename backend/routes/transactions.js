@@ -54,8 +54,8 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', authenticated, hasRole([ROLES.USER]), async (req, res) => {
   const newTransaction = await addTransaction({
-    account_id: req.body.accountId,
-    category_id: req.body.categoryId,
+    account: req.body.accountId,
+    category: req.body.categoryId,
     amount: req.body.amount,
     comment: req.body.comment,
     // comments: transaction.comments.map((comment) =>
@@ -68,8 +68,8 @@ router.post('/', authenticated, hasRole([ROLES.USER]), async (req, res) => {
 
 router.patch('/:id', authenticated, hasRole([ROLES.USER]), async (req, res) => {
   const updatedTransaction = await editTransaction(req.params.id, {
-    account_id: req.body.accountId,
-    category_id: req.body.categoryId,
+    account: req.body.accountId,
+    category: req.body.categoryId,
     amount: req.body.amount,
     comment: req.body.comment,
   });

@@ -1,13 +1,13 @@
 import { forwardRef } from 'react';
 import styled from 'styled-components';
 
-const InputContainer = forwardRef(({ className, width, ...props }, ref) => {
+const InputContainer = forwardRef(({ className, margin, width, ...props }, ref) => {
 	return <input className={className} {...props} ref={ref} />;
 });
 
 export const Input = styled(InputContainer)`
 	height: 40px;
-	margin: 0 0 10px;
+	margin: ${({ margin = '0 0 10px' }) => margin};
 	width: ${({ width = '100%' }) => width};
 	padding: 10px;
 	font-size: 18px;

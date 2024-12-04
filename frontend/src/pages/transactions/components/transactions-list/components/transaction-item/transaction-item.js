@@ -5,8 +5,8 @@ const TransactionItemContainer = ({
 	className,
 	amount,
 	id,
-	accountId,
-	categoryId,
+	account,
+	category,
 	comment,
 	createdAt,
 }) => {
@@ -17,13 +17,15 @@ const TransactionItemContainer = ({
 					<Icon id="fa-cutlery" margin="0" size="20px" />
 				</div>
 				<div className="item-info">
-					<div>Категория</div>
-					<div>Счёт</div>
+					<div>{category.name}</div>
+					<div>{account.name}</div>
 				</div>
 			</div>
 			<div className="item-comment">{comment}</div>
 			<div className="item-column">
-				<div className="item-amount">{amount} ₽</div>
+				<div className="item-amount">
+					{!category.type && '-'} {amount} ₽
+				</div>
 				<div className="item-control">
 					<Icon id="fa-pencil" margin="0 7px 0 0" size="18px" />
 					<Icon id="fa-trash-o" margin="0 7px 0 0" size="18px" />

@@ -1,8 +1,11 @@
+const mapAccount = require('./mapAccount');
+const mapCategory = require('./mapCategory');
+
 module.exports = function (transaction) {
   return {
     id: transaction.id,
-    accountId: transaction.account_id,
-    categoryId: transaction.category_id,
+    account: mapAccount(transaction.account),
+    category: mapCategory(transaction.category),
     amount: transaction.amount,
     comment: transaction.comment,
     createdAt: transaction.createdAt,
