@@ -54,15 +54,13 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', authenticated, hasRole([ROLES.USER]), async (req, res) => {
   const newTransaction = await addTransaction({
-    account: req.body.accountId,
-    category: req.body.categoryId,
+    account: req.body.account,
+    category: req.body.category,
     amount: req.body.amount,
     comment: req.body.comment,
-    // comments: transaction.comments.map((comment) =>
-    //   mongoose.isObjectIdOrHexString(comment) ? comment : mapAccount(comment)
-    // ),
   });
 
+  // TODO преобразовать ответ account и category в id
   res.send({ data: mapTransaction(newTransaction) });
 });
 

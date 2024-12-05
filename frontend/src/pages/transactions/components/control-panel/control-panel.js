@@ -1,5 +1,5 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { Button } from '../../../../components';
 
 const ControlPanelContainer = ({ className }) => {
 	return (
@@ -10,11 +10,16 @@ const ControlPanelContainer = ({ className }) => {
 				<option value="по счетам">по счетам</option>
 				<option value="по категориям">по категориям</option>
 			</select>
-			<Button>Добавить операцию</Button>
+			<Link to="/transaction">Добавить операцию</Link>
 		</div>
 	);
 };
 
 export const ControlPanel = styled(ControlPanelContainer)`
 	display: flex;
+
+	& > a {
+		border: 1px solid #000;
+		padding: 5px;
+	}
 `;

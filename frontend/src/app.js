@@ -7,6 +7,7 @@ import {
 	Categories,
 	Main,
 	Registration,
+	Transaction,
 	Transactions,
 } from './pages';
 import { Header } from './components';
@@ -55,10 +56,7 @@ export const App = () => {
 			<Page>
 				<Routes>
 					<Route path="/" element={<Main />} />
-					<Route
-						path="/transaction"
-						element={<div>Страница создания и редактирования операции</div>}
-					/>
+					<Route path="/transaction" element={<Transaction />} />
 					<Route path="/categories" element={<Categories />} />
 					<Route path="/accounts" element={<Accounts />} />
 					<Route path="/transactions" element={<Transactions />} />
