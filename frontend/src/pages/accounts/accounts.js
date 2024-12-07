@@ -83,6 +83,7 @@ const AccountsContainer = ({ className }) => {
 						render={({ field }) => (
 							<Select
 								{...field}
+								className="select"
 								options={accountTypeOptions}
 								// defaultValue={accountTypeOptions[0]}
 								placeholder="Выберите тип счёта"
@@ -127,6 +128,11 @@ export const Accounts = styled(AccountsContainer)`
 
 	& .form input {
 		margin-bottom: 10px;
+	}
+
+	& .select {
+		margin-bottom: 10px;
+		width: 100%;
 	}
 
 	& .error {

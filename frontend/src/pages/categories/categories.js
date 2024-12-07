@@ -40,8 +40,6 @@ const CategoriesContainer = ({ className }) => {
 	const [serverError, setServerError] = useState(null);
 
 	const onSubmit = ({ name, type }) => {
-		// console.log('name', name);
-		// console.log('type', type.value);
 		request('/categories', 'POST', { name, type: type.value }).then(
 			({ error, category }) => {
 				if (error) {
@@ -50,7 +48,6 @@ const CategoriesContainer = ({ className }) => {
 				}
 
 				console.log('resp', category);
-				// dispatch(setUser(user));
 				reset();
 			},
 		);
@@ -77,6 +74,7 @@ const CategoriesContainer = ({ className }) => {
 						render={({ field }) => (
 							<Select
 								{...field}
+								className="select"
 								options={categoryTypeOptions}
 								// defaultValue={accountTypeOptions[0]}
 								placeholder="Выберите тип категории"
@@ -114,6 +112,11 @@ export const Categories = styled(CategoriesContainer)`
 
 	& .form input {
 		margin-bottom: 10px;
+	}
+
+	& .select {
+		margin-bottom: 10px;
+		width: 100%;
 	}
 
 	& .error {

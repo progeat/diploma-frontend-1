@@ -4,13 +4,6 @@ const Category = require('../models/Category');
 async function addCategory(category) {
   const newCategory = await Category.create(category);
 
-  // TODO добавлять id счета
-
-  // await newTransaction.populate({
-  //   path: 'comments',
-  //   populate: 'author',
-  // });
-
   return newCategory;
 }
 
@@ -19,13 +12,6 @@ async function editCategory(id, category) {
   const newCategory = await Category.findByIdAndUpdate(id, category, {
     returnDocument: 'after',
   });
-
-  // TODO добавлять id счёта или имя счёта
-
-  // await newPost.populate({
-  //   path: 'comments',
-  //   populate: 'author',
-  // });
 
   return newCategory;
 }
@@ -43,13 +29,6 @@ async function getCategories() {
 // get item
 function getCategory(id) {
   return Category.findById(id);
-
-  // TODO подмешивать название счёта
-
-  // .populate({
-  //   path: 'comments',
-  //   populate: 'author',
-  // });
 }
 
 module.exports = {

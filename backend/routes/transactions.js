@@ -31,7 +31,6 @@ router.get('/:id', async (req, res) => {
   res.send({ data: mapTransaction(transaction) });
 });
 
-// TODO продолжить отсюда
 // router.post('/:id/comments', authenticated, async (req, res) => {
 //   const newComment = await addComment(req.params.id, {
 //     content: req.body.content,
@@ -60,7 +59,6 @@ router.post('/', authenticated, hasRole([ROLES.USER]), async (req, res) => {
     comment: req.body.comment,
   });
 
-  // TODO преобразовать ответ account и category в id
   res.send({ data: mapTransaction(newTransaction) });
 });
 

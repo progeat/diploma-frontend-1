@@ -1,7 +1,16 @@
-const initialAccountsState = {};
+import { ACTION_TYPE } from '../actions';
 
-export const accountsReducer = (state = initialAccountsState, { type, action }) => {
+const initialAccountsState = {
+	accounts: [],
+};
+
+export const accountsReducer = (state = initialAccountsState, { type, payload }) => {
 	switch (type) {
+		case ACTION_TYPE.SET_ACCOUNTS:
+			return {
+				...state,
+				accounts: [...state.accounts, ...payload],
+			};
 		default:
 			return state;
 	}

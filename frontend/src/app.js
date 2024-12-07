@@ -1,4 +1,4 @@
-import { useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {
@@ -11,8 +11,9 @@ import {
 	Transactions,
 } from './pages';
 import { Header } from './components';
-import { setUser } from './actions';
+import { setAccounts, setCategories, setUser } from './actions';
 import styled from 'styled-components';
+import { request } from './utils';
 
 const AppColumn = styled.div`
 	position: relative;
@@ -50,6 +51,20 @@ export const App = () => {
 		);
 	}, [dispatch]);
 
+	useEffect(() => {
+		Promise.all([request('/accounts'), request('/categories')]).then(
+			([accountsRes, categoriesRes]) => {
+				if (accountsRes.error || categoriesRes.error) {
+					console.error('Ошибка:', accountsRes.error || categoriesRes.error);
+					return;
+				}
+
+				dispatch(setAccounts(accountsRes.data));
+				dispatch(setCategories(categoriesRes.data));
+			},
+		);
+	}, [dispatch]);
+
 	return (
 		<AppColumn>
 			<Header />
@@ -57,6 +72,7 @@ export const App = () => {
 				<Routes>
 					<Route path="/" element={<Main />} />
 					<Route path="/transaction" element={<Transaction />} />
+					<Route path="/transaction/:id/edit" element={<Transaction />} />
 					<Route path="/categories" element={<Categories />} />
 					<Route path="/accounts" element={<Accounts />} />
 					<Route path="/transactions" element={<Transactions />} />

@@ -13,13 +13,6 @@ async function editAccount(id, account) {
     returnDocument: 'after',
   });
 
-  // TODO добавлять id счёта или имя счёта
-
-  // await newPost.populate({
-  //   path: 'comments',
-  //   populate: 'author',
-  // });
-
   return newAccount;
 }
 
@@ -36,13 +29,6 @@ async function getAccounts() {
 // get item
 function getAccount(id) {
   return Account.findById(id);
-
-  // TODO подмешивать название счёта
-
-  // .populate({
-  //   path: 'comments',
-  //   populate: 'author',
-  // });
 }
 
 module.exports = {

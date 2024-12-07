@@ -4,13 +4,6 @@ const Transaction = require('../models/Transaction');
 async function addTransaction(transaction) {
   const newTransaction = await Transaction.create(transaction);
 
-  // TODO добавлять id счета
-
-  // await newTransaction.populate({
-  //   path: 'comments',
-  //   populate: 'author',
-  // });
-
   return newTransaction;
 }
 
@@ -19,13 +12,6 @@ async function editTransaction(id, transaction) {
   const newTransaction = await Transaction.findByIdAndUpdate(id, transaction, {
     returnDocument: 'after',
   });
-
-  // TODO добавлять id счёта или имя счёта
-
-  // await newPost.populate({
-  //   path: 'comments',
-  //   populate: 'author',
-  // });
 
   return newTransaction;
 }
@@ -59,13 +45,6 @@ async function getTransactions(search = '', limit = 10, page = 1) {
 // get item
 function getTransaction(id) {
   return Transaction.findById(id);
-
-  // TODO подмешивать название счёта
-
-  // .populate({
-  //   path: 'comments',
-  //   populate: 'author',
-  // });
 }
 
 module.exports = {

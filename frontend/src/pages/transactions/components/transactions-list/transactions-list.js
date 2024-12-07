@@ -2,17 +2,6 @@ import { TransactionItem } from './components';
 import styled from 'styled-components';
 
 const TransactionsListContainer = ({ className, transactions }) => {
-	// const [transactions, setTransactions] = useState([]);
-	// const requestServer = useServerRequest();
-
-	// useEffect(() => {
-	// 	requestServer('fetchTransactions').then(({ res }) =>
-	// 		setTransactions(res.transactions),
-	// 	);
-	// }, [requestServer]);
-
-	console.log('Операции с бека', transactions);
-
 	return (
 		<>
 			{transactions.length > 0 ? (

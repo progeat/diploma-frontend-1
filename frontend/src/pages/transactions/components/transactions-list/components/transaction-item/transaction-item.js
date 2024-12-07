@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { Icon } from '../../../../../../components';
 import styled from 'styled-components';
 
@@ -10,6 +11,8 @@ const TransactionItemContainer = ({
 	comment,
 	createdAt,
 }) => {
+	const navigate = useNavigate();
+
 	return (
 		<div className={className}>
 			<div className="item-column">
@@ -27,7 +30,12 @@ const TransactionItemContainer = ({
 					{!category.type && '-'} {amount} ₽
 				</div>
 				<div className="item-control">
-					<Icon id="fa-pencil" margin="0 7px 0 0" size="18px" />
+					<Icon
+						id="fa-pencil"
+						margin="0 7px 0 0"
+						size="18px"
+						onClick={() => navigate(`/transaction/${id}/edit`)}
+					/>
 					<Icon id="fa-trash-o" margin="0 7px 0 0" size="18px" />
 				</div>
 			</div>

@@ -6,8 +6,6 @@ import { selectUserSession } from '../selectors';
 export const useServerRequest = () => {
 	const session = useSelector(selectUserSession);
 
-	// TODO подумать над реализацией доступа не зарегистрированных пользователей
-
 	return useCallback(
 		(operation, ...params) => {
 			const request = ['fetchTransactions'].includes(operation)

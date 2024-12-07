@@ -1,35 +1,31 @@
 import { useEffect, useState } from 'react';
-import { AccountsInfo, ExpensesInfo, IncomeInfo } from './components';
+import { useSelector } from 'react-redux';
+import { CardInfo } from './components';
+import { selectAccounts } from '../../../../selectors';
 import { request } from '../../../../utils';
 import styled from 'styled-components';
 
 const FinancesSectionContainer = ({ className }) => {
 	const [transactions, setTransactions] = useState([]);
-	const [accounts, setAccounts] = useState([]);
 	const [errorMessage, setErrorMessage] = useState(null);
+	const accounts = useSelector(selectAccounts);
 
 	useEffect(() => {
-		Promise.all([request('/transactions'), request('/accounts')]).then(
-			([transactionsRes, accountsRes]) => {
-				if (transactionsRes.error || accountsRes.error) {
-					setErrorMessage(transactionsRes.error || accountsRes.error);
-					return;
-				}
+		request('/transactions').then((transactionsRes) => {
+			if (transactionsRes.error) {
+				setErrorMessage(transactionsRes.error);
+				return;
+			}
 
-				setTransactions(transactionsRes.data.transactions);
-				setAccounts(accountsRes.data);
-			},
-		);
+			setTransactions(transactionsRes.data.transactions);
+		});
 	}, []);
-
-	console.log('операции', transactions);
-	console.log('счета', accounts);
 
 	return (
 		<div className={className}>
-			<IncomeInfo transactions={transactions} />
-			<AccountsInfo accounts={accounts} />
-			<ExpensesInfo transactions={transactions} />
+			<CardInfo title="Доходы" path="/transaction" value={transactions} />
+			<CardInfo title="Счета" path="/accounts" value={accounts} />
+			<CardInfo title="Расходы" path="/transaction" value={transactions} />
 			<div className="error-message">{errorMessage}</div>
 		</div>
 	);
