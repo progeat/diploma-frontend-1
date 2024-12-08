@@ -17,15 +17,17 @@ const transactionFormSchema = yup.object().shape({
 	comment: yup
 		.string()
 		.required('Введите комментарий')
-		.min(3, 'Неверно заполнен комментарий. Минимум 3 символа'),
+		.min(2, 'Неверно заполнен комментарий. Минимум 2 символа'),
 });
 
+// TODO отрефакторить и посмотреть что можно декомпозировать
 const createSelectorOptions = (arrayValues) =>
 	arrayValues.map((obj) => ({ value: obj.id, label: obj.name }));
 
-const selectOptionForSelect = (id, options) =>
-	options.filter((option) => option.value === id);
+const findIndexForSelect = (id, options) =>
+	options.findIndex((option) => option.value === id);
 
+// TODO разобраться с подгрузкой категорий и счетов при обновлении страницы во время редактирования операции
 const TransactionFormContainer = ({ className, transaction, transactionId }) => {
 	const [serverError, setServerError] = useState(null);
 	const navigate = useNavigate();
@@ -35,6 +37,15 @@ const TransactionFormContainer = ({ className, transaction, transactionId }) => 
 	const categoriesOptions = createSelectorOptions(categories);
 	const accountsOptions = createSelectorOptions(accounts);
 
+	const indexSelectForCategory = findIndexForSelect(
+		transaction?.category,
+		categoriesOptions,
+	);
+	const indexSelectForAccount = findIndexForSelect(
+		transaction.account,
+		accountsOptions,
+	);
+
 	const {
 		register,
 		control,
@@ -43,15 +54,13 @@ const TransactionFormContainer = ({ className, transaction, transactionId }) => 
 		formState: { errors },
 	} = useForm({
 		defaultValues: {
-			amount: transaction?.amount,
-			category: selectOptionForSelect(transaction?.category, categoriesOptions),
-			account: selectOptionForSelect(transaction?.account, accountsOptions),
-			comment: transaction?.comment,
+			amount: transaction?.amount || 0,
+			category: categoriesOptions[indexSelectForCategory] || null,
+			account: accountsOptions[indexSelectForAccount] || null,
+			comment: transaction?.comment || '',
 		},
 		resolver: yupResolver(transactionFormSchema),
 	});
-
-	console.log('id', transactionId);
 
 	const onSubmit = ({ amount, category, account, comment }) => {
 		request(
@@ -70,7 +79,9 @@ const TransactionFormContainer = ({ className, transaction, transactionId }) => 
 			}
 
 			console.log('resp', data);
-			reset();
+			if (!transactionId) {
+				reset();
+			}
 		});
 	};
 
@@ -81,7 +92,7 @@ const TransactionFormContainer = ({ className, transaction, transactionId }) => 
 	return (
 		<form className="form" onSubmit={handleSubmit(onSubmit)}>
 			<Input
-				type="text"
+				type="number"
 				placeholder="Сумма операции..."
 				{...register('amount', {
 					onChange: () => setServerError(null),
@@ -98,6 +109,7 @@ const TransactionFormContainer = ({ className, transaction, transactionId }) => 
 							// defaultValue={categoriesOptions[0]}
 							options={categoriesOptions}
 							placeholder="Выберите категорию"
+							isClearable
 						/>
 					)}
 				/>
@@ -119,6 +131,7 @@ const TransactionFormContainer = ({ className, transaction, transactionId }) => 
 							options={accountsOptions}
 							// defaultValue={accountTypeOptions[0]}
 							placeholder="Выберите счёт"
+							isClearable
 						/>
 					)}
 				/>

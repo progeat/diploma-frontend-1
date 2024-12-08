@@ -64,8 +64,8 @@ router.post('/', authenticated, hasRole([ROLES.USER]), async (req, res) => {
 
 router.patch('/:id', authenticated, hasRole([ROLES.USER]), async (req, res) => {
   const updatedTransaction = await editTransaction(req.params.id, {
-    account: req.body.accountId,
-    category: req.body.categoryId,
+    account: req.body.account,
+    category: req.body.category,
     amount: req.body.amount,
     comment: req.body.comment,
   });
