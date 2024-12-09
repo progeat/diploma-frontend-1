@@ -1,12 +1,10 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Select from 'react-select';
 import { Button, Icon, Input } from '../../../../components';
-import { selectAccounts, selectCategories } from '../../../../selectors';
 import { request } from '../../../../utils';
 import styled from 'styled-components';
 
@@ -27,12 +25,15 @@ const createSelectorOptions = (arrayValues) =>
 const findIndexForSelect = (id, options) =>
 	options.findIndex((option) => option.value === id);
 
-// TODO разобраться с подгрузкой категорий и счетов при обновлении страницы во время редактирования операции
-const TransactionFormContainer = ({ className, transaction, transactionId }) => {
+const TransactionFormContainer = ({
+	className,
+	transaction,
+	transactionId,
+	categories,
+	accounts,
+}) => {
 	const [serverError, setServerError] = useState(null);
 	const navigate = useNavigate();
-	const accounts = useSelector(selectAccounts);
-	const categories = useSelector(selectCategories);
 
 	const categoriesOptions = createSelectorOptions(categories);
 	const accountsOptions = createSelectorOptions(accounts);
@@ -42,7 +43,7 @@ const TransactionFormContainer = ({ className, transaction, transactionId }) => 
 		categoriesOptions,
 	);
 	const indexSelectForAccount = findIndexForSelect(
-		transaction.account,
+		transaction?.account,
 		accountsOptions,
 	);
 
@@ -106,7 +107,6 @@ const TransactionFormContainer = ({ className, transaction, transactionId }) => 
 						<Select
 							{...field}
 							className="select"
-							// defaultValue={categoriesOptions[0]}
 							options={categoriesOptions}
 							placeholder="Выберите категорию"
 							isClearable
@@ -115,7 +115,7 @@ const TransactionFormContainer = ({ className, transaction, transactionId }) => 
 				/>
 				<Icon
 					id="fa-plus-circle"
-					style={{ position: 'absolute', right: '-27px', top: '4px' }}
+					style={{ position: 'absolute', right: '-27px', top: '2px' }}
 					margin="0"
 					onClick={() => navigate('/categories')}
 				/>
@@ -129,7 +129,6 @@ const TransactionFormContainer = ({ className, transaction, transactionId }) => 
 							{...field}
 							className="select"
 							options={accountsOptions}
-							// defaultValue={accountTypeOptions[0]}
 							placeholder="Выберите счёт"
 							isClearable
 						/>
@@ -137,7 +136,7 @@ const TransactionFormContainer = ({ className, transaction, transactionId }) => 
 				/>
 				<Icon
 					id="fa-plus-circle"
-					style={{ position: 'absolute', right: '-27px', top: '4px' }}
+					style={{ position: 'absolute', right: '-27px', top: '2px' }}
 					margin="0"
 					onClick={() => navigate('/accounts')}
 				/>

@@ -14,9 +14,21 @@ const CardInfoContainer = ({ className, title, value, path }) => {
 			</div>
 			<ul className="list-expenses">
 				{value.map(({ id, amount, comment, name, balance }) => (
-					<li className="item" key={id}>
+					<li className={`item ${name ? 'item-account' : ''}`} key={id}>
 						<div>{comment || name}</div>
-						<div>{amount || balance}</div>
+						<div>{amount || balance} ₽</div>
+						{name && (
+							<Icon
+								id="fa-pencil"
+								style={{
+									position: 'absolute',
+									right: '-27px',
+									top: '2px',
+								}}
+								size="18px"
+								onClick={() => navigate(`/accounts/${id}/edit`)}
+							/>
+						)}
 					</li>
 				))}
 			</ul>
@@ -48,6 +60,11 @@ export const CardInfo = styled(CardInfoContainer)`
 		justify-content: space-between;
 		border: 1px solid #000;
 		padding: 5px;
+	}
+
+	& .item-account {
+		position: relative;
+		margin-right: 27px;
 	}
 
 	& .item:not(:last-child) {

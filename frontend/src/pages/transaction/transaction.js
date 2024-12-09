@@ -4,12 +4,16 @@ import { Loader } from '../../components';
 import { request } from '../../utils';
 import styled from 'styled-components';
 import { TransactionForm } from './components';
+import { useSelector } from 'react-redux';
+import { selectAccounts, selectCategories } from '../../selectors';
 
 const TransactionContainer = ({ className }) => {
 	const [transaction, setTransaction] = useState({});
 	const [isLoading, setIsLoading] = useState(false);
 	const params = useParams();
 	const isEditing = !!useMatch('/transaction/:id/edit');
+	const accounts = useSelector(selectAccounts);
+	const categories = useSelector(selectCategories);
 
 	useEffect(() => {
 		if (!isEditing) {
@@ -32,12 +36,21 @@ const TransactionContainer = ({ className }) => {
 		return <Loader />;
 	}
 
+	if (accounts.length === 0 && categories.length === 0) {
+		return <Loader />;
+	}
+
 	// TODO сброс значения для селекта после отправки формы
 	return (
 		<div className={className}>
 			<div className="form-wrapper">
-				<h2>Новая операция</h2>
-				<TransactionForm transaction={transaction} transactionId={params?.id} />
+				<h2>{isEditing ? 'Редактирование операции' : 'Новая операция'}</h2>
+				<TransactionForm
+					transaction={transaction}
+					transactionId={params?.id}
+					accounts={accounts}
+					categories={categories}
+				/>
 			</div>
 		</div>
 	);
