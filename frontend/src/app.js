@@ -10,7 +10,7 @@ import {
 	Transaction,
 	Transactions,
 } from './pages';
-import { Header } from './components';
+import { Header, Modal } from './components';
 import { setAccounts, setCategories, setUser } from './actions';
 import styled from 'styled-components';
 import { request } from './utils';
@@ -86,6 +86,7 @@ export const App = () => {
 					<Route path="*" element={<div>Ошибка</div>} />
 				</Routes>
 			</Page>
+			<Modal />
 		</AppColumn>
 	);
 };

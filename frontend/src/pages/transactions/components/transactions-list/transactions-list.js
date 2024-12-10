@@ -1,7 +1,17 @@
+import { Loader } from '../../../../components';
 import { TransactionItem } from './components';
 import styled from 'styled-components';
 
-const TransactionsListContainer = ({ className, transactions }) => {
+const TransactionsListContainer = ({
+	className,
+	transactions,
+	isLoading,
+	setTriggerFlag,
+}) => {
+	if (isLoading) {
+		return <Loader />;
+	}
+
 	return (
 		<>
 			{transactions.length > 0 ? (
@@ -16,6 +26,7 @@ const TransactionsListContainer = ({ className, transactions }) => {
 								amount={amount}
 								comment={comment}
 								createdAt={createdAt}
+								setTriggerFlag={setTriggerFlag}
 							/>
 						),
 					)}

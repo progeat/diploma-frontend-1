@@ -1,6 +1,9 @@
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '../../../../../../components';
 import styled from 'styled-components';
+import { CLOSE_MODAL, openModal } from '../../../../../../actions';
+import { request } from '../../../../../../utils';
 
 const TransactionItemContainer = ({
 	className,
@@ -10,8 +13,26 @@ const TransactionItemContainer = ({
 	category,
 	comment,
 	createdAt,
+	setTriggerFlag,
 }) => {
+	const dispatch = useDispatch();
 	const navigate = useNavigate();
+
+	const onTransactionRemove = (id) => {
+		dispatch(
+			openModal({
+				text: 'Удалить операцию?',
+				onConfirm: () => {
+					request(`/transactions/${id}`, 'DELETE').then(() => {
+						setTriggerFlag((prev) => !prev);
+					});
+
+					dispatch(CLOSE_MODAL);
+				},
+				onCancel: () => dispatch(CLOSE_MODAL),
+			}),
+		);
+	};
 
 	return (
 		<div className={className}>
@@ -36,7 +57,12 @@ const TransactionItemContainer = ({
 						size="18px"
 						onClick={() => navigate(`/transaction/${id}/edit`)}
 					/>
-					<Icon id="fa-trash-o" margin="0 7px 0 0" size="18px" />
+					<Icon
+						id="fa-trash-o"
+						margin="0 7px 0 0"
+						size="18px"
+						onClick={() => onTransactionRemove(id)}
+					/>
 				</div>
 			</div>
 		</div>

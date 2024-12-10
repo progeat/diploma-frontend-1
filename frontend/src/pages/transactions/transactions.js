@@ -4,15 +4,17 @@ import { request } from '../../utils';
 import { debounce } from './utils';
 import { PAGINATION_LIMIT } from '../../constants';
 import styled from 'styled-components';
-import { Loader } from '../../components';
 
 const TransactionsContainer = ({ className }) => {
 	const [transactions, setTransactions] = useState([]);
 	const [page, setPage] = useState(1);
 	const [lastPage, setLastPage] = useState(1);
 	const [searchPhrase, setSearchPhrase] = useState('');
-	const [shouldSearch, setShouldSearch] = useState(false);
+	const [filter, setFilter] = useState(null);
+	const [triggerFlag, setTriggerFlag] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+
+	console.log('filter', filter);
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -24,28 +26,30 @@ const TransactionsContainer = ({ className }) => {
 			setIsLoading(false);
 		});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [page, shouldSearch]);
+	}, [page, triggerFlag]);
 
-	const startDelayedSearch = useMemo(() => debounce(setShouldSearch, 2000), []);
+	const startDelayedSearch = useMemo(() => debounce(setTriggerFlag, 2000), []);
 
 	const onSearch = ({ target }) => {
 		setSearchPhrase(target.value);
-		startDelayedSearch(!shouldSearch);
+		startDelayedSearch(!triggerFlag);
 	};
-
-	if (isLoading) {
-		return <Loader />;
-	}
 
 	return (
 		<div className={className}>
 			<div className="header">
 				<h2>История операций</h2>
 				<Search searchPhrase={searchPhrase} onChange={onSearch} />
-				<ControlPanel />
+				<ControlPanel setFilter={setFilter} />
 			</div>
-			<TransactionsList transactions={transactions} />
+			<TransactionsList
+				transactions={transactions}
+				isLoading={isLoading}
+				// TODO прокидываем сеттер состояния(setTriggerFlag) через компонент(?) или используем менеджер состояния(?)
+				setTriggerFlag={setTriggerFlag}
+			/>
 			{lastPage > 1 && transactions.length > 0 && (
+				// TODO при удалении с последней страницы всех операций нужно переключится на предыдущую
 				<Pagination page={page} lastPage={lastPage} setPage={setPage} />
 			)}
 		</div>
@@ -53,9 +57,15 @@ const TransactionsContainer = ({ className }) => {
 };
 
 export const Transactions = styled(TransactionsContainer)`
+	padding: 15px;
+
+	& h2 {
+		margin-right: 100px;
+	}
+
 	& .header {
 		display: flex;
-		justify-content: space-between;
+		flex-wrap: wrap;
 		align-items: center;
 	}
 `;

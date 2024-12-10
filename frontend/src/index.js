@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { App } from './app';
 import { store } from './store';
+import 'react-datepicker/dist/react-datepicker.css';
 import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
