@@ -6,12 +6,6 @@ import { selectAccounts, selectCategories } from '../../../../selectors';
 import DatePicker from 'react-datepicker';
 import styled from 'styled-components';
 
-const filtersOptions = [
-	{ value: 0, label: 'дате' },
-	{ value: 1, label: 'счетам' },
-	{ value: 2, label: 'категориям' },
-];
-
 const customStyles = {
 	day: {
 		width: '2rem',
@@ -40,6 +34,23 @@ const ControlPanelContainer = ({ className, setFilter }) => {
 	const [dateRange, setDateRange] = useState([null, null]);
 	const [startDate, endDate] = dateRange;
 
+	const onSetDate = ([start, end]) => {
+		setDateRange([start, end]);
+
+		// TODO подумать над вынесом фильтра в стор
+		if (start && end) {
+			setFilter((prev) => ({
+				...prev,
+				dateRange: [start, new Date(end).setDate(end.getDate() + 1)],
+			}));
+		} else if (!start && !end) {
+			setFilter((prev) => ({
+				...prev,
+				dateRange: ['', ''],
+			}));
+		}
+	};
+
 	return (
 		<div className={className}>
 			<h4>Фильтры :</h4>
@@ -47,9 +58,7 @@ const ControlPanelContainer = ({ className, setFilter }) => {
 				selectsRange={true}
 				startDate={startDate}
 				endDate={endDate}
-				onChange={(update) => {
-					setDateRange(update);
-				}}
+				onChange={onSetDate}
 				placeholderText="по дате"
 				isClearable={true}
 			/>

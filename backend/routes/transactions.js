@@ -17,7 +17,9 @@ router.get('/', async (req, res) => {
   const { transactions, lastPage } = await getTransactions(
     req.query.search,
     req.query.limit,
-    req.query.page
+    req.query.page,
+    req.query.dateStart || new Date(0),
+    req.query.dateEnd || new Date()
   );
 
   res.send({

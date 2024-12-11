@@ -10,7 +10,7 @@ const TransactionsContainer = ({ className }) => {
 	const [page, setPage] = useState(1);
 	const [lastPage, setLastPage] = useState(1);
 	const [searchPhrase, setSearchPhrase] = useState('');
-	const [filter, setFilter] = useState(null);
+	const [filter, setFilter] = useState({ dateRange: ['', ''] });
 	const [triggerFlag, setTriggerFlag] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -19,14 +19,21 @@ const TransactionsContainer = ({ className }) => {
 	useEffect(() => {
 		setIsLoading(true);
 		request(
-			`/transactions?search=${searchPhrase}&page=${page}&limit=${PAGINATION_LIMIT}`,
-		).then(({ data: { transactions, lastPage } }) => {
-			setTransactions(transactions);
-			setLastPage(lastPage);
-			setIsLoading(false);
-		});
+			`/transactions?search=${searchPhrase}&page=${page}&limit=${PAGINATION_LIMIT}&dateStart=${filter.dateRange[0]}&dateEnd=${filter.dateRange[1]}`,
+		)
+			.then(({ data: { transactions, lastPage } }) => {
+				setTransactions(transactions);
+				setLastPage(lastPage);
+
+				if (page > lastPage) {
+					setPage(lastPage);
+				}
+			})
+			.finally(() => {
+				setIsLoading(false);
+			});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [page, triggerFlag]);
+	}, [page, filter, triggerFlag]);
 
 	const startDelayedSearch = useMemo(() => debounce(setTriggerFlag, 2000), []);
 
