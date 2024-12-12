@@ -10,16 +10,18 @@ const TransactionsContainer = ({ className }) => {
 	const [page, setPage] = useState(1);
 	const [lastPage, setLastPage] = useState(1);
 	const [searchPhrase, setSearchPhrase] = useState('');
-	const [filter, setFilter] = useState({ dateRange: ['', ''] });
+	const [filter, setFilter] = useState({
+		dateRange: ['', ''],
+		account: '',
+		category: '',
+	});
 	const [triggerFlag, setTriggerFlag] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
-
-	console.log('filter', filter);
 
 	useEffect(() => {
 		setIsLoading(true);
 		request(
-			`/transactions?search=${searchPhrase}&page=${page}&limit=${PAGINATION_LIMIT}&dateStart=${filter.dateRange[0]}&dateEnd=${filter.dateRange[1]}`,
+			`/transactions?search=${searchPhrase}&page=${page}&limit=${PAGINATION_LIMIT}&dateStart=${filter.dateRange[0]}&dateEnd=${filter.dateRange[1]}&account=${filter.account}&category=${filter.category}`,
 		)
 			.then(({ data: { transactions, lastPage } }) => {
 				setTransactions(transactions);

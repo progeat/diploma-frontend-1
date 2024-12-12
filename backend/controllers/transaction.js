@@ -1,4 +1,5 @@
 const Transaction = require('../models/Transaction');
+const createFindOptions = require('../helpers/createFindOptions');
 
 // add
 async function addTransaction(transaction) {
@@ -21,26 +22,25 @@ function deleteTransaction(id) {
   return Transaction.deleteOne({ _id: id });
 }
 
-// get list with search and pagination
+// get list with search, filters and pagination
 async function getTransactions(
   search = '',
   limit = 10,
   page = 1,
   dateStart,
-  dateEnd
+  dateEnd,
+  accountId,
+  categoryId
 ) {
   const [transactions, count] = await Promise.all([
-    // TODO сделать поиск по всем значениям
     Transaction.find({
-      $and: [
-        { comment: { $regex: search, $options: 'i' } },
-        {
-          createdAt: {
-            $gte: dateStart,
-            $lte: dateEnd,
-          },
-        },
-      ],
+      $and: createFindOptions({
+        search,
+        dateStart,
+        dateEnd,
+        accountId,
+        categoryId,
+      }),
     })
       .limit(limit)
       .skip((page - 1) * limit)
@@ -48,23 +48,20 @@ async function getTransactions(
       .populate('category')
       .populate('account'),
 
-    // TODO сделать поиск по всем значениям
     Transaction.countDocuments({
-      $and: [
-        { comment: { $regex: search, $options: 'i' } },
-        {
-          createdAt: {
-            $gte: dateStart,
-            $lte: dateEnd,
-          },
-        },
-      ],
+      $and: createFindOptions({
+        search,
+        dateStart,
+        dateEnd,
+        accountId,
+        categoryId,
+      }),
     }),
   ]);
 
   return {
     transactions,
-    lastPage: Math.ceil(count / limit),
+    lastPage: Math.ceil(count / limit) || 1,
   };
 }
 

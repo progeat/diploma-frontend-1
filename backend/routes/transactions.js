@@ -19,7 +19,9 @@ router.get('/', async (req, res) => {
     req.query.limit,
     req.query.page,
     req.query.dateStart || new Date(0),
-    req.query.dateEnd || new Date()
+    req.query.dateEnd || new Date(),
+    req.query.account || '',
+    req.query.category || ''
   );
 
   res.send({

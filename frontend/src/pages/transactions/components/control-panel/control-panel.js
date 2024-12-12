@@ -34,14 +34,14 @@ const ControlPanelContainer = ({ className, setFilter }) => {
 	const [dateRange, setDateRange] = useState([null, null]);
 	const [startDate, endDate] = dateRange;
 
-	const onSetDate = ([start, end]) => {
+	const onSetFilterDate = ([start, end]) => {
 		setDateRange([start, end]);
 
 		// TODO подумать над вынесом фильтра в стор
 		if (start && end) {
 			setFilter((prev) => ({
 				...prev,
-				dateRange: [start, new Date(end).setDate(end.getDate() + 1)],
+				dateRange: [Date.parse(start), new Date(end).setDate(end.getDate() + 1)],
 			}));
 		} else if (!start && !end) {
 			setFilter((prev) => ({
@@ -51,6 +51,20 @@ const ControlPanelContainer = ({ className, setFilter }) => {
 		}
 	};
 
+	const onSetFilterAccount = (select) => {
+		setFilter((prev) => ({
+			...prev,
+			account: select?.value || '',
+		}));
+	};
+
+	const onSetFilterCategory = (select) => {
+		setFilter((prev) => ({
+			...prev,
+			category: select?.value || '',
+		}));
+	};
+
 	return (
 		<div className={className}>
 			<h4>Фильтры :</h4>
@@ -58,7 +72,7 @@ const ControlPanelContainer = ({ className, setFilter }) => {
 				selectsRange={true}
 				startDate={startDate}
 				endDate={endDate}
-				onChange={onSetDate}
+				onChange={onSetFilterDate}
 				placeholderText="по дате"
 				isClearable={true}
 			/>
@@ -66,13 +80,15 @@ const ControlPanelContainer = ({ className, setFilter }) => {
 				className="select"
 				options={accountsOptions}
 				placeholder="по счёту"
-				onChange={({ value }) => setFilter(value)}
+				onChange={onSetFilterAccount}
+				isClearable
 			/>
 			<Select
 				className="select"
 				options={categoriesOptions}
 				placeholder="по категории"
-				onChange={({ value }) => setFilter(value)}
+				onChange={onSetFilterCategory}
+				isClearable
 			/>
 			<Link to="/transaction">Добавить операцию</Link>
 		</div>
