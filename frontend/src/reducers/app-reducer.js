@@ -8,6 +8,11 @@ const initialAppState = {
 		onConfirm: () => {},
 		onCancel: () => {},
 	},
+	filter: {
+		dateRange: { start: '', end: '' },
+		account: '',
+		category: '',
+	},
 };
 
 export const appReducer = (state = initialAppState, { type, payload }) => {
@@ -24,6 +29,22 @@ export const appReducer = (state = initialAppState, { type, payload }) => {
 					...state.modal,
 					...payload,
 					isOpen: true,
+				},
+			};
+		case ACTION_TYPE.SET_FILTER_DATE:
+			return {
+				...state,
+				filter: {
+					...state.filter,
+					dateRange: { ...state.filter.dateRange, ...payload },
+				},
+			};
+		case ACTION_TYPE.REMOVE_FILTER_DATE:
+			return {
+				...state,
+				filter: {
+					...state.filter,
+					dateRange: initialAppState.filter.dateRange,
 				},
 			};
 		case ACTION_TYPE.CLOSE_MODAL:

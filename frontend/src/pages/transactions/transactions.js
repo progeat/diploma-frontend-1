@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { ControlPanel, Pagination, Search, TransactionsList } from './components';
+import { selectDateRange, selectFilter } from '../../selectors';
 import { request } from '../../utils';
 import { debounce } from './utils';
 import { PAGINATION_LIMIT } from '../../constants';
@@ -10,18 +12,22 @@ const TransactionsContainer = ({ className }) => {
 	const [page, setPage] = useState(1);
 	const [lastPage, setLastPage] = useState(1);
 	const [searchPhrase, setSearchPhrase] = useState('');
-	const [filter, setFilter] = useState({
+	const [filterState, setFilterState] = useState({
 		dateRange: ['', ''],
 		account: '',
 		category: '',
 	});
 	const [triggerFlag, setTriggerFlag] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const filter = useSelector(selectFilter);
+	const { dateRange } = filter;
+
+	console.log('start', filter);
 
 	useEffect(() => {
 		setIsLoading(true);
 		request(
-			`/transactions?search=${searchPhrase}&page=${page}&limit=${PAGINATION_LIMIT}&dateStart=${filter.dateRange[0]}&dateEnd=${filter.dateRange[1]}&account=${filter.account}&category=${filter.category}`,
+			`/transactions?search=${searchPhrase}&page=${page}&limit=${PAGINATION_LIMIT}&dateStart=${dateRange.start}&dateEnd=${dateRange.end}&account=${filterState.account}&category=${filterState.category}`,
 		)
 			.then(({ data: { transactions, lastPage } }) => {
 				setTransactions(transactions);
@@ -49,7 +55,7 @@ const TransactionsContainer = ({ className }) => {
 			<div className="header">
 				<h2>История операций</h2>
 				<Search searchPhrase={searchPhrase} onChange={onSearch} />
-				<ControlPanel setFilter={setFilter} />
+				<ControlPanel setFilter={setFilterState} />
 			</div>
 			<TransactionsList
 				transactions={transactions}

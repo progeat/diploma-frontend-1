@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Select from 'react-select';
+import { REMOVE_FILTER_DATE, setFilterDate } from '../../../../actions';
 import { selectAccounts, selectCategories } from '../../../../selectors';
 import DatePicker from 'react-datepicker';
 import styled from 'styled-components';
@@ -31,23 +32,32 @@ const ControlPanelContainer = ({ className, setFilter }) => {
 	const accountsOptions = createSelectorOptions(accounts);
 	const categoriesOptions = createSelectorOptions(categories);
 
+	const dispatch = useDispatch();
+
 	const [dateRange, setDateRange] = useState([null, null]);
 	const [startDate, endDate] = dateRange;
 
 	const onSetFilterDate = ([start, end]) => {
 		setDateRange([start, end]);
 
-		// TODO подумать над вынесом фильтра в стор
+		// TODO доделать перенос фильтра в стор
 		if (start && end) {
-			setFilter((prev) => ({
-				...prev,
-				dateRange: [Date.parse(start), new Date(end).setDate(end.getDate() + 1)],
-			}));
+			dispatch(
+				setFilterDate({
+					start: Date.parse(start),
+					end: new Date(end).setDate(end.getDate() + 1),
+				}),
+			);
+			// setFilter((prev) => ({
+			// 	...prev,
+			// 	dateRange: [Date.parse(start), new Date(end).setDate(end.getDate() + 1)],
+			// }));
 		} else if (!start && !end) {
-			setFilter((prev) => ({
-				...prev,
-				dateRange: ['', ''],
-			}));
+			dispatch(REMOVE_FILTER_DATE);
+			// setFilter((prev) => ({
+			// 	...prev,
+			// 	dateRange: ['', ''],
+			// }));
 		}
 	};
 

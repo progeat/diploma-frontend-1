@@ -5,3 +5,5 @@ export * from './set-accounts';
 export * from './set-categories';
 export * from './open-modal';
 export * from './close-modal';
+export * from './set-filter-date';
+export * from './remove-filter-date';
