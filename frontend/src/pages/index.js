@@ -5,3 +5,4 @@ export * from './transactions/transactions';
 export * from './transaction/transaction';
 export * from './accounts/accounts';
 export * from './categories/categories';
+export * from './personal/personal';

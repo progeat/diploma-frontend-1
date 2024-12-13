@@ -17,8 +17,6 @@ const TransactionsContainer = ({ className }) => {
 	const filter = useSelector(selectFilter);
 	const { account, category, dateRange } = filter;
 
-	console.log('start', filter);
-
 	// TODO продумать перенос запроса на операции в компонент TransactionsList
 	useEffect(() => {
 		setIsLoading(true);

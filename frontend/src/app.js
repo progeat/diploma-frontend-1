@@ -6,6 +6,7 @@ import {
 	Authorization,
 	Categories,
 	Main,
+	Personal,
 	Registration,
 	Transaction,
 	Transactions,
@@ -77,6 +78,7 @@ export const App = () => {
 					<Route path="/accounts" element={<Accounts />} />
 					<Route path="/accounts/:id/edit" element={<Accounts />} />
 					<Route path="/transactions" element={<Transactions />} />
+					<Route path="/personal" element={<Personal />} />
 					<Route
 						path="/personal"
 						element={<div>Персональная страница пользователя</div>}
