@@ -2,6 +2,7 @@ import { Icon, Input } from '../../../../components';
 import styled from 'styled-components';
 
 const SearchContainer = ({ className, searchPhrase, onChange }) => {
+	// TODO продумать хранить состояние в сторе(возможно в состоянии filter)
 	return (
 		<div className={className}>
 			<Input

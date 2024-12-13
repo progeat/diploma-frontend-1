@@ -39,12 +39,44 @@ export const appReducer = (state = initialAppState, { type, payload }) => {
 					dateRange: { ...state.filter.dateRange, ...payload },
 				},
 			};
-		case ACTION_TYPE.REMOVE_FILTER_DATE:
+		case ACTION_TYPE.RESET_FILTER_DATE:
 			return {
 				...state,
 				filter: {
 					...state.filter,
 					dateRange: initialAppState.filter.dateRange,
+				},
+			};
+		case ACTION_TYPE.SET_FILTER_ACCOUNT:
+			return {
+				...state,
+				filter: {
+					...state.filter,
+					account: payload,
+				},
+			};
+		case ACTION_TYPE.RESET_FILTER_ACCOUNT:
+			return {
+				...state,
+				filter: {
+					...state.filter,
+					account: initialAppState.filter.account,
+				},
+			};
+		case ACTION_TYPE.SET_FILTER_CATEGORY:
+			return {
+				...state,
+				filter: {
+					...state.filter,
+					category: payload,
+				},
+			};
+		case ACTION_TYPE.RESET_FILTER_CATEGORY:
+			return {
+				...state,
+				filter: {
+					...state.filter,
+					category: initialAppState.filter.category,
 				},
 			};
 		case ACTION_TYPE.CLOSE_MODAL:

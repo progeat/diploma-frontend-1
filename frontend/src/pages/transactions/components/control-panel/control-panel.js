@@ -2,9 +2,16 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Select from 'react-select';
-import { REMOVE_FILTER_DATE, setFilterDate } from '../../../../actions';
-import { selectAccounts, selectCategories } from '../../../../selectors';
 import DatePicker from 'react-datepicker';
+import {
+	RESET_FILTER_ACCOUNT,
+	RESET_FILTER_CATEGORY,
+	RESET_FILTER_DATE,
+	setFilterAccount,
+	setFilterCategory,
+	setFilterDate,
+} from '../../../../actions';
+import { selectAccounts, selectCategories } from '../../../../selectors';
 import styled from 'styled-components';
 
 const customStyles = {
@@ -25,7 +32,7 @@ const customStyles = {
 const createSelectorOptions = (arrayValues) =>
 	arrayValues.map((obj) => ({ value: obj.id, label: obj.name }));
 
-const ControlPanelContainer = ({ className, setFilter }) => {
+const ControlPanelContainer = ({ className }) => {
 	const accounts = useSelector(selectAccounts);
 	const categories = useSelector(selectCategories);
 
@@ -40,7 +47,6 @@ const ControlPanelContainer = ({ className, setFilter }) => {
 	const onSetFilterDate = ([start, end]) => {
 		setDateRange([start, end]);
 
-		// TODO доделать перенос фильтра в стор
 		if (start && end) {
 			dispatch(
 				setFilterDate({
@@ -48,31 +54,25 @@ const ControlPanelContainer = ({ className, setFilter }) => {
 					end: new Date(end).setDate(end.getDate() + 1),
 				}),
 			);
-			// setFilter((prev) => ({
-			// 	...prev,
-			// 	dateRange: [Date.parse(start), new Date(end).setDate(end.getDate() + 1)],
-			// }));
 		} else if (!start && !end) {
-			dispatch(REMOVE_FILTER_DATE);
-			// setFilter((prev) => ({
-			// 	...prev,
-			// 	dateRange: ['', ''],
-			// }));
+			dispatch(RESET_FILTER_DATE);
 		}
 	};
 
 	const onSetFilterAccount = (select) => {
-		setFilter((prev) => ({
-			...prev,
-			account: select?.value || '',
-		}));
+		if (select !== null) {
+			dispatch(setFilterAccount(select.value));
+		} else {
+			dispatch(RESET_FILTER_ACCOUNT);
+		}
 	};
 
 	const onSetFilterCategory = (select) => {
-		setFilter((prev) => ({
-			...prev,
-			category: select?.value || '',
-		}));
+		if (select !== null) {
+			dispatch(setFilterCategory(select.value));
+		} else {
+			dispatch(RESET_FILTER_CATEGORY);
+		}
 	};
 
 	return (
