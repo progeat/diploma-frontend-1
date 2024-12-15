@@ -13,8 +13,8 @@ import {
 } from './pages';
 import { Header, Modal } from './components';
 import { setAccounts, setCategories, setUser } from './actions';
-import styled from 'styled-components';
 import { request } from './utils';
+import styled from 'styled-components';
 
 const AppColumn = styled.div`
 	position: relative;

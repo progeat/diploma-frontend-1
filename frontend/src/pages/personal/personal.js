@@ -1,13 +1,13 @@
-import { useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { AuthFormError, Button, Input } from '../../components';
+import { AuthFormError, Button, Input, Loader } from '../../components';
 import { useResetForm } from '../../hooks';
 import { setUser } from '../../actions';
-import { selectUserRole } from '../../selectors';
+import { selectUser, selectUserId } from '../../selectors';
 import { request } from '../../utils';
 import { ROLE } from '../../constants';
 import styled from 'styled-components';
@@ -19,20 +19,48 @@ const authFormSchema = yup.object().shape({
 		.matches(/^\w+$/, 'Неверно заполнен логин. Допускаются только буквы и цифры')
 		.min(3, 'Неверно заполнен логин. Минимум 3 символа')
 		.max(15, 'Неверно заполнен логин. Максимум 15 символов'),
-	password: yup
+	newPassword: yup
 		.string()
-		.required('Заполните пароль')
 		.matches(
 			/^[\w#%]+$/,
-			'Неверно заполнен пароль. Допускаются только буквы, цифры и знаки # %',
+			'Неверно заполнен новый пароль. Допускаются только буквы, цифры и знаки # %',
 		)
 		.min(6, 'Неверно заполнен пароль. Минимум 6 символов')
-		.max(30, 'Неверно заполнен пароль. Максимум 30 символов'),
-	email: yup,
-	phone: yup,
+		.max(30, 'Неверно заполнен пароль. Максимум 30 символов')
+		.nullable(),
+	email: yup.string().email('Неверно заполнена почта').nullable(),
+	phone: yup
+		.string()
+		.matches(/^((\+7|7|8)+([0-9]){10})$/, 'Неверно задан номер телефона')
+		.nullable(),
+	oldPassword: yup
+		.string()
+		.matches(
+			/^[\w#%]+$/,
+			'Неверно заполнен старый пароль. Допускаются только буквы, цифры и знаки # %',
+		)
+		.min(6, 'Неверно заполнен пароль. Минимум 6 символов')
+		.max(30, 'Неверно заполнен пароль. Максимум 30 символов')
+		.nullable(),
 });
 
 const PersonalContainer = ({ className }) => {
+	const [userData, setUserData] = useState({});
+	const [isLoading, setIsLoading] = useState(true);
+	const user = useSelector(selectUser);
+
+	// useLayoutEffect(() => {
+	// 	request(`/user`)
+	// 		.then((data) => {
+	// 			setUserData(data);
+
+	// 			console.log(data);
+	// 		})
+	// 		.finally(() => {
+	// 			setIsLoading(false);
+	// 		});
+	// }, []);
+
 	const {
 		register,
 		reset,
@@ -40,10 +68,11 @@ const PersonalContainer = ({ className }) => {
 		formState: { errors },
 	} = useForm({
 		defaultValues: {
-			login: '',
-			password: '',
-			email: '',
-			phone: '',
+			login: user.login,
+			newPassword: null,
+			oldPassword: null,
+			email: user.email,
+			phone: user.phone,
 		},
 		resolver: yupResolver(authFormSchema),
 	});
@@ -52,15 +81,18 @@ const PersonalContainer = ({ className }) => {
 
 	const dispatch = useDispatch();
 
-	const roleId = useSelector(selectUserRole);
-
 	useResetForm(reset);
 
 	const onSubmit = (value) => {
 		console.log(value);
 	};
 
-	const formError = errors?.login?.message || errors?.password?.message;
+	const formError =
+		errors?.login?.message ||
+		errors?.email?.message ||
+		errors?.phone?.message ||
+		errors?.newPassword?.message ||
+		errors?.oldPassword?.message;
 	const errorMessage = formError || serverError;
 
 	return (
@@ -76,14 +108,14 @@ const PersonalContainer = ({ className }) => {
 						})}
 					/>
 					<Input
-						type="email"
+						type="text"
 						placeholder="Почта..."
 						{...register('email', {
 							onChange: () => setServerError(null),
 						})}
 					/>
 					<Input
-						type="phone"
+						type="tel"
 						placeholder="Телефон..."
 						{...register('phone', {
 							onChange: () => setServerError(null),
@@ -92,14 +124,14 @@ const PersonalContainer = ({ className }) => {
 					<Input
 						type="password"
 						placeholder="Новый пароль..."
-						{...register('password', {
+						{...register('newPassword', {
 							onChange: () => setServerError(null),
 						})}
 					/>
 					<Input
 						type="password"
 						placeholder="Введите старый пароль..."
-						{...register('password', {
+						{...register('oldPassword', {
 							onChange: () => setServerError(null),
 						})}
 					/>

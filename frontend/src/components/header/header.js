@@ -34,7 +34,12 @@ const HeaderContainer = ({ className }) => {
 				) : (
 					<>
 						<div className="login">{login}</div>
-						<Icon id="fa-sign-out" margin="0 0 0 10px" onClick={onLogout} />
+						<Icon
+							id="fa-cog"
+							margin="0 10px 0 0"
+							onClick={() => navigate('/personal')}
+						/>
+						<Icon id="fa-sign-out" onClick={onLogout} />
 					</>
 				)}
 			</div>
@@ -62,6 +67,6 @@ export const Header = styled(HeaderContainer)`
 	}
 
 	& .login {
-		margin-right: 5px;
+		margin-right: 10px;
 	}
 `;

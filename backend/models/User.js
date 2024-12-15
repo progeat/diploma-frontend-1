@@ -16,6 +16,14 @@ const UserSchema = mongoose.Schema(
       type: Number,
       default: roles.USER,
     },
+    email: {
+      type: String,
+      default: '',
+    },
+    phone: {
+      type: String,
+      default: '',
+    },
   },
   { timestamps: true }
 );

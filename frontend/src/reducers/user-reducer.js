@@ -5,6 +5,8 @@ const initialUserState = {
 	id: null,
 	login: null,
 	roleId: ROLE.GUEST,
+	email: null,
+	phone: null,
 	session: null,
 };
 
