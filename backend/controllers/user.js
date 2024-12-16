@@ -57,10 +57,19 @@ function deleteUser(id) {
   return User.deleteOne({ _id: id });
 }
 
-// edit (roles)
-function updateUser(id, userData) {
-  return User.findByIdAndUpdate(id, userData, { returnDocument: 'after' });
+// TODO реализовать функционал изменения данных пользователя
+// edit
+async function updateUser(user, updatedData) {
+  if (user.login !== updatedData.login) {
+    const user = await User.findOne({ login: updatedData.login });
+
+    if (user) {
+      throw new Error('Логин занят');
+    }
+  }
+  // return User.findByIdAndUpdate(id, userData, { returnDocument: 'after' });
 }
+// function updateUser(id, userData)
 
 module.exports = {
   register,

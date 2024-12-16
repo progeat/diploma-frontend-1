@@ -12,7 +12,8 @@ import { request } from '../../utils';
 import { ROLE } from '../../constants';
 import styled from 'styled-components';
 
-const authFormSchema = yup.object().shape({
+// TODO сделать обязательным ввод нового пароля с привязкой к вводу старого пароля
+const personalFormSchema = yup.object().shape({
 	login: yup
 		.string()
 		.required('Заполните логин')
@@ -22,24 +23,25 @@ const authFormSchema = yup.object().shape({
 	newPassword: yup
 		.string()
 		.matches(
-			/^[\w#%]+$/,
-			'Неверно заполнен новый пароль. Допускаются только буквы, цифры и знаки # %',
+			/^$|^[\w#%]{6,}$/,
+			'Неверно заполнен новый пароль. Допускаются только буквы, цифры, минимум 6 символов и знаки # %',
 		)
-		.min(6, 'Неверно заполнен пароль. Минимум 6 символов')
 		.max(30, 'Неверно заполнен пароль. Максимум 30 символов')
 		.nullable(),
 	email: yup.string().email('Неверно заполнена почта').nullable(),
 	phone: yup
 		.string()
-		.matches(/^((\+7|7|8)+([0-9]){10})$/, 'Неверно задан номер телефона')
+		.matches(
+			/^$|^(\+?7|8)\d{10}$/,
+			'Неверно задан номер телефона, формат +7XXXXXXXXXX',
+		)
 		.nullable(),
 	oldPassword: yup
 		.string()
 		.matches(
-			/^[\w#%]+$/,
-			'Неверно заполнен старый пароль. Допускаются только буквы, цифры и знаки # %',
+			/^$|^[\w#%]{6,}$/,
+			'Неверно заполнен старый пароль. Допускаются только буквы, цифры, минимум 6 символов и знаки # %',
 		)
-		.min(6, 'Неверно заполнен пароль. Минимум 6 символов')
 		.max(30, 'Неверно заполнен пароль. Максимум 30 символов')
 		.nullable(),
 });
@@ -49,42 +51,43 @@ const PersonalContainer = ({ className }) => {
 	const [isLoading, setIsLoading] = useState(true);
 	const user = useSelector(selectUser);
 
-	// useLayoutEffect(() => {
-	// 	request(`/user`)
-	// 		.then((data) => {
-	// 			setUserData(data);
-
-	// 			console.log(data);
-	// 		})
-	// 		.finally(() => {
-	// 			setIsLoading(false);
-	// 		});
-	// }, []);
+	const defaultValues = {
+		login: user.login,
+		newPassword: '',
+		oldPassword: '',
+		email: user.email || '',
+		phone: user.phone || '',
+	};
 
 	const {
 		register,
-		reset,
 		handleSubmit,
-		formState: { errors },
+		formState: { isDirty, errors },
 	} = useForm({
-		defaultValues: {
-			login: user.login,
-			newPassword: null,
-			oldPassword: null,
-			email: user.email,
-			phone: user.phone,
-		},
-		resolver: yupResolver(authFormSchema),
+		defaultValues,
+		resolver: yupResolver(personalFormSchema),
 	});
 
 	const [serverError, setServerError] = useState(null);
 
 	const dispatch = useDispatch();
 
-	useResetForm(reset);
+	const onSubmit = (data) => {
+		const changedData = Object.fromEntries(
+			Object.entries(data).filter(([key, value]) => value !== defaultValues[key]),
+		);
 
-	const onSubmit = (value) => {
-		console.log(value);
+		request('/user', 'PATCH', changedData).then(({ error, user }) => {
+			if (error) {
+				setServerError(`Ошибка запроса: ${error}`);
+				return;
+			}
+
+			console.log('resUser', user);
+
+			// 	dispatch(setUser(user));
+			// 	sessionStorage.setItem('userData', JSON.stringify(user));
+		});
 	};
 
 	const formError =
@@ -135,7 +138,7 @@ const PersonalContainer = ({ className }) => {
 							onChange: () => setServerError(null),
 						})}
 					/>
-					<Button type="submit" disabled={!!formError}>
+					<Button type="submit" disabled={!isDirty || !!formError}>
 						Отправить
 					</Button>
 					{errorMessage && <AuthFormError>{errorMessage}</AuthFormError>}

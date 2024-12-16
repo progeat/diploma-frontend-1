@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {
@@ -11,7 +11,7 @@ import {
 	Transaction,
 	Transactions,
 } from './pages';
-import { Header, Modal } from './components';
+import { Header, Loader, Modal } from './components';
 import { setAccounts, setCategories, setUser } from './actions';
 import { request } from './utils';
 import styled from 'styled-components';
@@ -33,6 +33,7 @@ const Page = styled.div`
 `;
 
 export const App = () => {
+	const [isLoading, setIsLoading] = useState(true);
 	const dispatch = useDispatch();
 
 	useLayoutEffect(() => {
@@ -53,8 +54,8 @@ export const App = () => {
 	}, [dispatch]);
 
 	useEffect(() => {
-		Promise.all([request('/accounts'), request('/categories')]).then(
-			([accountsRes, categoriesRes]) => {
+		Promise.all([request('/accounts'), request('/categories')])
+			.then(([accountsRes, categoriesRes]) => {
 				if (accountsRes.error || categoriesRes.error) {
 					console.error('Ошибка:', accountsRes.error || categoriesRes.error);
 					return;
@@ -62,9 +63,15 @@ export const App = () => {
 
 				dispatch(setAccounts(accountsRes.data));
 				dispatch(setCategories(categoriesRes.data));
-			},
-		);
+			})
+			.finally(() => {
+				setIsLoading(false);
+			});
 	}, [dispatch]);
+
+	if (isLoading) {
+		return <Loader />;
+	}
 
 	return (
 		<AppColumn>
