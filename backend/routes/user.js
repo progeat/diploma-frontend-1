@@ -13,13 +13,13 @@ router.patch('/', authenticated, async (req, res) => {
     // TODO доделать функционал изменения данных пользователя
     // const { user, token } = await updateUser(req.user, req.body);
 
-    await updateUser(req.user, req.body);
+    const { user, token } = await updateUser(req.user, req.body);
 
     // const { user, token } = await register(req.body.login, req.body.password);
 
-    // res
-    //   .cookie('token', token, { httpOnly: true })
-    //   .send({ error: null, user: mapUser(user) });
+    res
+      .cookie('token', token, { httpOnly: true })
+      .send({ error: null, user: mapUser(user) });
   } catch (e) {
     res.send({ error: e.message || 'Unknown error' });
   }

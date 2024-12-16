@@ -85,8 +85,8 @@ const PersonalContainer = ({ className }) => {
 
 			console.log('resUser', user);
 
-			// 	dispatch(setUser(user));
-			// 	sessionStorage.setItem('userData', JSON.stringify(user));
+			dispatch(setUser(user));
+			sessionStorage.setItem('userData', JSON.stringify(user));
 		});
 	};
 

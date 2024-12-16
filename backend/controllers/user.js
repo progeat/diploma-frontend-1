@@ -59,15 +59,56 @@ function deleteUser(id) {
 
 // TODO реализовать функционал изменения данных пользователя
 // edit
-async function updateUser(user, updatedData) {
-  if (user.login !== updatedData.login) {
-    const user = await User.findOne({ login: updatedData.login });
+async function updateUser(user, reqData) {
+  const userUpdatedData = {};
+
+  if (reqData?.login) {
+    const user = await User.findOne({ login: reqData.login });
 
     if (user) {
       throw new Error('Логин занят');
     }
+
+    userUpdatedData.login = reqData.login;
   }
-  // return User.findByIdAndUpdate(id, userData, { returnDocument: 'after' });
+
+  if (reqData?.email) {
+    userUpdatedData.email = reqData.email;
+  }
+
+  if (reqData?.phone) {
+    userUpdatedData.phone = reqData.phone;
+  }
+
+  if (reqData?.newPassword) {
+    const isPasswordMatch = await bcrypt.compare(
+      reqData?.oldPassword,
+      user.password
+    );
+
+    if (!isPasswordMatch) {
+      throw new Error('Неверно введен старый пароль');
+    }
+
+    const passwordHash = await bcrypt.hash(reqData.newPassword, 10);
+
+    userUpdatedData.password = passwordHash;
+  }
+
+  const userWithUpdatedData = await User.findByIdAndUpdate(
+    user.id,
+    userUpdatedData,
+    {
+      returnDocument: 'after',
+    }
+  );
+
+  const token = generate({ id: user.id });
+
+  return {
+    user: userWithUpdatedData,
+    token,
+  };
 }
 // function updateUser(id, userData)
 
