@@ -52,11 +52,6 @@ function getRoles() {
   ];
 }
 
-// delete
-function deleteUser(id) {
-  return User.deleteOne({ _id: id });
-}
-
 // TODO реализовать функционал изменения данных пользователя
 // edit
 async function updateUser(user, reqData) {
@@ -110,7 +105,11 @@ async function updateUser(user, reqData) {
     token,
   };
 }
-// function updateUser(id, userData)
+
+// delete
+function deleteUser(id) {
+  return User.deleteOne({ _id: id });
+}
 
 module.exports = {
   register,
