@@ -65,6 +65,17 @@ async function getTransactions(
   };
 }
 
+function getTransactionsForPeriod(period) {
+  console.log(period);
+
+  return Transaction.find({
+    createdAt: {
+      $gte: new Date().setDate(new Date().getMonth() - period),
+      $lte: '',
+    },
+  });
+}
+
 // get item
 function getTransaction(id) {
   return Transaction.findById(id);
@@ -75,5 +86,6 @@ module.exports = {
   editTransaction,
   deleteTransaction,
   getTransactions,
+  getTransactionsForPeriod,
   getTransaction,
 };

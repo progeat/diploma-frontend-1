@@ -11,7 +11,7 @@ const FinancesSectionContainer = ({ className }) => {
 	const accounts = useSelector(selectAccounts);
 
 	useEffect(() => {
-		request('/transactions').then((transactionsRes) => {
+		request('/statistics?period=1').then((transactionsRes) => {
 			if (transactionsRes.error) {
 				setErrorMessage(transactionsRes.error);
 				return;

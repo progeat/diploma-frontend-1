@@ -1,6 +1,7 @@
 const express = require('express');
 const {
   getTransactions,
+  getTransactionsForPeriod,
   getTransaction,
   addTransaction,
   editTransaction,
@@ -33,6 +34,15 @@ router.get('/:id', async (req, res) => {
   const transaction = await getTransaction(req.params.id);
 
   res.send({ data: mapTransaction(transaction) });
+});
+
+router.get('/period', async (req, res) => {
+  console.log('get period', req.query.period);
+  // const { transactions } = await getTransactionsForPeriod(req.query.period);
+
+  // res.send({
+  //   data: transactions.map(mapTransaction),
+  // });
 });
 
 // router.post('/:id/comments', authenticated, async (req, res) => {
