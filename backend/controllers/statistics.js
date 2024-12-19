@@ -1,16 +1,23 @@
 const Transaction = require('../models/Transaction');
+const getStartPeriodDate = require('../helpers/getStartPeriodDate');
+const getStatisticsOnTransactions = require('../helpers/getStatisticsOnTransactions');
 
-function getTransactionsForPeriod(period) {
-  console.log(period);
+async function getStatisticsForPeriod(period = 1) {
+  const startPeriodDate = getStartPeriodDate(period);
 
-  return Transaction.find({
+  const transactions = await Transaction.find({
     createdAt: {
-      $gte: new Date().setDate(new Date().getMonth() - period),
-      $lte: '',
+      $gte: startPeriodDate,
     },
   });
+
+  const statisticsOnTransactions = await getStatisticsOnTransactions(
+    transactions
+  );
+
+  return statisticsOnTransactions;
 }
 
 module.exports = {
-  getTransactionsForPeriod,
+  getStatisticsForPeriod,
 };

@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import { Icon } from '../../../../../../components';
 import styled from 'styled-components';
 
-// TODO подумать над получением пропсов и отсутствием значений
 const CardInfoContainer = ({ className, title, value, path }) => {
 	const navigate = useNavigate();
 
@@ -13,22 +12,11 @@ const CardInfoContainer = ({ className, title, value, path }) => {
 				<Icon id="fa-plus-circle" margin="0" onClick={() => navigate(path)} />
 			</div>
 			<ul className="list-expenses">
-				{value.map(({ id, amount, comment, name, balance }) => (
-					<li className={`item ${name ? 'item-account' : ''}`} key={id}>
-						<div>{comment || name}</div>
-						<div>{amount || balance} ₽</div>
-						{name && (
-							<Icon
-								id="fa-pencil"
-								style={{
-									position: 'absolute',
-									right: '-27px',
-									top: '2px',
-								}}
-								size="18px"
-								onClick={() => navigate(`/accounts/${id}/edit`)}
-							/>
-						)}
+				{value.map(({ id, category, count, total }) => (
+					<li className="item" key={id}>
+						<div>{category}</div>
+						<div>Операций: {count}</div>
+						<div>{total} ₽</div>
 					</li>
 				))}
 			</ul>
@@ -49,22 +37,11 @@ export const CardInfo = styled(CardInfoContainer)`
 		align-items: center;
 	}
 
-	& .link-wrapper {
-		border: 1px solid #000;
-		padding: 5px;
-		font-size: 20px;
-	}
-
 	& .item {
 		display: flex;
 		justify-content: space-between;
 		border: 1px solid #000;
 		padding: 5px;
-	}
-
-	& .item-account {
-		position: relative;
-		margin-right: 27px;
 	}
 
 	& .item:not(:last-child) {

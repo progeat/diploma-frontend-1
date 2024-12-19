@@ -1,5 +1,5 @@
 const express = require('express');
-const { getTransactionsForPeriod } = require('../controllers/statistics.js');
+const { getStatisticsForPeriod } = require('../controllers/statistics.js');
 const authenticated = require('../middlewares/authenticated.js');
 const hasRole = require('../middlewares/hasRole.js');
 const mapTransaction = require('../helpers/mapTransaction.js');
@@ -8,13 +8,15 @@ const ROLES = require('../constants/roles.js');
 const router = express.Router({ mergeParams: true });
 
 router.get('/', async (req, res) => {
-  console.log('get period', req.query.period);
-  const { transactions } = await getTransactionsForPeriod(req.query.period);
+  try {
+    const statisticsTransactions = await getStatisticsForPeriod(
+      req.query.period
+    );
 
-  console.log(transactions);
-  // res.send({
-  //   data: transactions.map(mapTransaction),
-  // });
+    res.send({ error: null, data: statisticsTransactions });
+  } catch (e) {
+    res.send({ error: e.message || 'Unknown error' });
+  }
 });
 
 // router.post('/:id/comments', authenticated, async (req, res) => {

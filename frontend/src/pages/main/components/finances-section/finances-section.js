@@ -6,26 +6,33 @@ import { request } from '../../../../utils';
 import styled from 'styled-components';
 
 const FinancesSectionContainer = ({ className }) => {
-	const [transactions, setTransactions] = useState([]);
+	const [statistics, setStatistics] = useState({
+		expenses: [],
+		income: [],
+	});
 	const [errorMessage, setErrorMessage] = useState(null);
 	const accounts = useSelector(selectAccounts);
 
 	useEffect(() => {
-		request('/statistics?period=1').then((transactionsRes) => {
-			if (transactionsRes.error) {
-				setErrorMessage(transactionsRes.error);
+		request('/statistics?period=1').then((statisticsRes) => {
+			if (statisticsRes.error) {
+				setErrorMessage(statisticsRes.error);
 				return;
 			}
 
-			setTransactions(transactionsRes.data.transactions);
+			setStatistics((prev) => ({
+				...prev,
+				...statisticsRes.data,
+			}));
 		});
 	}, []);
 
+	// TODO продумать карточку счетов
 	return (
 		<div className={className}>
-			<CardInfo title="Доходы" path="/transaction" value={transactions} />
-			<CardInfo title="Счета" path="/accounts" value={accounts} />
-			<CardInfo title="Расходы" path="/transaction" value={transactions} />
+			<CardInfo title="Доходы" path="/transaction" value={statistics.income} />
+			{/* <CardInfo title="Счета" path="/accounts" value={accounts} /> */}
+			<CardInfo title="Расходы" path="/transaction" value={statistics.expenses} />
 			<div className="error-message">{errorMessage}</div>
 		</div>
 	);
