@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '../../../../../../components';
+import { ListAccounts, ListAnalitics } from './components';
 import styled from 'styled-components';
 
 const CardInfoContainer = ({ className, title, value, path }) => {
@@ -11,15 +12,11 @@ const CardInfoContainer = ({ className, title, value, path }) => {
 				<h3 className="top-panel">{title}</h3>
 				<Icon id="fa-plus-circle" margin="0" onClick={() => navigate(path)} />
 			</div>
-			<ul className="list-expenses">
-				{value.map(({ id, category, count, total }) => (
-					<li className="item" key={id}>
-						<div>{category}</div>
-						<div>Операций: {count}</div>
-						<div>{total} ₽</div>
-					</li>
-				))}
-			</ul>
+			{path === '/accounts' ? (
+				<ListAccounts value={value} />
+			) : (
+				<ListAnalitics value={value} />
+			)}
 		</div>
 	);
 };
@@ -35,16 +32,5 @@ export const CardInfo = styled(CardInfoContainer)`
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-	}
-
-	& .item {
-		display: flex;
-		justify-content: space-between;
-		border: 1px solid #000;
-		padding: 5px;
-	}
-
-	& .item:not(:last-child) {
-		margin-bottom: 5px;
 	}
 `;

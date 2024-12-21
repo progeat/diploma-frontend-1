@@ -27,13 +27,15 @@ const FinancesSectionContainer = ({ className }) => {
 		});
 	}, []);
 
+	if (errorMessage) {
+		return <div className="error-message">{errorMessage}</div>;
+	}
 	// TODO продумать карточку счетов
 	return (
 		<div className={className}>
 			<CardInfo title="Доходы" path="/transaction" value={statistics.income} />
-			{/* <CardInfo title="Счета" path="/accounts" value={accounts} /> */}
+			<CardInfo title="Счета" path="/accounts" value={accounts} />
 			<CardInfo title="Расходы" path="/transaction" value={statistics.expenses} />
-			<div className="error-message">{errorMessage}</div>
 		</div>
 	);
 };
@@ -42,6 +44,10 @@ export const FinancesSection = styled(FinancesSectionContainer)`
 	display: flex;
 	justify-content: space-between;
 	min-height: 500px;
+
+	& > div:not(:last-child) {
+		margin-right: 15px;
+	}
 
 	& .error-message {
 		color: red;

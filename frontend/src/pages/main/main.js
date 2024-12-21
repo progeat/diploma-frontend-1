@@ -13,4 +13,5 @@ const MainContainer = ({ className }) => {
 export const Main = styled(MainContainer)`
 	display: flex;
 	flex-direction: column;
+	padding: 0 20px;
 `;
