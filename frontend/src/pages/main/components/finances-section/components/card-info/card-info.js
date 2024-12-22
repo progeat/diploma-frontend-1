@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '../../../../../../components';
-import { ListAccounts, ListAnalitics } from './components';
+import { ListAccounts, ListAnalytics } from './components';
 import styled from 'styled-components';
 
 const CardInfoContainer = ({ className, title, value, path }) => {
@@ -15,7 +15,7 @@ const CardInfoContainer = ({ className, title, value, path }) => {
 			{path === '/accounts' ? (
 				<ListAccounts value={value} />
 			) : (
-				<ListAnalitics value={value} />
+				<ListAnalytics value={value} />
 			)}
 		</div>
 	);
@@ -25,8 +25,10 @@ export const CardInfo = styled(CardInfoContainer)`
 	display: flex;
 	flex-direction: column;
 	width: 100%;
-	border: 2px solid #000;
-	padding: 10px;
+	border: 1px solid transparent;
+	border-radius: 24px;
+	padding: 10px 12px 15px 12px;
+	background-color: #2b2d32;
 
 	& .header {
 		display: flex;

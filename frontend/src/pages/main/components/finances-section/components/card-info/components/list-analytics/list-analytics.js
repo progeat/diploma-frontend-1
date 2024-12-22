@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const ListAnaliticsComponent = ({ className, value }) => {
+const ListAnalyticsComponent = ({ className, value }) => {
 	return (
 		<ul className={className}>
 			{value.map(({ id, category, count, total }) => (
@@ -16,17 +16,18 @@ const ListAnaliticsComponent = ({ className, value }) => {
 	);
 };
 
-export const ListAnalitics = styled(ListAnaliticsComponent)`
+export const ListAnalytics = styled(ListAnalyticsComponent)`
 	& .item {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		border: 1px solid #000;
-		padding: 5px;
+		border-radius: 12px;
+		padding: 5px 10px;
+		background-color: #393d47;
 	}
 
 	& .item:not(:last-child) {
-		margin-bottom: 5px;
+		margin-bottom: 8px;
 	}
 
 	& .item-left {
@@ -35,12 +36,14 @@ export const ListAnalitics = styled(ListAnaliticsComponent)`
 	}
 
 	.item-title {
+		margin-bottom: 3px;
 		font-size: 16px;
 		font-weight: 600;
 	}
 
 	.item-info {
 		font-size: 12px;
+		color: #8d8d8d;
 	}
 
 	.item-right {

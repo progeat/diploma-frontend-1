@@ -23,7 +23,9 @@ function deleteAccount(id) {
 
 // get list with search and pagination
 async function getAccounts() {
-  return Account.find();
+  const accounts = await Account.find();
+
+  return accounts.sort((a, b) => b.balance - a.balance)
 }
 
 // get item

@@ -1,23 +1,27 @@
-import styled from 'styled-components';
-import { Icon } from '../../../../../../../../components';
 import { useNavigate } from 'react-router-dom';
+import { Icon } from '../../../../../../../../components';
+import { GET_TYPE_ACCOUNT } from '../../../../../../../../constants';
+import styled from 'styled-components';
 
 const ListAccountsComponent = ({ className, value }) => {
 	const navigate = useNavigate();
 
 	return (
 		<ul className={className}>
-			{value.map(({ id, amount, comment, name, balance }) => (
+			{value.map(({ id, name, type, balance }) => (
 				<li className="item" key={id}>
-					<div>{comment || name}</div>
-					<div>{amount || balance} ₽</div>
+					<div className="item-left">
+						<div className="account-name">{name}</div>
+						<div className="account-type">{GET_TYPE_ACCOUNT[type]}</div>
+					</div>
+					<div>{balance} ₽</div>
 					{name && (
 						<Icon
 							id="fa-pencil"
 							style={{
 								position: 'absolute',
 								right: '-27px',
-								top: '2px',
+								top: '10px',
 							}}
 							size="18px"
 							onClick={() => navigate(`/accounts/${id}/edit`)}
@@ -36,8 +40,11 @@ export const ListAccounts = styled(ListAccountsComponent)`
 		justify-content: space-between;
 		align-items: center;
 		margin-right: 27px;
-		border: 1px solid #000;
-		padding: 5px;
+		padding: 5px 10px;
+		border-radius: 12px;
+		font-size: 16px;
+		font-weight: 600;
+		background-color: #393d47;
 	}
 
 	& .item:not(:last-child) {
@@ -49,17 +56,13 @@ export const ListAccounts = styled(ListAccountsComponent)`
 		flex-direction: column;
 	}
 
-	.item-title {
-		font-size: 16px;
-		font-weight: 600;
+	& .account-name {
+		margin-bottom: 3px;
 	}
 
-	.item-info {
+	& .account-type {
 		font-size: 12px;
-	}
-
-	.item-right {
-		font-size: 16px;
-		font-weight: 600;
+		font-weight: 400;
+		color: #8d8d8d;
 	}
 `;

@@ -1,11 +1,11 @@
-import { FinancesSection } from './components';
+import { AnalyticsSection, FinancesSection } from './components';
 import styled from 'styled-components';
 
 const MainContainer = ({ className }) => {
 	return (
 		<div className={className}>
 			<FinancesSection />
-			<div>Блок аналитика</div>
+			<AnalyticsSection />
 		</div>
 	);
 };

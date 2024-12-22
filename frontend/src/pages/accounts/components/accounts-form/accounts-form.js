@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import Select from 'react-select';
 import { Button, Input } from '../../../../components';
 import { request } from '../../../../utils';
+import { GET_TYPE_ACCOUNT, TYPE_ACCOUNT } from '../../../../constants';
 import styled from 'styled-components';
 
 const accountFormSchema = yup.object().shape({
@@ -19,11 +20,11 @@ const accountFormSchema = yup.object().shape({
 
 // TODO вынести в константу
 const accountTypeOptions = [
-	{ value: 0, label: 'Дебетовый' },
-	{ value: 1, label: 'Кредитный' },
-	{ value: 2, label: 'Вклад' },
-	{ value: 3, label: 'Накопительный' },
-	{ value: 4, label: 'Наличный' },
+	{ value: TYPE_ACCOUNT.DEBIT, label: GET_TYPE_ACCOUNT[TYPE_ACCOUNT.DEBIT] },
+	{ value: TYPE_ACCOUNT.CREDIT, label: GET_TYPE_ACCOUNT[TYPE_ACCOUNT.CREDIT] },
+	{ value: TYPE_ACCOUNT.DEPOSIT, label: GET_TYPE_ACCOUNT[TYPE_ACCOUNT.DEPOSIT] },
+	{ value: TYPE_ACCOUNT.SAVINGS, label: GET_TYPE_ACCOUNT[TYPE_ACCOUNT.SAVINGS] },
+	{ value: TYPE_ACCOUNT.CASH, label: GET_TYPE_ACCOUNT[TYPE_ACCOUNT.CASH] },
 ];
 
 // TODO поработать над ошибками

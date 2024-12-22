@@ -22,14 +22,13 @@ const AppColumn = styled.div`
 	flex-direction: column;
 	justify-content: space-between;
 	margin: 0 auto;
-	width: 1000px;
 	min-height: 100%;
-	background-color: #fff;
+	background-color: #141414;
 `;
 
 const Page = styled.div`
 	height: 100%;
-	padding: 120px 0 20px;
+	padding: 70px 0 20px;
 `;
 
 export const App = () => {
@@ -86,10 +85,6 @@ export const App = () => {
 					<Route path="/accounts/:id/edit" element={<Accounts />} />
 					<Route path="/transactions" element={<Transactions />} />
 					<Route path="/personal" element={<Personal />} />
-					<Route
-						path="/personal"
-						element={<div>Персональная страница пользователя</div>}
-					/>
 					<Route path="/login" element={<Authorization />} />
 					<Route path="/register" element={<Registration />} />
 					<Route path="*" element={<div>Ошибка</div>} />
