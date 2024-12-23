@@ -29,6 +29,28 @@ const customStyles = {
 	},
 };
 
+// const customSelectStyles = {
+// 	control: (provided, state) => ({
+// 		...provided,
+// 		color: '#fff',
+// 		backgroundColor: '#4d525f',
+// 		borderColor: state.isFocused ? '#85bb65' : '#e0e6ed',
+// 		boxShadow: state.isFocused ? '0 0 0 1px #85bb65' : null,
+// 		'&:hover': {
+// 			borderColor: state.isFocused ? '#85bb65' : '#a1a8b3',
+// 		},
+// 	}),
+// 	option: (provided, state) => ({
+// 		...provided,
+// 		color: state.isSelected ? '#fff' : '#fff',
+// 		backgroundColor: state.isSelected ? '#959cad' : '#4d525f',
+// 		cursor: 'pointer',
+// 		':active': {
+// 			backgroundColor: state.isSelected ? '#5c9210' : '#dce0e5',
+// 		},
+// 	}),
+// };
+
 const createSelectorOptions = (arrayValues) =>
 	arrayValues.map((obj) => ({ value: obj.id, label: obj.name }));
 
@@ -79,6 +101,7 @@ const ControlPanelContainer = ({ className }) => {
 		<div className={className}>
 			<h4>Фильтры :</h4>
 			<DatePicker
+				className="date-picker"
 				selectsRange={true}
 				startDate={startDate}
 				endDate={endDate}
@@ -91,6 +114,7 @@ const ControlPanelContainer = ({ className }) => {
 				options={accountsOptions}
 				placeholder="по счёту"
 				onChange={onSetFilterAccount}
+				// styles={customSelectStyles}
 				isClearable
 			/>
 			<Select
@@ -100,20 +124,47 @@ const ControlPanelContainer = ({ className }) => {
 				onChange={onSetFilterCategory}
 				isClearable
 			/>
-			<Link to="/transaction">Добавить операцию</Link>
+			<Link to="/transaction" style={{ border: 0 }}>
+				Добавить операцию
+			</Link>
 		</div>
 	);
 };
 
 export const ControlPanel = styled(ControlPanelContainer)`
 	display: flex;
-	align-items: center;
-	width: 100%;
-	padding: 10px;
+	flex-direction: column;
+	// align-items: center;
+	border-radius: 24px;
+	padding: 1px 1px 1px 10px;
+	background-color: #2b2d32;
 
 	& h4 {
 		margin: 10px;
 	}
+
+	& .date-picker {
+		margin-right: 10px;
+		min-height: 38px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		padding-left: 8px;
+		font-size: 16px;
+	}
+
+	& .react-datepicker__close-icon {
+		padding-right: 15px;
+	}
+
+	& .react-datepicker__close-icon::after {
+		font-size: 24px;
+		color: #ccc;
+		background-color: transparent;
+	}
+
+	// & .select .select {
+	// 	background-color: #4d525f;
+	// }
 
 	& .select:not(:last-child) {
 		margin-right: 10px;

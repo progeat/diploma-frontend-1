@@ -12,4 +12,5 @@ export const Input = styled(InputContainer)`
 	padding: 10px;
 	font-size: 18px;
 	border: 1px solid #000;
+	background-color: #2b2d32;
 `;

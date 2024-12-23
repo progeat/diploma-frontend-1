@@ -49,24 +49,30 @@ const TransactionsContainer = ({ className }) => {
 			<div className="header">
 				<h2>История операций</h2>
 				<Search searchPhrase={searchPhrase} onChange={onSearch} />
-				<ControlPanel />
 			</div>
-			<TransactionsList
-				transactions={transactions}
-				isLoading={isLoading}
-				// TODO прокидываем сеттер состояния(setTriggerFlag) через компонент(?) или используем менеджер состояния(?)
-				setTriggerFlag={setTriggerFlag}
-			/>
-			{lastPage > 1 && transactions.length > 0 && (
-				// TODO при удалении с последней страницы всех операций нужно переключится на предыдущую
-				<Pagination page={page} lastPage={lastPage} setPage={setPage} />
-			)}
+			<div className="main">
+				<ControlPanel className="control-panel" />
+				<div className="transactions-wrapper">
+					<TransactionsList
+						transactions={transactions}
+						isLoading={isLoading}
+						// TODO прокидываем сеттер состояния(setTriggerFlag) через компонент(?) или используем менеджер состояния(?)
+						setTriggerFlag={setTriggerFlag}
+					/>
+					{lastPage > 1 && transactions.length > 0 && (
+						// TODO при удалении с последней страницы всех операций нужно переключится на предыдущую
+						<Pagination page={page} lastPage={lastPage} setPage={setPage} />
+					)}
+				</div>
+			</div>
 		</div>
 	);
 };
 
 export const Transactions = styled(TransactionsContainer)`
-	padding: 15px;
+	// position: relative;
+	height: 100%;
+	padding: 30px;
 
 	& h2 {
 		margin-right: 100px;
@@ -76,5 +82,21 @@ export const Transactions = styled(TransactionsContainer)`
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
+		margin-bottom: 15px;
+	}
+
+	& .main {
+		display: flex;
+		width: 100%;
+	}
+
+	& .control-panel {
+		margin-right: 100px;
+	}
+
+	& .transactions-wrapper {
+		position: relative;
+		max-width: 800px;
+		width: 100%;
 	}
 `;

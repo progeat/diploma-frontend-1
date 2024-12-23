@@ -9,9 +9,12 @@ const SearchContainer = ({ className, searchPhrase, onChange }) => {
 				value={searchPhrase}
 				placeholder="Поиск по заголовкам..."
 				margin="0"
+				style={{ border: 0 }}
 				onChange={onChange}
 			/>
-			<Icon inactive="true" id="fa-search" size="21px" />
+			<div className="icon-wrapper">
+				<Icon inactive="true" id="fa-search" size="19px" />
+			</div>
 		</div>
 	);
 };
@@ -19,16 +22,33 @@ const SearchContainer = ({ className, searchPhrase, onChange }) => {
 export const Search = styled(SearchContainer)`
 	position: relative;
 	display: flex;
-	width: 340px;
-	height: 40px;
+	justify-content: space-between;
+	align-items: center;
+	max-width: 600px;
+	width: 100%;
+	height: 60px;
+	border: 1px solid #5e636f;
+	border-radius: 22px;
+	padding: 1px 1px 1px 10px;
+	background-color: #2b2d32;
 
 	& > input {
-		padding: 10px 32px 10px 10px;
+		padding: 10px 32px 8px 10px;
 	}
 
-	& > div {
+	& .icon-wrapper {
+		flex-shrink: 0;
+		position: relative;
+		width: 56px;
+		height: 56px;
+		border-radius: 20px;
+		background-color: #4d525f;
+	}
+
+	& .icon-wrapper > div {
 		position: absolute;
-		top: 3px;
-		right: 9px;
+		top: 49%;
+		left: 51%;
+		transform: translate(-50%, -50%);
 	}
 `;

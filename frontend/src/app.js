@@ -27,7 +27,10 @@ const AppColumn = styled.div`
 `;
 
 const Page = styled.div`
-	height: 100%;
+	margin: 0 auto;
+	max-width: 1600px;
+	width: 100%;
+	height: 100vh;
 	padding: 70px 0 20px;
 `;
 

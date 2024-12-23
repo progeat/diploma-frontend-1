@@ -73,8 +73,9 @@ export const TransactionItem = styled(TransactionItemContainer)`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	border: 1px solid #000;
+	border-radius: 12px;
 	padding: 10px 20px;
+	background-color: #393d47;
 
 	& .item-column {
 		display: flex;
