@@ -100,17 +100,9 @@ const ControlPanelContainer = ({ className }) => {
 	return (
 		<div className={className}>
 			<h4>Фильтры :</h4>
-			<DatePicker
-				className="date-picker"
-				selectsRange={true}
-				startDate={startDate}
-				endDate={endDate}
-				onChange={onSetFilterDate}
-				placeholderText="по дате"
-				isClearable={true}
-			/>
 			<Select
 				className="select"
+				classNamePrefix="select"
 				options={accountsOptions}
 				placeholder="по счёту"
 				onChange={onSetFilterAccount}
@@ -119,14 +111,26 @@ const ControlPanelContainer = ({ className }) => {
 			/>
 			<Select
 				className="select"
+				classNamePrefix="select"
 				options={categoriesOptions}
 				placeholder="по категории"
 				onChange={onSetFilterCategory}
 				isClearable
 			/>
-			<Link to="/transaction" style={{ border: 0 }}>
-				Добавить операцию
-			</Link>
+			{/* TODO добавить возможность сбрасывать выбор даты*/}
+			<DatePicker
+				selected={startDate}
+				onChange={onSetFilterDate}
+				startDate={startDate}
+				endDate={endDate}
+				selectsRange
+				inline
+			/>
+			<div className="link-wrapper">
+				<Link className="link" to="/transaction">
+					Добавить операцию
+				</Link>
+			</div>
 		</div>
 	);
 };
@@ -136,47 +140,103 @@ export const ControlPanel = styled(ControlPanelContainer)`
 	flex-direction: column;
 	// align-items: center;
 	border-radius: 24px;
-	padding: 1px 1px 1px 10px;
+	padding: 10px 10px 20px;
 	background-color: #2b2d32;
 
 	& h4 {
 		margin: 10px;
 	}
 
-	& .date-picker {
-		margin-right: 10px;
-		min-height: 38px;
-		border: 1px solid #ccc;
-		border-radius: 4px;
-		padding-left: 8px;
-		font-size: 16px;
+	& .react-datepicker {
+		border: 0;
+		// border: 1px solid #5e636f;
+		// border-radius: 8px;
+		background-color: #2b2d32;
 	}
 
-	& .react-datepicker__close-icon {
-		padding-right: 15px;
+	& .react-datepicker .react-datepicker__month-container,
+	.react-datepicker .react-datepicker__header {
+		border-top-right-radius: 8px;
+		border-top-left-radius: 8px;
+		color: #f8f8f9;
+		background-color: #2b2d32;
 	}
 
-	& .react-datepicker__close-icon::after {
-		font-size: 24px;
-		color: #ccc;
-		background-color: transparent;
+	& .react-datepicker__current-month,
+	.react-datepicker__day-name,
+	.react-datepicker__day {
+		color: #f8f8f9;
 	}
 
-	// & .select .select {
-	// 	background-color: #4d525f;
-	// }
-
-	& .select:not(:last-child) {
-		margin-right: 10px;
+	& .react-datepicker__day:hover {
+		color: #2b2d32;
 	}
 
-	& > .select:last-child {
-		margin-right: auto;
+	& .select {
+		margin-bottom: 10px;
 	}
 
-	& > a {
-		margin-left: auto;
-		border: 1px solid #000;
-		padding: 5px;
+	& .select__control {
+		border-radius: 8px;
+		border-color: #5e636f;
+	}
+
+	& .select__control,
+	.select__menu {
+		background-color: #2b2d32;
+	}
+
+	& .select__placeholder,
+	.select__single-value {
+		color: #f8f8f9;
+	}
+
+	& .select__control:hover {
+		border-color: #f8f8f9;
+		box-shadow: 0 0 0 1px #f8f8f9;
+	}
+
+	& .select__control--is-focused {
+		border-color: #f8f8f9;
+		box-shadow: 0 0 0 1px #f8f8f9;
+	}
+
+	& .select__menu {
+		z-index: 10;
+	}
+
+	& .select__option:hover,
+	.select__option--is-focused {
+		color: #2b2d32;
+		background-color: #f8f8f9;
+	}
+
+	& .select__option--is-selected {
+		color: #4d525f;
+		background-color: rgb(179, 179, 179);
+	}
+
+	& .link-wrapper {
+		margin-top: auto;
+		display: flex;
+		justify-content: center;
+	}
+
+	& .link {
+		display: inline-block;
+		text-align: center;
+		margin: 0 auto;
+		width: 100%;
+		max-width: 200px;
+		border: 1px solid #f8f8f9;
+		border-radius: 8px;
+		padding: 5px 5px 8px;
+		color: #f8f8f9;
+		background-color: #2b2d32;
+	}
+
+	& .link:hover {
+		color: #000;
+		background-color: #f8f8f9;
 	}
 `;

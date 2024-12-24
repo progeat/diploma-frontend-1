@@ -40,9 +40,9 @@ const TransactionsListContainer = ({
 };
 
 export const TransactionsList = styled(TransactionsListContainer)`
-	max-width: 800px;
 	width: 100%;
 	min-height: 370px;
+	height: 100%;
 	border-radius: 12px;
 	padding: 12px;
 	background-color: #2b2d32;

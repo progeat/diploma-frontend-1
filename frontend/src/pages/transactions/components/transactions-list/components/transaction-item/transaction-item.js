@@ -53,13 +53,12 @@ const TransactionItemContainer = ({
 				<div className="item-control">
 					<Icon
 						id="fa-pencil"
-						margin="0 7px 0 0"
+						margin="0 10px 0 0"
 						size="18px"
 						onClick={() => navigate(`/transaction/${id}/edit`)}
 					/>
 					<Icon
 						id="fa-trash-o"
-						margin="0 7px 0 0"
 						size="18px"
 						onClick={() => onTransactionRemove(id)}
 					/>
@@ -74,21 +73,22 @@ export const TransactionItem = styled(TransactionItemContainer)`
 	justify-content: space-between;
 	align-items: center;
 	border-radius: 12px;
-	padding: 10px 20px;
+	padding: 10px 15px 10px 20px;
 	background-color: #393d47;
 
 	& .item-column {
 		display: flex;
 	}
 
-	& .item-column > div:not(:last-child) {
-		margin-right: 10px;
+	& .item-amount {
+		margin-right: 15px;
 	}
 
 	& .item-icon {
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		margin-right: 10px;
 		border-radius: 50px;
 		width: 40px;
 		height: 40px;

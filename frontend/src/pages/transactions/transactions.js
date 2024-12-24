@@ -46,13 +46,13 @@ const TransactionsContainer = ({ className }) => {
 
 	return (
 		<div className={className}>
-			<div className="header">
+			<div className="column-left">
 				<h2>История операций</h2>
-				<Search searchPhrase={searchPhrase} onChange={onSearch} />
-			</div>
-			<div className="main">
 				<ControlPanel className="control-panel" />
+			</div>
+			<div className="column-right">
 				<div className="transactions-wrapper">
+					<Search searchPhrase={searchPhrase} onChange={onSearch} />
 					<TransactionsList
 						transactions={transactions}
 						isLoading={isLoading}
@@ -70,33 +70,42 @@ const TransactionsContainer = ({ className }) => {
 };
 
 export const Transactions = styled(TransactionsContainer)`
-	// position: relative;
+	display: flex;
 	height: 100%;
 	padding: 30px;
 
-	& h2 {
-		margin-right: 100px;
-	}
-
-	& .header {
+	& .column-left,
+	.column-right {
 		display: flex;
-		flex-wrap: wrap;
+		flex-direction: column;
 		align-items: center;
-		margin-bottom: 15px;
+		height: 100%;
 	}
 
-	& .main {
-		display: flex;
+	& .column-left h2 {
+		margin-bottom: 30px;
+	}
+
+	& .column-right {
+		justify-content: space-between;
 		width: 100%;
-	}
-
-	& .control-panel {
-		margin-right: 100px;
 	}
 
 	& .transactions-wrapper {
-		position: relative;
-		max-width: 800px;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		max-width: 1000px;
 		width: 100%;
+		height: 100%;
+		padding-left: 20px;
+	}
+
+	& .transactions-wrapper > div:not(:last-child) {
+		margin-bottom: 20px;
+	}
+
+	& .control-panel {
+		height: 100%;
 	}
 `;

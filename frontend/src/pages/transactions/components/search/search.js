@@ -24,7 +24,6 @@ export const Search = styled(SearchContainer)`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	max-width: 600px;
 	width: 100%;
 	height: 60px;
 	border: 1px solid #5e636f;

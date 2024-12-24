@@ -22,7 +22,7 @@ const AppColumn = styled.div`
 	flex-direction: column;
 	justify-content: space-between;
 	margin: 0 auto;
-	min-height: 100%;
+	height: 100vh;
 	background-color: #141414;
 `;
 
@@ -30,7 +30,7 @@ const Page = styled.div`
 	margin: 0 auto;
 	max-width: 1600px;
 	width: 100%;
-	height: 100vh;
+	height: 100%;
 	padding: 70px 0 20px;
 `;
 
