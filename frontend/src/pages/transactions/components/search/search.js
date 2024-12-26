@@ -13,7 +13,12 @@ const SearchContainer = ({ className, searchPhrase, onChange }) => {
 				onChange={onChange}
 			/>
 			<div className="icon-wrapper">
-				<Icon inactive="true" id="fa-search" size="19px" />
+				<Icon
+					inactive="true"
+					id="fa-search"
+					size="19px"
+					style={{ color: '#f8f8f9' }}
+				/>
 			</div>
 		</div>
 	);

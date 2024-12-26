@@ -37,21 +37,12 @@ export const Accounts = styled(AccountsContainer)`
 		align-items: center;
 		width: 281px;
 		padding: 20px;
-		background-color: #ddd;
+		background-color: #2b2d32;
 	}
 
 	& .form {
 		display: flex;
 		flex-direction: column;
-	}
-
-	& .form input {
-		margin-bottom: 10px;
-	}
-
-	& .select {
-		margin-bottom: 10px;
-		width: 100%;
 	}
 
 	& .error {

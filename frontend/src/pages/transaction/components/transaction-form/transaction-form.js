@@ -115,8 +115,9 @@ const TransactionFormContainer = ({
 					)}
 				/>
 				<Icon
+					className="icon-plus"
 					id="fa-plus-circle"
-					style={{ position: 'absolute', right: '-27px', top: '2px' }}
+					style={{ position: 'absolute', right: '-27px', top: '5px' }}
 					margin="0"
 					onClick={() => navigate('/categories')}
 				/>
@@ -137,8 +138,9 @@ const TransactionFormContainer = ({
 					)}
 				/>
 				<Icon
+					className="icon-plus"
 					id="fa-plus-circle"
-					style={{ position: 'absolute', right: '-27px', top: '2px' }}
+					style={{ position: 'absolute', right: '-27px', top: '5px' }}
 					margin="0"
 					onClick={() => navigate('/accounts')}
 				/>
@@ -230,6 +232,17 @@ export const TransactionForm = styled(TransactionFormContainer)`
 		color: #4d525f;
 		background-color: rgb(179, 179, 179);
 	}
+
+	// & .icon-plus {
+	// 	position: absolute;
+	// 	top: 5px;
+	// 	right: -27px;
+	// 	color: #4d525f;
+	// }
+
+	// & .icon-plus:hover {
+	// 	color: #f8f8f9;
+	// }
 
 	& .button-submit {
 		height: 38px;

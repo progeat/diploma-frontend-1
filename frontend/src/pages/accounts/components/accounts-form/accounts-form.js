@@ -89,6 +89,7 @@ const AccountsFormContainer = ({ className, accounts }) => {
 					<Select
 						{...field}
 						className="select"
+						classNamePrefix="select"
 						options={accountTypeOptions}
 						placeholder="Выберите тип счёта"
 					/>
@@ -109,4 +110,65 @@ const AccountsFormContainer = ({ className, accounts }) => {
 	);
 };
 
-export const AccountsForm = styled(AccountsFormContainer)``;
+export const AccountsForm = styled(AccountsFormContainer)`
+	& input {
+		margin-bottom: 10px;
+		border-radius: 8px;
+		border-color: #5e636f;
+		color: #f8f8f9;
+	}
+
+	& input:not(:first-child) {
+		margin-bottom: 20px;
+	}
+
+	& input:hover {
+		outline: 2px solid #f8f8f9;
+	}
+
+	& .select {
+		margin-bottom: 10px;
+		width: 100%;
+	}
+
+	& .select__control {
+		height: 40px;
+		border-radius: 8px;
+		border-color: #5e636f;
+	}
+
+	& .select__control,
+	.select__menu {
+		background-color: #2b2d32;
+	}
+
+	& .select__placeholder,
+	.select__single-value {
+		color: #f8f8f9;
+	}
+
+	& .select__control:hover {
+		border-color: #f8f8f9;
+		box-shadow: 0 0 0 1px #f8f8f9;
+	}
+
+	& .select__control--is-focused {
+		border-color: #f8f8f9;
+		box-shadow: 0 0 0 1px #f8f8f9;
+	}
+
+	& .select__menu {
+		z-index: 10;
+	}
+
+	& .select__option:hover,
+	.select__option--is-focused {
+		color: #2b2d32;
+		background-color: #f8f8f9;
+	}
+
+	& .select__option--is-selected {
+		color: #4d525f;
+		background-color: rgb(179, 179, 179);
+	}
+`;
