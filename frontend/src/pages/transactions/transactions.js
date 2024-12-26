@@ -48,7 +48,7 @@ const TransactionsContainer = ({ className }) => {
 		<div className={className}>
 			<div className="column-left">
 				<h2>История операций</h2>
-				<ControlPanel className="control-panel" />
+				<ControlPanel />
 			</div>
 			<div className="column-right">
 				<div className="transactions-wrapper">
@@ -95,7 +95,7 @@ export const Transactions = styled(TransactionsContainer)`
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
-		max-width: 1000px;
+		max-width: 1200px;
 		width: 100%;
 		height: 100%;
 		padding-left: 20px;
@@ -103,9 +103,5 @@ export const Transactions = styled(TransactionsContainer)`
 
 	& .transactions-wrapper > div:not(:last-child) {
 		margin-bottom: 20px;
-	}
-
-	& .control-panel {
-		height: 100%;
 	}
 `;

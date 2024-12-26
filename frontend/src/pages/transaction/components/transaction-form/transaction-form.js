@@ -91,7 +91,7 @@ const TransactionFormContainer = ({
 	const errorMessage = formError || serverError;
 
 	return (
-		<form className="form" onSubmit={handleSubmit(onSubmit)}>
+		<form className={className} onSubmit={handleSubmit(onSubmit)}>
 			<Input
 				type="number"
 				placeholder="Сумма операции..."
@@ -107,6 +107,7 @@ const TransactionFormContainer = ({
 						<Select
 							{...field}
 							className="select"
+							classNamePrefix="select"
 							options={categoriesOptions}
 							placeholder="Выберите категорию"
 							isClearable
@@ -128,6 +129,7 @@ const TransactionFormContainer = ({
 						<Select
 							{...field}
 							className="select"
+							classNamePrefix="select"
 							options={accountsOptions}
 							placeholder="Выберите счёт"
 							isClearable
@@ -148,7 +150,7 @@ const TransactionFormContainer = ({
 					onChange: () => setServerError(null),
 				})}
 			/>
-			<Button type="submit" disabled={!!formError}>
+			<Button className="button-submit" type="submit" disabled={!!formError}>
 				Отправить
 			</Button>
 			{errorMessage && <div className="error">{errorMessage}</div>}
@@ -156,4 +158,93 @@ const TransactionFormContainer = ({
 	);
 };
 
-export const TransactionForm = styled(TransactionFormContainer)``;
+export const TransactionForm = styled(TransactionFormContainer)`
+	display: flex;
+	flex-direction: column;
+	min-width: 220px;
+
+	& input {
+		margin-bottom: 10px;
+		border-radius: 8px;
+		border-color: #5e636f;
+		color: #f8f8f9;
+	}
+
+	& input:not(:first-child) {
+		margin-bottom: 20px;
+	}
+
+	& input:hover {
+		outline: 2px solid #f8f8f9;
+	}
+
+	& .select-wrapper {
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	& .select {
+		margin-bottom: 10px;
+		width: 100%;
+	}
+
+	& .select__control {
+		height: 40px;
+		border-radius: 8px;
+		border-color: #5e636f;
+	}
+
+	& .select__control,
+	.select__menu {
+		background-color: #2b2d32;
+	}
+
+	& .select__placeholder,
+	.select__single-value {
+		color: #f8f8f9;
+	}
+
+	& .select__control:hover {
+		border-color: #f8f8f9;
+		box-shadow: 0 0 0 1px #f8f8f9;
+	}
+
+	& .select__control--is-focused {
+		border-color: #f8f8f9;
+		box-shadow: 0 0 0 1px #f8f8f9;
+	}
+
+	& .select__menu {
+		z-index: 10;
+	}
+
+	& .select__option:hover,
+	.select__option--is-focused {
+		color: #2b2d32;
+		background-color: #f8f8f9;
+	}
+
+	& .select__option--is-selected {
+		color: #4d525f;
+		background-color: rgb(179, 179, 179);
+	}
+
+	& .button-submit {
+		height: 38px;
+		border: 1px solid #f8f8f9;
+		border-radius: 8px;
+		color: #f8f8f9;
+		background-color: #2b2d32;
+	}
+
+	& .button-submit:hover {
+		color: #000;
+		background-color: #f8f8f9;
+	}
+
+	& .error {
+		color: red;
+	}
+`;

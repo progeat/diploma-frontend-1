@@ -40,7 +40,6 @@ const TransactionContainer = ({ className }) => {
 		return <Loader />;
 	}
 
-	// TODO сброс значения для селекта после отправки формы
 	return (
 		<div className={className}>
 			<div className="form-wrapper">
@@ -56,43 +55,18 @@ const TransactionContainer = ({ className }) => {
 	);
 };
 
-// TODO перенести стили в свои компонеты
 export const Transaction = styled(TransactionContainer)`
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	height: 100%;
 
 	& .form-wrapper {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		padding: 20px 35px 25px 35px;
-		background-color: #ddd;
-	}
-
-	& .form {
-		display: flex;
-		flex-direction: column;
-		min-width: 220px;
-	}
-
-	& .form input {
-		margin-bottom: 10px;
-	}
-
-	& .select-wrapper {
-		position: relative;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-
-	& .select {
-		margin-bottom: 10px;
-		width: 100%;
-	}
-
-	& .error {
-		color: red;
+		border-radius: 24px;
+		padding: 15px 35px 25px 30px;
+		background-color: #2b2d32;
 	}
 `;

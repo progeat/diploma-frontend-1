@@ -49,15 +49,16 @@ const HeaderContainer = ({ className }) => {
 
 export const Header = styled(HeaderContainer)`
 	position: fixed;
+	z-index: 1000;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	height: 70px;
 	width: 100%;
 	padding: 0 30px;
+	background-color: rgb(26 26 26 / 70%);
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Тень */
 	backdrop-filter: blur(20px);
-	z-index: 1000;
 
 	& .buttons > a:not(:last-child) {
 		margin-right: 10px;

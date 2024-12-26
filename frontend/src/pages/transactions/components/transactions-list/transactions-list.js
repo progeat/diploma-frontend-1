@@ -12,7 +12,6 @@ const TransactionsListContainer = ({
 		return <Loader />;
 	}
 
-	// TODO сделать фон списка статичным при загрузке данных
 	return (
 		<div className={className}>
 			{transactions.length > 0 ? (

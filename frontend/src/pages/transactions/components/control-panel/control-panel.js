@@ -14,43 +14,6 @@ import {
 import { selectAccounts, selectCategories } from '../../../../selectors';
 import styled from 'styled-components';
 
-const customStyles = {
-	day: {
-		width: '2rem',
-		height: '2rem',
-		padding: '0.25rem',
-		margin: '0.125rem',
-		borderRadius: '50%',
-		textAlign: 'center',
-	},
-	dayActive: {
-		backgroundColor: '#00a8ff',
-		color: 'white',
-	},
-};
-
-// const customSelectStyles = {
-// 	control: (provided, state) => ({
-// 		...provided,
-// 		color: '#fff',
-// 		backgroundColor: '#4d525f',
-// 		borderColor: state.isFocused ? '#85bb65' : '#e0e6ed',
-// 		boxShadow: state.isFocused ? '0 0 0 1px #85bb65' : null,
-// 		'&:hover': {
-// 			borderColor: state.isFocused ? '#85bb65' : '#a1a8b3',
-// 		},
-// 	}),
-// 	option: (provided, state) => ({
-// 		...provided,
-// 		color: state.isSelected ? '#fff' : '#fff',
-// 		backgroundColor: state.isSelected ? '#959cad' : '#4d525f',
-// 		cursor: 'pointer',
-// 		':active': {
-// 			backgroundColor: state.isSelected ? '#5c9210' : '#dce0e5',
-// 		},
-// 	}),
-// };
-
 const createSelectorOptions = (arrayValues) =>
 	arrayValues.map((obj) => ({ value: obj.id, label: obj.name }));
 
@@ -106,7 +69,6 @@ const ControlPanelContainer = ({ className }) => {
 				options={accountsOptions}
 				placeholder="по счёту"
 				onChange={onSetFilterAccount}
-				// styles={customSelectStyles}
 				isClearable
 			/>
 			<Select
@@ -138,7 +100,7 @@ const ControlPanelContainer = ({ className }) => {
 export const ControlPanel = styled(ControlPanelContainer)`
 	display: flex;
 	flex-direction: column;
-	// align-items: center;
+	height: 100%;
 	border-radius: 24px;
 	padding: 10px 10px 20px;
 	background-color: #2b2d32;
