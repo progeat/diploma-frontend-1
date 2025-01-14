@@ -74,7 +74,7 @@ const AccountsFormContainer = ({ className, accounts }) => {
 	const errorMessage = formError || serverError;
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)}>
+		<form className={className} onSubmit={handleSubmit(onSubmit)}>
 			<Input
 				type="text"
 				placeholder="Название счёта..."
@@ -102,7 +102,7 @@ const AccountsFormContainer = ({ className, accounts }) => {
 					onChange: () => setServerError(null),
 				})}
 			/>
-			<Button type="submit" disabled={!!formError}>
+			<Button className="button-submit" type="submit" disabled={!!formError}>
 				Отправить
 			</Button>
 			{errorMessage && <div className="error">{errorMessage}</div>}
@@ -111,6 +111,9 @@ const AccountsFormContainer = ({ className, accounts }) => {
 };
 
 export const AccountsForm = styled(AccountsFormContainer)`
+	display: flex;
+	flex-direction: column;
+
 	& input {
 		margin-bottom: 10px;
 		border-radius: 8px;
@@ -170,5 +173,18 @@ export const AccountsForm = styled(AccountsFormContainer)`
 	& .select__option--is-selected {
 		color: #4d525f;
 		background-color: rgb(179, 179, 179);
+	}
+
+	& .button-submit {
+		height: 38px;
+		border: 1px solid #f8f8f9;
+		border-radius: 8px;
+		color: #f8f8f9;
+		background-color: #2b2d32;
+	}
+
+	& .button-submit:hover {
+		color: #000;
+		background-color: #f8f8f9;
 	}
 `;

@@ -150,7 +150,11 @@ const PersonalFormContainer = ({ className }) => {
 						onChange: () => setServerError(null),
 					})}
 				/>
-				<Button type="submit" disabled={!isDirty || !!formError}>
+				<Button
+					className="button-submit"
+					type="submit"
+					disabled={!isDirty || !!formError}
+				>
 					Отправить
 				</Button>
 				{errorMessage && <AuthFormError>{errorMessage}</AuthFormError>}
@@ -160,19 +164,49 @@ const PersonalFormContainer = ({ className }) => {
 };
 
 export const PersonalForm = styled(PersonalFormContainer)`
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	width: 281px;
+	border-radius: 24px;
 	padding: 20px;
-	background-color: #ddd;
+	background-color: #2b2d32;
 
-	& .form {
+	& form {
 		display: flex;
 		flex-direction: column;
 	}
 
-	& .form input {
+	& form input {
 		margin-bottom: 10px;
+		border-radius: 8px;
+		border-color: #5e636f;
+		color: #f8f8f9;
+	}
+
+	// TODO разобраться почему не работает last-child
+	& form input:last-child {
+		margin-bottom: 20px;
+	}
+
+	& form input:hover {
+		outline: 2px solid #f8f8f9;
+	}
+
+	& .button-submit {
+		height: 38px;
+		border: 1px solid #f8f8f9;
+		border-radius: 8px;
+		color: #f8f8f9;
+		background-color: #2b2d32;
+	}
+
+	& .button-submit:hover {
+		color: #000;
+		background-color: #f8f8f9;
 	}
 `;

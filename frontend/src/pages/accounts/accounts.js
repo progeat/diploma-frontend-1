@@ -32,17 +32,17 @@ export const Accounts = styled(AccountsContainer)`
 	align-items: center;
 
 	& .form-wrapper {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		width: 281px;
+		border-radius: 24px;
 		padding: 20px;
 		background-color: #2b2d32;
-	}
-
-	& .form {
-		display: flex;
-		flex-direction: column;
 	}
 
 	& .error {

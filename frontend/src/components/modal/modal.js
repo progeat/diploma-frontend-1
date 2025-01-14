@@ -57,9 +57,10 @@ export const Modal = styled(ModalContainer)`
 		text-align: center;
 		margin: 0 auto;
 		width: 400px;
-		border: 3px solid #000;
+		border: 3px solid #5e636f;
+		border-radius: 24px;
 		padding: 0 20px 20px;
-		background-color: #fff;
+		background-color: #2b2d32;
 		z-index: 30;
 		transform: translateY(-50%);
 	}
@@ -71,5 +72,10 @@ export const Modal = styled(ModalContainer)`
 
 	& .buttons button {
 		margin: 0 5px;
+	}
+
+	& .buttons button:hover {
+		color: #000;
+		background-color: #f8f8f9;
 	}
 `;

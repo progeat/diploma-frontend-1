@@ -34,11 +34,12 @@ const TransactionItemContainer = ({
 		);
 	};
 
+	// TODO отображение цвета шрифта иконки подправить
 	return (
 		<div className={className}>
 			<div className="item-column">
 				<div className="item-icon">
-					<Icon id="fa-cutlery" margin="0" size="20px" />
+					<Icon id="fa-cutlery" margin="0" size="20px" color="#f8f8f9" />
 				</div>
 				<div className="item-info">
 					<div>{category.name}</div>

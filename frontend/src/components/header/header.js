@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../button/button';
-import { logout } from '../../actions';
-import { selectUserLogin, selectUserRole, selectUserSession } from '../../selectors';
+import { LOGOUT } from '../../actions';
+import { selectUserLogin, selectUserRole } from '../../selectors';
 import { ROLE } from '../../constants';
 import styled from 'styled-components';
 import { Icon } from '../icon/icon';
@@ -12,11 +12,11 @@ const HeaderContainer = ({ className }) => {
 	const dispatch = useDispatch();
 	const login = useSelector(selectUserLogin);
 	const roleId = useSelector(selectUserRole);
-	const session = useSelector(selectUserSession);
 
 	const onLogout = () => {
-		dispatch(logout(session));
+		dispatch(LOGOUT);
 		sessionStorage.removeItem('userData');
+		navigate('/login');
 	};
 
 	return (
