@@ -10,11 +10,15 @@ async function addTransaction(transaction) {
 
 // edit
 async function editTransaction(id, transaction) {
-  const newTransaction = await Transaction.findByIdAndUpdate(id, transaction, {
-    returnDocument: 'after',
-  });
+  const editedTransaction = await Transaction.findByIdAndUpdate(
+    id,
+    transaction,
+    {
+      returnDocument: 'after',
+    }
+  );
 
-  return newTransaction;
+  return editedTransaction;
 }
 
 // delete
