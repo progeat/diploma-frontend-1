@@ -11,6 +11,13 @@ export const accountsReducer = (state = initialAccountsState, { type, payload })
 				...state,
 				accounts: [...state.accounts, ...payload],
 			};
+		case ACTION_TYPE.SET_ACCOUNT_BALANCE:
+			return {
+				...state,
+				accounts: state.accounts.map((account) =>
+					account.id === payload.id ? payload.account : account,
+				),
+			};
 		default:
 			return state;
 	}

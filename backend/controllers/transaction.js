@@ -1,11 +1,28 @@
 const Transaction = require('../models/Transaction');
 const createFindOptions = require('../helpers/createFindOptions');
+const updatedAccountBalance = require('../helpers/updatedAccountBalance');
 
 // add
 async function addTransaction(transaction) {
   const newTransaction = await Transaction.create(transaction);
 
-  return newTransaction;
+  const updatedAccount = await updatedAccountBalance(
+    transaction.account,
+    transaction.type,
+    transaction.amount
+  );
+
+  // const account = await Account.findById(transaction.account);
+
+  // if (transaction.type === TYPE_CATEGORY.INCOME) {
+  //   account.balance += transaction.amount;
+  // } else if (transaction.type === TYPE_CATEGORY.EXPENSE) {
+  //   account.balance -= transaction.amount;
+  // }
+
+  // await account.save();
+
+  return { newTransaction, updatedAccount };
 }
 
 // edit

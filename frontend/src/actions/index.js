@@ -11,3 +11,4 @@ export * from './set-filter-account';
 export * from './reset-filter-account';
 export * from './set-filter-category';
 export * from './reset-filter-category';
+export * from './set-account-balance';

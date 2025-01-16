@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 
 const TransactionSchema = mongoose.Schema(
   {
+    type: {
+      type: Number,
+      required: true,
+    },
     account: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Account',

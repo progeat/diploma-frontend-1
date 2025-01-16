@@ -10,6 +10,7 @@ const {
 const authenticated = require('../middlewares/authenticated.js');
 const hasRole = require('../middlewares/hasRole');
 const mapTransaction = require('../helpers/mapTransaction');
+const mapAccount = require('../helpers/mapAccount');
 const ROLES = require('../constants/roles');
 
 const router = express.Router({ mergeParams: true });
@@ -66,14 +67,21 @@ router.get('/period', async (req, res) => {
 // );
 
 router.post('/', authenticated, hasRole([ROLES.USER]), async (req, res) => {
+  // TODO подправить правильность логики и вывода операции и баланса
   const newTransaction = await addTransaction({
+    type: req.body.type,
     account: req.body.account,
     category: req.body.category,
     amount: req.body.amount,
     comment: req.body.comment,
   });
 
-  res.send({ data: mapTransaction(newTransaction) });
+  res.send({
+    data: {
+      newTransaction: mapTransaction(newTransaction.newTransaction),
+      updatedAccount: mapAccount(newTransaction.updatedAccount),
+    },
+  });
 });
 
 router.patch('/:id', authenticated, hasRole([ROLES.USER]), async (req, res) => {

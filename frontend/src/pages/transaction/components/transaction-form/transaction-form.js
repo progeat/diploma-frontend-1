@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -7,11 +8,12 @@ import Select from 'react-select';
 import { Button, Icon, Input } from '../../../../components';
 import { request } from '../../../../utils';
 import styled from 'styled-components';
+import { setAccountBalance } from '../../../../actions';
 
 const transactionFormSchema = yup.object().shape({
 	amount: yup.number().required('Введите сумму'),
-	category: yup.object({ value: yup.string() }).required('Выберите категорию'),
-	account: yup.object({ value: yup.string() }).required('Выберите счёт'),
+	categorySelected: yup.object({ value: yup.string() }).required('Выберите категорию'),
+	accountSelected: yup.object({ value: yup.string() }).required('Выберите счёт'),
 	comment: yup
 		.string()
 		.required('Введите комментарий')
@@ -34,6 +36,7 @@ const TransactionFormContainer = ({
 }) => {
 	const [serverError, setServerError] = useState(null);
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	const categoriesOptions = createSelectorOptions(categories);
 	const accountsOptions = createSelectorOptions(accounts);
@@ -56,21 +59,26 @@ const TransactionFormContainer = ({
 	} = useForm({
 		defaultValues: {
 			amount: transaction?.amount || 0,
-			category: categoriesOptions[indexSelectForCategory] || null,
-			account: accountsOptions[indexSelectForAccount] || null,
+			categorySelected: categoriesOptions[indexSelectForCategory] || null,
+			accountSelected: accountsOptions[indexSelectForAccount] || null,
 			comment: transaction?.comment || '',
 		},
 		resolver: yupResolver(transactionFormSchema),
 	});
 
-	const onSubmit = ({ amount, category, account, comment }) => {
+	const onSubmit = ({ amount, categorySelected, accountSelected, comment }) => {
+		const categoryType = categories.find(
+			(category) => category.id === categorySelected.value,
+		).type;
+
 		request(
 			`/transactions/${transactionId || ''}`,
 			`${transactionId ? 'PATCH' : 'POST'}`,
 			{
+				type: categoryType,
 				amount,
-				category: category.value,
-				account: account.value,
+				category: categorySelected.value,
+				account: accountSelected.value,
 				comment,
 			},
 		).then(({ error, data }) => {
@@ -79,6 +87,8 @@ const TransactionFormContainer = ({
 				return;
 			}
 
+			// TODO dispatch для счета
+			dispatch(setAccountBalance(accountSelected.value, data.updatedAccount));
 			console.log('resp', data);
 			if (!transactionId) {
 				reset();
@@ -101,7 +111,7 @@ const TransactionFormContainer = ({
 			/>
 			<div className="select-wrapper">
 				<Controller
-					name="category"
+					name="categorySelected"
 					control={control}
 					render={({ field }) => (
 						<Select
@@ -124,7 +134,7 @@ const TransactionFormContainer = ({
 			</div>
 			<div className="select-wrapper">
 				<Controller
-					name="account"
+					name="accountSelected"
 					control={control}
 					render={({ field }) => (
 						<Select
