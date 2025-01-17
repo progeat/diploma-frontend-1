@@ -85,14 +85,21 @@ router.post('/', authenticated, hasRole([ROLES.USER]), async (req, res) => {
 });
 
 router.patch('/:id', authenticated, hasRole([ROLES.USER]), async (req, res) => {
-  const updatedTransaction = await editTransaction(req.params.id, {
+  const oldTransaction = await editTransaction(req.params.id, {
     account: req.body.account,
     category: req.body.category,
     amount: req.body.amount,
     comment: req.body.comment,
   });
 
-  res.send({ data: mapTransaction(updatedTransaction) });
+  console.log('старая операция', oldTransaction.oldTransaction);
+
+  res.send({
+    data: {
+      oldTransaction: mapTransaction(oldTransaction.oldTransaction),
+      updatedAccount: mapAccount(oldTransaction.updatedAccount),
+    },
+  });
 });
 
 router.delete(

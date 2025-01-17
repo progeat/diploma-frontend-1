@@ -1,41 +1,47 @@
 const Transaction = require('../models/Transaction');
 const createFindOptions = require('../helpers/createFindOptions');
-const updatedAccountBalance = require('../helpers/updatedAccountBalance');
+const updateAccountBalance = require('../helpers/updateAccountBalance');
+const { TYPE_CATEGORY } = require('../constants/typeCategory');
 
 // add
 async function addTransaction(transaction) {
   const newTransaction = await Transaction.create(transaction);
 
-  const updatedAccount = await updatedAccountBalance(
-    transaction.account,
-    transaction.type,
-    transaction.amount
-  );
-
-  // const account = await Account.findById(transaction.account);
-
-  // if (transaction.type === TYPE_CATEGORY.INCOME) {
-  //   account.balance += transaction.amount;
-  // } else if (transaction.type === TYPE_CATEGORY.EXPENSE) {
-  //   account.balance -= transaction.amount;
-  // }
-
-  // await account.save();
+  const updatedAccount = await updateAccountBalance({
+    id: transaction.account,
+    type: transaction.type,
+    amount: transaction.amount,
+  });
 
   return { newTransaction, updatedAccount };
 }
 
 // edit
 async function editTransaction(id, transaction) {
-  const editedTransaction = await Transaction.findByIdAndUpdate(
-    id,
-    transaction,
-    {
-      returnDocument: 'after',
-    }
-  );
+  const oldTransaction = await Transaction.findByIdAndUpdate(id, transaction, {
+    new: true,
+  });
 
-  return editedTransaction;
+  if (!editTransaction) {
+    return { message: 'Операция не найдена' };
+  }
+
+  console.log('doc', oldTransaction._doc.amount);
+
+  const oldType = oldTransaction.type;
+  const oldAmount = oldTransaction.amount;
+
+  // const diff = oldType === TYPE_CATEGORY.INCOME ? -oldAmount : +oldAmount;
+
+  const updatedAccount = await updateAccountBalance({
+    id: transaction.account,
+    oldType,
+    type: transaction.type,
+    oldAmount,
+    amount: transaction.amount,
+  });
+
+  return { oldTransaction, updatedAccount };
 }
 
 // delete
