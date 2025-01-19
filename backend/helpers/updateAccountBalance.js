@@ -10,33 +10,36 @@ module.exports = async function ({
 }) {
   const account = await Account.findById(id);
 
-  switch (oldType) {
-    case oldType === TYPE_CATEGORY.INCOME: {
-      if (oldType !== type) {
-        account.balance -= oldAmount + amount;
-      } else {
-        account.balance = account.balance - oldAmount + amount;
+  if (oldType !== type || oldAmount !== amount) {
+    switch (oldType) {
+      case TYPE_CATEGORY.INCOME: {
+        console.log('run');
+        if (oldType !== type) {
+          account.balance -= oldAmount + amount;
+        } else {
+          console.log('balance prev', account.balance);
+          account.balance = account.balance - oldAmount + amount;
+          console.log('balance after', account.balance);
+        }
+        break;
       }
-      break;
+      case TYPE_CATEGORY.EXPENSE: {
+        if (oldType !== type) {
+          account.balance += oldAmount + amount;
+        } else {
+          account.balance = account.balance + oldAmount - amount;
+        }
+        break;
+      }
+      default:
+        if (type === TYPE_CATEGORY.INCOME) {
+          account.balance += amount;
+        } else if (type === TYPE_CATEGORY.EXPENSE) {
+          account.balance -= amount;
+        }
+        break;
     }
-    case oldType === TYPE_CATEGORY.EXPENSE: {
-      if (oldType !== type) {
-        account.balance += oldAmount + amount;
-      } else {
-        account.balance = account.balance + oldAmount - amount;
-      }
-      break;
-    }
-    default:
-      if (type === TYPE_CATEGORY.INCOME) {
-        account.balance += amount;
-      } else if (type === TYPE_CATEGORY.EXPENSE) {
-        account.balance -= amount;
-      }
-      break;
+
+    await account.save();
   }
-
-  await account.save();
-
-  return account;
 };

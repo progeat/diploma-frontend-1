@@ -7,45 +7,77 @@ const { TYPE_CATEGORY } = require('../constants/typeCategory');
 async function addTransaction(transaction) {
   const newTransaction = await Transaction.create(transaction);
 
-  const updatedAccount = await updateAccountBalance({
+  await updateAccountBalance({
     id: transaction.account,
     type: transaction.type,
     amount: transaction.amount,
   });
 
-  return { newTransaction, updatedAccount };
+  return { newTransaction };
 }
 
 // edit
 async function editTransaction(id, transaction) {
-  const oldTransaction = await Transaction.findByIdAndUpdate(id, transaction, {
-    new: true,
-  });
+  const oldTransaction = await Transaction.findByIdAndUpdate(id, transaction);
 
-  if (!editTransaction) {
+  if (!oldTransaction) {
     return { message: 'Операция не найдена' };
   }
 
-  console.log('doc', oldTransaction._doc.amount);
-
   const oldType = oldTransaction.type;
   const oldAmount = oldTransaction.amount;
+  const oldAccount = oldTransaction.account;
 
-  // const diff = oldType === TYPE_CATEGORY.INCOME ? -oldAmount : +oldAmount;
+  if (oldAccount !== transaction.account) {
+    // Восстанавливаем баланс старого счёта если изменился счёт в операции
+    await updateAccountBalance({
+      id: oldAccount,
+      oldType,
+      type:
+        oldType === TYPE_CATEGORY.INCOME
+          ? TYPE_CATEGORY.EXPENSE
+          : TYPE_CATEGORY.INCOME,
+      oldAmount,
+      amount: 0,
+    });
 
-  const updatedAccount = await updateAccountBalance({
-    id: transaction.account,
-    oldType,
-    type: transaction.type,
-    oldAmount,
-    amount: transaction.amount,
-  });
+    // Обновляем баланс счёта на который был изменен в операции
+    await updateAccountBalance({
+      id: transaction.account,
+      type: transaction.type,
+      amount: transaction.amount,
+    });
+  } else {
+    await updateAccountBalance({
+      id: transaction.account,
+      oldType,
+      type: transaction.type,
+      oldAmount,
+      amount: transaction.amount,
+    });
+  }
 
-  return { oldTransaction, updatedAccount };
+  return { oldTransaction };
 }
 
 // delete
-function deleteTransaction(id) {
+async function deleteTransaction(id) {
+  const transaction = await Transaction.findById(id).exec();
+
+  const { account, type, amount } = transaction;
+
+  // Восстанавливаем баланс счёта
+  await updateAccountBalance({
+    id: account,
+    oldType: type,
+    type:
+      type === TYPE_CATEGORY.INCOME
+        ? TYPE_CATEGORY.EXPENSE
+        : TYPE_CATEGORY.INCOME,
+    oldAmount: amount,
+    amount: 0,
+  });
+
   return Transaction.deleteOne({ _id: id });
 }
 

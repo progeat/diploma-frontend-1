@@ -7,8 +7,8 @@ import * as yup from 'yup';
 import Select from 'react-select';
 import { Button, Icon, Input } from '../../../../components';
 import { request } from '../../../../utils';
+import { updateAccounts } from '../../../../actions';
 import styled from 'styled-components';
-import { setAccountBalance } from '../../../../actions';
 
 const transactionFormSchema = yup.object().shape({
 	amount: yup.number().required('Введите сумму'),
@@ -87,9 +87,8 @@ const TransactionFormContainer = ({
 				return;
 			}
 
-			// TODO dispatch для счета
-			dispatch(setAccountBalance(accountSelected.value, data.updatedAccount));
 			console.log('resp', data);
+			dispatch(updateAccounts);
 			if (!transactionId) {
 				reset();
 			}

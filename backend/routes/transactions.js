@@ -79,25 +79,23 @@ router.post('/', authenticated, hasRole([ROLES.USER]), async (req, res) => {
   res.send({
     data: {
       newTransaction: mapTransaction(newTransaction.newTransaction),
-      updatedAccount: mapAccount(newTransaction.updatedAccount),
     },
   });
 });
 
 router.patch('/:id', authenticated, hasRole([ROLES.USER]), async (req, res) => {
+  // TODO реализовать возврат новой транзакции
   const oldTransaction = await editTransaction(req.params.id, {
+    type: req.body.type,
     account: req.body.account,
     category: req.body.category,
     amount: req.body.amount,
     comment: req.body.comment,
   });
 
-  console.log('старая операция', oldTransaction.oldTransaction);
-
   res.send({
     data: {
       oldTransaction: mapTransaction(oldTransaction.oldTransaction),
-      updatedAccount: mapAccount(oldTransaction.updatedAccount),
     },
   });
 });
@@ -107,7 +105,7 @@ router.delete(
   authenticated,
   hasRole([ROLES.USER]),
   async (req, res) => {
-    await deleteTransaction(req.params.id);
+    const deletedTransaction = await deleteTransaction(req.params.id);
 
     res.send({ error: null });
   }

@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '../../../../../../components';
 import styled from 'styled-components';
-import { CLOSE_MODAL, openModal } from '../../../../../../actions';
+import { CLOSE_MODAL, openModal, updateAccounts } from '../../../../../../actions';
 import { request } from '../../../../../../utils';
 
 const TransactionItemContainer = ({
@@ -24,6 +24,7 @@ const TransactionItemContainer = ({
 				text: 'Удалить операцию?',
 				onConfirm: () => {
 					request(`/transactions/${id}`, 'DELETE').then(() => {
+						dispatch(updateAccounts);
 						setTriggerFlag((prev) => !prev);
 					});
 

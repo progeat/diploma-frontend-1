@@ -9,7 +9,12 @@ export const accountsReducer = (state = initialAccountsState, { type, payload })
 		case ACTION_TYPE.SET_ACCOUNTS:
 			return {
 				...state,
-				accounts: [...state.accounts, ...payload],
+				accounts: [...payload],
+			};
+		case ACTION_TYPE.SET_ACCOUNT:
+			return {
+				...state,
+				accounts: [...state.accounts, payload],
 			};
 		case ACTION_TYPE.SET_ACCOUNT_BALANCE:
 			return {

@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Select from 'react-select';
 import { Button, Input } from '../../../../components';
 import { request } from '../../../../utils';
+import { setAccount } from '../../../../actions';
 import { GET_TYPE_ACCOUNT, TYPE_ACCOUNT } from '../../../../constants';
 import styled from 'styled-components';
 
@@ -32,6 +34,7 @@ const AccountsFormContainer = ({ className, accounts }) => {
 	const [serverError, setServerError] = useState(null);
 	const params = useParams();
 	const accountEditing = accounts.find((account) => account.id === params.id);
+	const dispatch = useDispatch();
 
 	const {
 		register,
@@ -62,7 +65,7 @@ const AccountsFormContainer = ({ className, accounts }) => {
 			console.log('resp', data);
 
 			// TODO отправить данные на стор
-			// dispatch(setAccount(data));
+			dispatch(setAccount(data));
 			if (!accountEditing) {
 				reset();
 			}
