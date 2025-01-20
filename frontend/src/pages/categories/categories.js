@@ -15,12 +15,13 @@ const categoryFormSchema = yup.object().shape({
 	type: yup.object({ value: yup.number() }).required('Выберите тип категории'),
 });
 
+// TODO сделать константу под категории
 const categoryTypeOptions = [
 	{ value: 0, label: 'Расход' },
 	{ value: 1, label: 'Доход' },
 ];
 
-// TODO доработать валидацию и вывод значения селекта
+// TODO доработать валидацию и вывод значения селектора, сделать универсальный компонент под создание и редактирование
 const CategoriesContainer = ({ className }) => {
 	const {
 		register,
@@ -47,6 +48,7 @@ const CategoriesContainer = ({ className }) => {
 					return;
 				}
 
+				// TODO при создании категории сохранять на стор
 				console.log('resp', category);
 				reset();
 			},
@@ -68,6 +70,7 @@ const CategoriesContainer = ({ className }) => {
 							onChange: () => setServerError(null),
 						})}
 					/>
+					{/* TODO подумать о реализации табом */}
 					<Controller
 						name="type"
 						control={control}
@@ -75,13 +78,17 @@ const CategoriesContainer = ({ className }) => {
 							<Select
 								{...field}
 								className="select"
+								classNamePrefix="select"
 								options={categoryTypeOptions}
-								// defaultValue={accountTypeOptions[0]}
 								placeholder="Выберите тип категории"
 							/>
 						)}
 					/>
-					<Button type="submit" disabled={!!formError}>
+					<Button
+						className="button-submit"
+						type="submit"
+						disabled={!!formError}
+					>
 						Отправить
 					</Button>
 					{errorMessage && <div className="error">{errorMessage}</div>}
@@ -91,18 +98,24 @@ const CategoriesContainer = ({ className }) => {
 	);
 };
 
+// TODO переименовать в Category
 export const Categories = styled(CategoriesContainer)`
 	display: flex;
 	justify-content: center;
 	align-items: center;
 
 	& .form-wrapper {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		width: 281px;
+		border-radius: 24px;
 		padding: 20px;
-		background-color: #ddd;
+		background-color: #2b2d32;
 	}
 
 	& .form {
@@ -121,5 +134,79 @@ export const Categories = styled(CategoriesContainer)`
 
 	& .error {
 		color: red;
+	}
+
+	& input {
+		margin-bottom: 10px;
+		border-radius: 8px;
+		border-color: #5e636f;
+		color: #f8f8f9;
+	}
+
+	& input:not(:first-child) {
+		margin-bottom: 20px;
+	}
+
+	& input:hover {
+		outline: 2px solid #f8f8f9;
+	}
+
+	& .select {
+		margin-bottom: 10px;
+		width: 100%;
+	}
+
+	& .select__control {
+		height: 40px;
+		border-radius: 8px;
+		border-color: #5e636f;
+	}
+
+	& .select__control,
+	.select__menu {
+		background-color: #2b2d32;
+	}
+
+	& .select__placeholder,
+	.select__single-value {
+		color: #f8f8f9;
+	}
+
+	& .select__control:hover {
+		border-color: #f8f8f9;
+		box-shadow: 0 0 0 1px #f8f8f9;
+	}
+
+	& .select__control--is-focused {
+		border-color: #f8f8f9;
+		box-shadow: 0 0 0 1px #f8f8f9;
+	}
+
+	& .select__menu {
+		z-index: 10;
+	}
+
+	& .select__option:hover,
+	.select__option--is-focused {
+		color: #2b2d32;
+		background-color: #f8f8f9;
+	}
+
+	& .select__option--is-selected {
+		color: #4d525f;
+		background-color: rgb(179, 179, 179);
+	}
+
+	& .button-submit {
+		height: 38px;
+		border: 1px solid #f8f8f9;
+		border-radius: 8px;
+		color: #f8f8f9;
+		background-color: #2b2d32;
+	}
+
+	& .button-submit:hover {
+		color: #000;
+		background-color: #f8f8f9;
 	}
 `;

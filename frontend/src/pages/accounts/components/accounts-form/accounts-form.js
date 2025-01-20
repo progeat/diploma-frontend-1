@@ -7,7 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import Select from 'react-select';
 import { Button, Input } from '../../../../components';
 import { request } from '../../../../utils';
-import { setAccount } from '../../../../actions';
+import { updateAccounts } from '../../../../actions';
 import { GET_TYPE_ACCOUNT, TYPE_ACCOUNT } from '../../../../constants';
 import styled from 'styled-components';
 
@@ -64,8 +64,7 @@ const AccountsFormContainer = ({ className, accounts }) => {
 
 			console.log('resp', data);
 
-			// TODO отправить данные на стор
-			dispatch(setAccount(data));
+			dispatch(updateAccounts);
 			if (!accountEditing) {
 				reset();
 			}
