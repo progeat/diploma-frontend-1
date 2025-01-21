@@ -49,7 +49,7 @@ const FinancesSectionContainer = ({ className }) => {
 			</div>
 			<div className="cards-wrapper">
 				<CardInfo title="Доходы" path="/transaction" value={statistics.income} />
-				<CardInfo title="Счета" path="/accounts" value={accounts} />
+				<CardInfo title="Счета" path="/account" value={accounts} />
 				<CardInfo
 					title="Расходы"
 					path="/transaction"

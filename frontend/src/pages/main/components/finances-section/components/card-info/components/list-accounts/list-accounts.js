@@ -24,7 +24,7 @@ const ListAccountsComponent = ({ className, value }) => {
 								top: '10px',
 							}}
 							size="18px"
-							onClick={() => navigate(`/accounts/${id}/edit`)}
+							onClick={() => navigate(`/account/${id}/edit`)}
 						/>
 					)}
 				</li>

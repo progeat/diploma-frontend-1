@@ -24,6 +24,8 @@ const HeaderContainer = ({ className }) => {
 			<div className="buttons">
 				<Link to="/">Главная</Link>
 				<Link to="/transactions">История</Link>
+				<Link to="/accounts">Счета</Link>
+				<Link to="/categories">Категории</Link>
 				<button onClick={() => navigate(-1)}>Назад</button>
 			</div>
 			<div className="login-control">

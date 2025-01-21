@@ -30,7 +30,7 @@ const accountTypeOptions = [
 ];
 
 // TODO поработать над ошибками
-const AccountsFormContainer = ({ className, accounts }) => {
+const AccountFormContainer = ({ className, accounts }) => {
 	const [serverError, setServerError] = useState(null);
 	const params = useParams();
 	const accountEditing = accounts.find((account) => account.id === params.id);
@@ -112,7 +112,7 @@ const AccountsFormContainer = ({ className, accounts }) => {
 	);
 };
 
-export const AccountsForm = styled(AccountsFormContainer)`
+export const AccountForm = styled(AccountFormContainer)`
 	display: flex;
 	flex-direction: column;
 

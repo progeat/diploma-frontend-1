@@ -128,7 +128,7 @@ const TransactionFormContainer = ({
 					id="fa-plus-circle"
 					style={{ position: 'absolute', right: '-27px', top: '5px' }}
 					margin="0"
-					onClick={() => navigate('/categories')}
+					onClick={() => navigate('/category')}
 				/>
 			</div>
 			<div className="select-wrapper">

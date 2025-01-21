@@ -2,9 +2,11 @@ import { useEffect, useLayoutEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {
+	Account,
 	Accounts,
 	Authorization,
 	Categories,
+	Category,
 	Main,
 	Personal,
 	Registration,
@@ -83,10 +85,10 @@ export const App = () => {
 					<Route path="/" element={<Main />} />
 					<Route path="/transaction" element={<Transaction />} />
 					<Route path="/transaction/:id/edit" element={<Transaction />} />
-					<Route path="/categories" element={<Categories />} />
-					<Route path="/accounts" element={<Accounts />} />
-					<Route path="/accounts/:id/edit" element={<Accounts />} />
 					<Route path="/transactions" element={<Transactions />} />
+					<Route path="/category" element={<Category />} />
+					<Route path="/account" element={<Account />} />
+					<Route path="/account/:id/edit" element={<Account />} />
 					<Route path="/personal" element={<Personal />} />
 					<Route path="/login" element={<Authorization />} />
 					<Route path="/register" element={<Registration />} />

@@ -12,7 +12,7 @@ const CardInfoContainer = ({ className, title, value, path }) => {
 				<h3 className="top-panel">{title}</h3>
 				<Icon id="fa-plus-circle" margin="0" onClick={() => navigate(path)} />
 			</div>
-			{path === '/accounts' ? (
+			{path === '/account' ? (
 				<ListAccounts value={value} />
 			) : (
 				<ListAnalytics value={value} />

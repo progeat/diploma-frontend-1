@@ -1,13 +1,12 @@
 import { useSelector } from 'react-redux';
 import { useMatch } from 'react-router-dom';
 import { Loader } from '../../components';
-import { AccountsForm } from './components';
+import { AccountForm } from './components';
 import { selectAccounts } from '../../selectors';
 import styled from 'styled-components';
 
-// TODO доработать валидацию и вывод значения селекта
-const AccountsContainer = ({ className }) => {
-	const isEditing = !!useMatch('/accounts/:id/edit');
+const AccountContainer = ({ className }) => {
+	const isEditing = !!useMatch('/account/:id/edit');
 	const accounts = useSelector(selectAccounts);
 
 	console.log('Accounts', accounts);
@@ -15,18 +14,18 @@ const AccountsContainer = ({ className }) => {
 	if (accounts.length === 0) {
 		return <Loader />;
 	}
-
+	// TODO продумать и сделать передачу в форму одного счёта
 	return (
 		<div className={className}>
 			<div className="form-wrapper">
 				<h2>{isEditing ? 'Редактирование счёта' : 'Новый счёт'}</h2>
-				<AccountsForm accounts={accounts} />
+				<AccountForm accounts={accounts} />
 			</div>
 		</div>
 	);
 };
 
-export const Accounts = styled(AccountsContainer)`
+export const Account = styled(AccountContainer)`
 	display: flex;
 	justify-content: center;
 	align-items: center;

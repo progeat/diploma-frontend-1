@@ -3,9 +3,9 @@ import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Select from 'react-select';
-import { Button, Input } from '../../components';
+import { Button, Input } from '../../../../components';
+import { request } from '../../../../utils';
 import styled from 'styled-components';
-import { request } from '../../utils';
 
 const categoryFormSchema = yup.object().shape({
 	name: yup
@@ -21,8 +21,7 @@ const categoryTypeOptions = [
 	{ value: 1, label: 'Доход' },
 ];
 
-// TODO доработать валидацию и вывод значения селектора, сделать универсальный компонент под создание и редактирование
-const CategoriesContainer = ({ className }) => {
+const CategoryFormContainer = ({ className }) => {
 	const {
 		register,
 		control,
@@ -59,71 +58,41 @@ const CategoriesContainer = ({ className }) => {
 	const errorMessage = formError || serverError;
 
 	return (
-		<div className={className}>
-			<div className="form-wrapper">
-				<h2>Новая категория</h2>
-				<form onSubmit={handleSubmit(onSubmit)}>
-					<Input
-						type="text"
-						placeholder="Название категории..."
-						{...register('name', {
-							onChange: () => setServerError(null),
-						})}
+		<form className={className} onSubmit={handleSubmit(onSubmit)}>
+			<Input
+				type="text"
+				placeholder="Название категории..."
+				{...register('name', {
+					onChange: () => setServerError(null),
+				})}
+			/>
+			{/* TODO подумать о реализации табом */}
+			<Controller
+				name="type"
+				control={control}
+				render={({ field }) => (
+					<Select
+						{...field}
+						className="select"
+						classNamePrefix="select"
+						options={categoryTypeOptions}
+						placeholder="Выберите тип категории"
 					/>
-					{/* TODO подумать о реализации табом */}
-					<Controller
-						name="type"
-						control={control}
-						render={({ field }) => (
-							<Select
-								{...field}
-								className="select"
-								classNamePrefix="select"
-								options={categoryTypeOptions}
-								placeholder="Выберите тип категории"
-							/>
-						)}
-					/>
-					<Button
-						className="button-submit"
-						type="submit"
-						disabled={!!formError}
-					>
-						Отправить
-					</Button>
-					{errorMessage && <div className="error">{errorMessage}</div>}
-				</form>
-			</div>
-		</div>
+				)}
+			/>
+			<Button className="button-submit" type="submit" disabled={!!formError}>
+				Отправить
+			</Button>
+			{errorMessage && <div className="error">{errorMessage}</div>}
+		</form>
 	);
 };
 
-// TODO переименовать в Category
-export const Categories = styled(CategoriesContainer)`
+export const CategoryForm = styled(CategoryFormContainer)`
 	display: flex;
-	justify-content: center;
-	align-items: center;
+	flex-direction: column;
 
-	& .form-wrapper {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		width: 281px;
-		border-radius: 24px;
-		padding: 20px;
-		background-color: #2b2d32;
-	}
-
-	& .form {
-		display: flex;
-		flex-direction: column;
-	}
-
-	& .form input {
+	& input {
 		margin-bottom: 10px;
 	}
 
