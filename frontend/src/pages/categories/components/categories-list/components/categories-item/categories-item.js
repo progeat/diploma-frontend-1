@@ -1,7 +1,13 @@
 import styled from 'styled-components';
 
-const CategoriesItemContainer = ({ className }) => {
-	return <li>Категория</li>;
+const CategoriesItemContainer = ({ className, category }) => {
+	console.log('category', category);
+
+	return (
+		<li className={className}>
+			<div>{category.name}</div>
+		</li>
+	);
 };
 
 export const CategoriesItem = styled(CategoriesItemContainer)`
