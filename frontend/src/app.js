@@ -87,6 +87,7 @@ export const App = () => {
 					<Route path="/transaction/:id/edit" element={<Transaction />} />
 					<Route path="/transactions" element={<Transactions />} />
 					<Route path="/category" element={<Category />} />
+					<Route path="/categories" element={<Categories />} />
 					<Route path="/account" element={<Account />} />
 					<Route path="/account/:id/edit" element={<Account />} />
 					<Route path="/personal" element={<Personal />} />
