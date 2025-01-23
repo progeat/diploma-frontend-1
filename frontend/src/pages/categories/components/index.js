@@ -1,1 +1,1 @@
-export * from './categories-list/categories-list';
+export * from './categories-wrapper/categories-wrapper';

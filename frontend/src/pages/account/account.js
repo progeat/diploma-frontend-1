@@ -11,6 +11,7 @@ const AccountContainer = ({ className }) => {
 
 	console.log('Accounts', accounts);
 
+	// TODO зависимость загрузки сделать через состояние
 	if (accounts.length === 0) {
 		return <Loader />;
 	}

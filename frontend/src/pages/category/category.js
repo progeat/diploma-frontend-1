@@ -1,12 +1,18 @@
+import { useMatch } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { CategoryForm } from './components';
+import { selectCategories } from '../../selectors';
 import styled from 'styled-components';
 
 const CategoryContainer = ({ className }) => {
+	const isEditing = !!useMatch('/transaction/:id/edit');
+	const categories = useSelector(selectCategories);
+
 	return (
 		<div className={className}>
 			<div className="form-wrapper">
-				<h2>Новая категория</h2>
-				<CategoryForm />
+				<h2>{isEditing ? 'Редактирование категории' : 'Новая категория'}</h2>
+				<CategoryForm categories={categories} />
 			</div>
 		</div>
 	);
