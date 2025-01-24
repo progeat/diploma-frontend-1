@@ -9,8 +9,6 @@ const AccountContainer = ({ className }) => {
 	const isEditing = !!useMatch('/account/:id/edit');
 	const accounts = useSelector(selectAccounts);
 
-	console.log('Accounts', accounts);
-
 	// TODO зависимость загрузки сделать через состояние
 	if (accounts.length === 0) {
 		return <Loader />;

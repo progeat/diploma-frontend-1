@@ -40,7 +40,7 @@ const TransactionItemContainer = ({
 		<div className={className}>
 			<div className="item-column">
 				<div className="item-icon">
-					<Icon id="fa-cutlery" margin="0" size="20px" color="#f8f8f9" />
+					<Icon id={category.icon} margin="0" size="20px" color="#f8f8f9" />
 				</div>
 				<div className="item-info">
 					<div>{category.name}</div>
@@ -84,6 +84,7 @@ export const TransactionItem = styled(TransactionItemContainer)`
 
 	& .item-amount {
 		margin-right: 15px;
+		color: ${({ category }) => (category.type ? '#7bcb82' : '#f8f8f9')};
 	}
 
 	& .item-icon {
@@ -95,7 +96,7 @@ export const TransactionItem = styled(TransactionItemContainer)`
 		width: 40px;
 		height: 40px;
 		color: #fff;
-		background-color: #64cfa8;
+		background-color: ${({ category }) => category.color};
 	}
 
 	& .item-control {

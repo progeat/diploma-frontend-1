@@ -31,6 +31,8 @@ router.post('/', authenticated, hasRole([ROLES.USER]), async (req, res) => {
   const newCategory = await addCategory({
     name: req.body.name,
     type: req.body.type,
+    icon: req.body.icon,
+    color: req.body.color,
   });
 
   res.send({ data: mapCategory(newCategory) });
@@ -40,6 +42,8 @@ router.patch('/:id', authenticated, hasRole([ROLES.USER]), async (req, res) => {
   const updatedCategory = await editCategory(req.params.id, {
     name: req.body.name,
     type: req.body.type,
+    icon: req.body.icon,
+    color: req.body.color,
   });
 
   res.send({ data: mapCategory(updatedCategory) });

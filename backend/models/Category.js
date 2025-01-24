@@ -10,6 +10,14 @@ const CategorySchema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    icon: {
+      type: String,
+      required: true,
+    },
+    color: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

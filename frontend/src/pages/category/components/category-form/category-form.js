@@ -1,9 +1,12 @@
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import Select from 'react-select';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import Select from 'react-select';
-import { Button, Input } from '../../../../components';
+import { Button, Icon, Input } from '../../../../components';
+import { updateCategories } from '../../../../actions';
 import { request } from '../../../../utils';
 import styled from 'styled-components';
 
@@ -13,6 +16,8 @@ const categoryFormSchema = yup.object().shape({
 		.required('Заполните название')
 		.min(3, 'Неверно заполнено название. Минимум 3 символа'),
 	type: yup.object({ value: yup.number() }).required('Выберите тип категории'),
+	icon: yup.object({ value: yup.string() }).required('Выберите иконку'),
+	color: yup.string().required('Выберите цвет для иконки'),
 });
 
 // TODO сделать константу под категории
@@ -21,7 +26,44 @@ const categoryTypeOptions = [
 	{ value: 1, label: 'Доход' },
 ];
 
-const CategoryFormContainer = ({ className }) => {
+const iconsOptions = [
+	{ value: 'fa fa-shopping-basket', label: 'Магазины' },
+	{ value: 'fa fa-cutlery', label: 'Кафе и рестораны' },
+	{ value: 'fa fa-car', label: 'Автомобиль' },
+	{ value: 'fa fa-home', label: 'Жильё' },
+	{ value: 'fa fa-shopping-bag', label: 'Одежда' },
+	{ value: 'fa fa-gamepad', label: 'Развлечения' },
+	{ value: 'fa fa-heartbeat', label: 'Аптеки' },
+	{ value: 'fa fa-taxi', label: 'Такси' },
+	{ value: 'fa fa-exchange', label: 'Перевод' },
+	{ value: 'fa fa-money', label: 'Зарплата' },
+	{ value: 'fa fa-plane', label: 'Путешествия' },
+	{ value: 'fa fa-handshake-o', label: 'Подработка' },
+];
+
+// TODO вынести в компоненты
+const FormatOptionLabel = ({ value, label }) => {
+	return (
+		<article className="icon-option">
+			<Icon
+				color="#fff"
+				inactive="true"
+				id={value}
+				size="18px"
+				margin="0 10px 0 0"
+				onClick={() => {}}
+			/>
+			<div>{label}</div>
+		</article>
+	);
+};
+
+const CategoryFormContainer = ({ className, categories }) => {
+	const [serverError, setServerError] = useState(null);
+	const params = useParams();
+	const categoryEditing = categories.find((category) => category.id === params.id);
+	const dispatch = useDispatch();
+
 	const {
 		register,
 		control,
@@ -30,28 +72,34 @@ const CategoryFormContainer = ({ className }) => {
 		formState: { errors },
 	} = useForm({
 		defaultValues: {
-			name: '',
-			type: categoryTypeOptions[0],
-			balance: 0,
+			name: categoryEditing?.name || '',
+			type: categoryTypeOptions[categoryEditing?.type] || categoryTypeOptions[0],
+			icon: categoryEditing?.icon || null,
+			color: categoryEditing?.color || '#78D9C5',
 		},
 		resolver: yupResolver(categoryFormSchema),
 	});
 
-	const [serverError, setServerError] = useState(null);
+	// TODO обработать ошибку сервера
+	const onSubmit = ({ name, type, icon, color }) => {
+		request(`/categories/${params.id || ''}`, `${params.id ? 'PATCH' : 'POST'}`, {
+			name,
+			type: type.value,
+			icon: icon.value,
+			color,
+		}).then(({ error, data }) => {
+			if (error) {
+				setServerError(`Ошибка запроса: ${error}`);
+				return;
+			}
 
-	const onSubmit = ({ name, type }) => {
-		request('/categories', 'POST', { name, type: type.value }).then(
-			({ error, category }) => {
-				if (error) {
-					setServerError(`Ошибка запроса: ${error}`);
-					return;
-				}
+			console.log('resp', data);
 
-				// TODO при создании категории сохранять на стор
-				console.log('resp', category);
+			dispatch(updateCategories);
+			if (!categoryEditing) {
 				reset();
-			},
-		);
+			}
+		});
 	};
 
 	const formError = errors?.name?.message || errors?.type?.message;
@@ -79,6 +127,27 @@ const CategoryFormContainer = ({ className }) => {
 						placeholder="Выберите тип категории"
 					/>
 				)}
+			/>
+			<Controller
+				name="icon"
+				control={control}
+				render={({ field }) => (
+					<Select
+						{...field}
+						className="select"
+						classNamePrefix="select"
+						options={iconsOptions}
+						formatOptionLabel={FormatOptionLabel}
+						placeholder="Выберите иконку"
+					/>
+				)}
+			/>
+			<Input
+				type="color"
+				placeholder="Выберите цвет..."
+				{...register('color', {
+					onChange: () => setServerError(null),
+				})}
 			/>
 			<Button className="button-submit" type="submit" disabled={!!formError}>
 				Отправить
@@ -164,6 +233,11 @@ export const CategoryForm = styled(CategoryFormContainer)`
 	& .select__option--is-selected {
 		color: #4d525f;
 		background-color: rgb(179, 179, 179);
+	}
+
+	& .icon-option,
+	icon-single-value {
+		display: flex;
 	}
 
 	& .button-submit {

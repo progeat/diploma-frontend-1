@@ -12,9 +12,7 @@ import styled from 'styled-components';
 const CategoriesItemContainer = ({ className, category }) => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const { id, name } = category;
-
-	console.log('category', category);
+	const { id, name, icon = 'fa fa-question', color = 'pink' } = category;
 
 	const onCategoryRemove = (id) => {
 		dispatch(
@@ -34,8 +32,8 @@ const CategoriesItemContainer = ({ className, category }) => {
 
 	return (
 		<li className={className}>
-			<div className="item-icon">
-				<Icon id="fa-cutlery" margin="0" size="15px" color="#f8f8f9" />
+			<div className="item-icon" color={color}>
+				<Icon id={icon} margin="0" size="15px" color="#f8f8f9" />
 			</div>
 			<div className="item-title">{name}</div>
 			<div className="item-control">
@@ -69,7 +67,7 @@ export const CategoriesItem = styled(CategoriesItemContainer)`
 		width: 30px;
 		height: 30px;
 		color: #fff;
-		background-color: #64cfa8;
+		background-color: ${({ category }) => (category.color ? category.color : 'pink')};
 	}
 
 	& .item-title {

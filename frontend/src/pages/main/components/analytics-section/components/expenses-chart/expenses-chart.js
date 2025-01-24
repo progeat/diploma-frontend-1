@@ -4,13 +4,15 @@ import { Doughnut } from 'react-chartjs-2';
 Chart.register(ArcElement);
 
 export const ExpensesChart = ({ expenses }) => {
+	console.log(expenses);
+
 	const data = {
 		labels: expenses.map(({ category }) => category),
 		datasets: [
 			{
 				label: 'Расходы',
 				data: expenses.map(({ total }) => total),
-				backgroundColor: ['#4FD1C5', '#E9D8FD', '#FC8181', '#f3ba2f'],
+				backgroundColor: expenses.map(({ color }) => color),
 				borderColor: '#141414',
 			},
 		],

@@ -9,6 +9,9 @@ module.exports = async function (transactions) {
         (category) => category.id === transaction.category.toString()
       );
 
+      // TODO тестирование на отсутствие категории
+      if (!category) return;
+
       if (category.type === 0) {
         if (acc.expenses?.[transaction.category]) {
           acc.expenses[transaction.category].count += 1;
@@ -20,6 +23,7 @@ module.exports = async function (transactions) {
         acc.expenses[transaction.category] = {
           id: category.id,
           category: category.name,
+          color: category.color,
           count: 1,
           total: transaction.amount,
         };
@@ -36,6 +40,7 @@ module.exports = async function (transactions) {
         acc.income[transaction.category] = {
           id: category.id,
           category: category.name,
+          color: category.color,
           count: 1,
           total: transaction.amount,
         };

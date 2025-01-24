@@ -9,7 +9,7 @@ export const categoriesReducer = (state = initialCategoriesState, { type, payloa
 		case ACTION_TYPE.SET_CATEGORIES:
 			return {
 				...state,
-				categories: [...state.categories, ...payload],
+				categories: [...payload],
 			};
 		default:
 			return state;

@@ -10,7 +10,7 @@ export const IncomeChart = ({ income }) => {
 			{
 				label: 'Доходы',
 				data: income.map(({ total }) => total),
-				backgroundColor: ['#4FD1C5', '#E9D8FD', '#FC8181', '#f3ba2f'],
+				backgroundColor: income.map(({ color }) => color),
 				borderColor: '#141414',
 			},
 		],
