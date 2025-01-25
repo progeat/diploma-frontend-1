@@ -13,7 +13,7 @@ import {
 	Transaction,
 	Transactions,
 } from './pages';
-import { Header, Loader, Modal } from './components';
+import { AuthMiddleWare, Header, Loader, Modal } from './components';
 import { setAccounts, setCategories, setUser } from './actions';
 import { request } from './utils';
 import styled from 'styled-components';
@@ -82,18 +82,20 @@ export const App = () => {
 			<Header />
 			<Page>
 				<Routes>
-					<Route path="/" element={<Main />} />
-					<Route path="/transaction" element={<Transaction />} />
-					<Route path="/transaction/:id/edit" element={<Transaction />} />
-					<Route path="/transactions" element={<Transactions />} />
-					<Route path="/category" element={<Category />} />
-					<Route path="/category/:id/edit" element={<Category />} />
-					<Route path="/categories" element={<Categories />} />
-					<Route path="/account" element={<Account />} />
-					<Route path="/account/:id/edit" element={<Account />} />
-					<Route path="/personal" element={<Personal />} />
 					<Route path="/login" element={<Authorization />} />
 					<Route path="/register" element={<Registration />} />
+					<Route element={<AuthMiddleWare />}>
+						<Route path="/" element={<Main />} />
+						<Route path="/transaction" element={<Transaction />} />
+						<Route path="/transaction/:id/edit" element={<Transaction />} />
+						<Route path="/transactions" element={<Transactions />} />
+						<Route path="/category" element={<Category />} />
+						<Route path="/category/:id/edit" element={<Category />} />
+						<Route path="/categories" element={<Categories />} />
+						<Route path="/account" element={<Account />} />
+						<Route path="/account/:id/edit" element={<Account />} />
+						<Route path="/personal" element={<Personal />} />
+					</Route>
 					<Route path="*" element={<div>Ошибка</div>} />
 				</Routes>
 			</Page>

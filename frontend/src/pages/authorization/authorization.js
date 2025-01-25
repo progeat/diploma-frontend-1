@@ -143,16 +143,12 @@ export const Authorization = styled(AuthorizationContainer)`
 		color: #f8f8f9;
 	}
 
-	// TODO разобраться почему не отрабатывает last-child
-	& form input:last-child {
-		margin-bottom: 20px;
-	}
-
 	& form input:hover {
 		outline: 2px solid #f8f8f9;
 	}
 
 	& .button-submit {
+		margin-bottom: 10px;
 		height: 38px;
 		border: 1px solid #f8f8f9;
 		border-radius: 8px;

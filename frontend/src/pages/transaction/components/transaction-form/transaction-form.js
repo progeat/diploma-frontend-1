@@ -7,7 +7,7 @@ import * as yup from 'yup';
 import Select from 'react-select';
 import { Button, Icon, Input } from '../../../../components';
 import { request } from '../../../../utils';
-import { updateAccounts } from '../../../../actions';
+import { CLOSE_MODAL, openModal, updateAccounts } from '../../../../actions';
 import styled from 'styled-components';
 
 const transactionFormSchema = yup.object().shape({
@@ -95,6 +95,22 @@ const TransactionFormContainer = ({
 		});
 	};
 
+	const onDeleteTransaction = (id) => {
+		dispatch(
+			openModal({
+				text: 'Удалить операцию?',
+				onConfirm: () => {
+					request(`/transactions/${id}`, 'DELETE').then(() => {
+						dispatch(updateAccounts);
+					});
+
+					dispatch(CLOSE_MODAL);
+				},
+				onCancel: () => dispatch(CLOSE_MODAL),
+			}),
+		);
+	};
+
 	const formError =
 		errors?.name?.message || errors?.type?.message || errors?.balance?.message;
 	const errorMessage = formError || serverError;
@@ -165,6 +181,15 @@ const TransactionFormContainer = ({
 				Отправить
 			</Button>
 			{errorMessage && <div className="error">{errorMessage}</div>}
+			{transactionId && (
+				<button
+					className="delete-button"
+					type="button"
+					onClick={() => onDeleteTransaction(transactionId)}
+				>
+					Удалить операцию
+				</button>
+			)}
 		</form>
 	);
 };
@@ -254,6 +279,7 @@ export const TransactionForm = styled(TransactionFormContainer)`
 	// }
 
 	& .button-submit {
+		margin-bottom: 10px;
 		height: 38px;
 		border: 1px solid #f8f8f9;
 		border-radius: 8px;
@@ -268,5 +294,18 @@ export const TransactionForm = styled(TransactionFormContainer)`
 
 	& .error {
 		color: red;
+	}
+
+	& .delete-button {
+		text-align: left;
+		width: max-content;
+		border: 0;
+		color: rgb(156, 156, 156);
+		background-color: inherit;
+		cursor: pointer;
+	}
+
+	& .delete-button:hover {
+		color: #f8f8f9;
 	}
 `;

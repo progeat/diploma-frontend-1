@@ -1,3 +1,4 @@
+export * from './auth-middleware/auth-middleware';
 export * from './header/header';
 export * from './button/button';
 export * from './input/input';

@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../button/button';
+import { Icon } from '../icon/icon';
 import { LOGOUT } from '../../actions';
 import { selectUserLogin, selectUserRole } from '../../selectors';
 import { ROLE } from '../../constants';
 import styled from 'styled-components';
-import { Icon } from '../icon/icon';
 
 const HeaderContainer = ({ className }) => {
 	const navigate = useNavigate();

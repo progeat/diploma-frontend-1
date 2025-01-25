@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import Select from 'react-select';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import Select from 'react-select';
 import { Button, Input } from '../../../../components';
 import { request } from '../../../../utils';
-import { updateAccounts } from '../../../../actions';
+import { CLOSE_MODAL, openModal, updateAccounts } from '../../../../actions';
 import { GET_TYPE_ACCOUNT, TYPE_ACCOUNT } from '../../../../constants';
 import styled from 'styled-components';
 
@@ -33,7 +33,7 @@ const accountTypeOptions = [
 const AccountFormContainer = ({ className, accounts }) => {
 	const [serverError, setServerError] = useState(null);
 	const params = useParams();
-	const accountEditing = accounts.find((account) => account.id === params.id);
+	const isEditing = accounts.find((account) => account.id === params.id);
 	const dispatch = useDispatch();
 
 	const {
@@ -44,9 +44,9 @@ const AccountFormContainer = ({ className, accounts }) => {
 		formState: { errors },
 	} = useForm({
 		defaultValues: {
-			name: accountEditing?.name || '',
-			type: accountTypeOptions[accountEditing?.type] || accountTypeOptions[0],
-			balance: accountEditing?.balance || 0,
+			name: isEditing?.name || '',
+			type: accountTypeOptions[isEditing?.type] || accountTypeOptions[0],
+			balance: isEditing?.balance || 0,
 		},
 		resolver: yupResolver(accountFormSchema),
 	});
@@ -65,10 +65,26 @@ const AccountFormContainer = ({ className, accounts }) => {
 			console.log('resp', data);
 
 			dispatch(updateAccounts);
-			if (!accountEditing) {
+			if (!isEditing) {
 				reset();
 			}
 		});
+	};
+
+	const onDeleteAccount = (id) => {
+		dispatch(
+			openModal({
+				text: 'Удалить счёт?',
+				onConfirm: () => {
+					request(`/accounts/${id}`, 'DELETE').then(() => {
+						dispatch(updateAccounts);
+					});
+
+					dispatch(CLOSE_MODAL);
+				},
+				onCancel: () => dispatch(CLOSE_MODAL),
+			}),
+		);
 	};
 
 	const formError =
@@ -108,6 +124,15 @@ const AccountFormContainer = ({ className, accounts }) => {
 				Отправить
 			</Button>
 			{errorMessage && <div className="error">{errorMessage}</div>}
+			{isEditing && (
+				<button
+					className="delete-button"
+					type="button"
+					onClick={() => onDeleteAccount(params.id)}
+				>
+					Удалить счёт
+				</button>
+			)}
 		</form>
 	);
 };
@@ -178,6 +203,7 @@ export const AccountForm = styled(AccountFormContainer)`
 	}
 
 	& .button-submit {
+		margin-bottom: 10px;
 		height: 38px;
 		border: 1px solid #f8f8f9;
 		border-radius: 8px;
@@ -188,5 +214,18 @@ export const AccountForm = styled(AccountFormContainer)`
 	& .button-submit:hover {
 		color: #000;
 		background-color: #f8f8f9;
+	}
+
+	& .delete-button {
+		text-align: left;
+		width: max-content;
+		border: 0;
+		color: rgb(156, 156, 156);
+		background-color: inherit;
+		cursor: pointer;
+	}
+
+	& .delete-button:hover {
+		color: #f8f8f9;
 	}
 `;

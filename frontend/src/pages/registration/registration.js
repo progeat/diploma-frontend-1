@@ -103,7 +103,9 @@ const RegistrationContainer = ({ className }) => {
 							onChange: () => setServerError(null),
 						})}
 					/>
-					<Button type="submit">Отправить</Button>
+					<Button className="button-submit" type="submit">
+						Отправить
+					</Button>
 					{errorMessage && <AuthFormError>{errorMessage}</AuthFormError>}
 				</form>
 			</div>
@@ -112,18 +114,22 @@ const RegistrationContainer = ({ className }) => {
 };
 
 export const Registration = styled(RegistrationContainer)`
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 100%;
 
 	& .form-wrapper {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		width: 281px;
+		border-radius: 24px;
 		padding: 20px;
-		background-color: #ddd;
+		background-color: #2b2d32;
 	}
 
 	& .form {
@@ -131,7 +137,27 @@ export const Registration = styled(RegistrationContainer)`
 		flex-direction: column;
 	}
 
-	& .form input {
+	& form input {
 		margin-bottom: 10px;
+		border-radius: 8px;
+		border-color: #5e636f;
+		color: #f8f8f9;
+	}
+
+	& form input:hover {
+		outline: 2px solid #f8f8f9;
+	}
+
+	& .button-submit {
+		height: 38px;
+		border: 1px solid #f8f8f9;
+		border-radius: 8px;
+		color: #f8f8f9;
+		background-color: #2b2d32;
+	}
+
+	& .button-submit:hover {
+		color: #000;
+		background-color: #f8f8f9;
 	}
 `;

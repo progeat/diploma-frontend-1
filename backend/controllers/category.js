@@ -1,4 +1,5 @@
 const Category = require('../models/Category');
+const Transaction = require('../models/Transaction');
 
 // add
 async function addCategory(category) {
@@ -17,7 +18,9 @@ async function editCategory(id, category) {
 }
 
 // delete
-function deleteCategory(id) {
+async function deleteCategory(id) {
+  await Transaction.deleteMany({ category: id });
+
   return Category.deleteOne({ _id: id });
 }
 

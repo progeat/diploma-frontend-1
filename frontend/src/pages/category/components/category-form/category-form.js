@@ -6,7 +6,7 @@ import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Icon, Input } from '../../../../components';
-import { updateCategories } from '../../../../actions';
+import { CLOSE_MODAL, openModal, updateCategories } from '../../../../actions';
 import { request } from '../../../../utils';
 import styled from 'styled-components';
 
@@ -61,7 +61,7 @@ const FormatOptionLabel = ({ value, label }) => {
 const CategoryFormContainer = ({ className, categories }) => {
 	const [serverError, setServerError] = useState(null);
 	const params = useParams();
-	const categoryEditing = categories.find((category) => category.id === params.id);
+	const isEditing = categories.find((category) => category.id === params.id);
 	const dispatch = useDispatch();
 
 	const {
@@ -72,10 +72,10 @@ const CategoryFormContainer = ({ className, categories }) => {
 		formState: { errors },
 	} = useForm({
 		defaultValues: {
-			name: categoryEditing?.name || '',
-			type: categoryTypeOptions[categoryEditing?.type] || categoryTypeOptions[0],
-			icon: categoryEditing?.icon || null,
-			color: categoryEditing?.color || '#78D9C5',
+			name: isEditing?.name || '',
+			type: categoryTypeOptions[isEditing?.type] || categoryTypeOptions[0],
+			icon: isEditing?.icon || null,
+			color: isEditing?.color || '#78D9C5',
 		},
 		resolver: yupResolver(categoryFormSchema),
 	});
@@ -96,10 +96,26 @@ const CategoryFormContainer = ({ className, categories }) => {
 			console.log('resp', data);
 
 			dispatch(updateCategories);
-			if (!categoryEditing) {
+			if (!isEditing) {
 				reset();
 			}
 		});
+	};
+
+	const onDeleteCategory = (id) => {
+		dispatch(
+			openModal({
+				text: 'Удалить категорию?',
+				onConfirm: () => {
+					request(`/categories/${id}`, 'DELETE').then(() => {
+						dispatch(updateCategories);
+					});
+
+					dispatch(CLOSE_MODAL);
+				},
+				onCancel: () => dispatch(CLOSE_MODAL),
+			}),
+		);
 	};
 
 	const formError = errors?.name?.message || errors?.type?.message;
@@ -153,6 +169,15 @@ const CategoryFormContainer = ({ className, categories }) => {
 				Отправить
 			</Button>
 			{errorMessage && <div className="error">{errorMessage}</div>}
+			{isEditing && (
+				<button
+					className="delete-button"
+					type="button"
+					onClick={() => onDeleteCategory(params.id)}
+				>
+					Удалить счёт
+				</button>
+			)}
 		</form>
 	);
 };
@@ -241,6 +266,7 @@ export const CategoryForm = styled(CategoryFormContainer)`
 	}
 
 	& .button-submit {
+		margin-bottom: 10px;
 		height: 38px;
 		border: 1px solid #f8f8f9;
 		border-radius: 8px;
@@ -251,5 +277,18 @@ export const CategoryForm = styled(CategoryFormContainer)`
 	& .button-submit:hover {
 		color: #000;
 		background-color: #f8f8f9;
+	}
+
+	& .delete-button {
+		text-align: left;
+		width: max-content;
+		border: 0;
+		color: rgb(156, 156, 156);
+		background-color: inherit;
+		cursor: pointer;
+	}
+
+	& .delete-button:hover {
+		color: #f8f8f9;
 	}
 `;

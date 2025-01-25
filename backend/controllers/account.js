@@ -1,4 +1,5 @@
 const Account = require('../models/Account');
+const Transaction = require('../models/Transaction');
 
 // add
 async function addAccount(account) {
@@ -17,7 +18,9 @@ async function editAccount(id, account) {
 }
 
 // delete
-function deleteAccount(id) {
+async function deleteAccount(id) {
+  await Transaction.deleteMany({ account: id });
+
   return Account.deleteOne({ _id: id });
 }
 
@@ -25,7 +28,7 @@ function deleteAccount(id) {
 async function getAccounts() {
   const accounts = await Account.find();
 
-  return accounts.sort((a, b) => b.balance - a.balance)
+  return accounts.sort((a, b) => b.balance - a.balance);
 }
 
 // get item
