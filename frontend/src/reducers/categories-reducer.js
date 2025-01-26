@@ -11,6 +11,8 @@ export const categoriesReducer = (state = initialCategoriesState, { type, payloa
 				...state,
 				categories: [...payload],
 			};
+		case ACTION_TYPE.RESET_CATEGORIES:
+			return initialCategoriesState;
 		default:
 			return state;
 	}

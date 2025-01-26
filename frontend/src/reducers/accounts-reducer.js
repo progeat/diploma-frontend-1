@@ -23,6 +23,8 @@ export const accountsReducer = (state = initialAccountsState, { type, payload })
 					account.id === payload.id ? payload.account : account,
 				),
 			};
+		case ACTION_TYPE.RESET_ACCOUNTS:
+			return initialAccountsState;
 		default:
 			return state;
 	}

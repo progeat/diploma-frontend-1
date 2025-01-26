@@ -2,6 +2,7 @@ const Account = require('../models/Account');
 const { TYPE_CATEGORY } = require('../constants/typeCategory');
 
 module.exports = async function ({
+  user,
   id,
   type,
   amount,
@@ -9,6 +10,10 @@ module.exports = async function ({
   oldAmount = 0,
 }) {
   const account = await Account.findById(id);
+
+  if (user !== account.user.toString()) {
+    throw new Error('Account access error');
+  }
 
   if (oldType !== type || oldAmount !== amount) {
     switch (oldType) {

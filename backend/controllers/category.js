@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Category = require('../models/Category');
 const Transaction = require('../models/Transaction');
 
@@ -9,29 +10,63 @@ async function addCategory(category) {
 }
 
 // edit
-async function editCategory(id, category) {
-  const newCategory = await Category.findByIdAndUpdate(id, category, {
+async function editCategory(user, id, categoryData) {
+  const category = await Category.findById(id);
+
+  if (!category) {
+    throw new Error('Category not found');
+  }
+
+  if (user !== category.user.toString()) {
+    throw new Error('Category access error');
+  }
+
+  const updatedCategory = await Category.findByIdAndUpdate(id, categoryData, {
     returnDocument: 'after',
   });
 
-  return newCategory;
+  return updatedCategory;
 }
 
 // delete
-async function deleteCategory(id) {
+async function deleteCategory(user, id) {
+  const category = await Category.findById(id);
+
+  if (!category) {
+    throw new Error('Category not found');
+  }
+
+  if (user !== category.user.toString()) {
+    throw new Error('Category access error');
+  }
+
   await Transaction.deleteMany({ category: id });
 
   return Category.deleteOne({ _id: id });
 }
 
 // get list with search and pagination
-async function getCategories() {
-  return Category.find();
+async function getCategories(user) {
+  const userObjectId = new mongoose.Types.ObjectId(user);
+
+  const categories = await Category.find({ user: { $in: userObjectId } });
+
+  return categories;
 }
 
 // get item
-function getCategory(id) {
-  return Category.findById(id);
+async function getCategory(user, id) {
+  const category = await Category.findById(id);
+
+  if (!category) {
+    throw new Error('Category not found');
+  }
+
+  if (user !== category.user.toString()) {
+    throw new Error('Category access error');
+  }
+
+  return category;
 }
 
 module.exports = {

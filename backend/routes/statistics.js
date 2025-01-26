@@ -7,9 +7,10 @@ const ROLES = require('../constants/roles.js');
 
 const router = express.Router({ mergeParams: true });
 
-router.get('/', async (req, res) => {
+router.get('/', authenticated, async (req, res) => {
   try {
     const statisticsTransactions = await getStatisticsForPeriod(
+      req.user.id,
       req.query.period
     );
 
@@ -18,25 +19,5 @@ router.get('/', async (req, res) => {
     res.send({ error: e.message || 'Unknown error' });
   }
 });
-
-// router.post('/:id/comments', authenticated, async (req, res) => {
-//   const newComment = await addComment(req.params.id, {
-//     content: req.body.content,
-//     author: req.user.id,
-//   });
-
-//   res.send({ data: mapComment(newComment) });
-// });
-
-// router.delete(
-//   '/:postId/comments/:commentId',
-//   authenticated,
-//   hasRole([ROLES.ADMIN, ROLES.MODERATOR]),
-//   async (req, res) => {
-//     await deleteComment(req.params.postId, req.params.commentId);
-
-//     res.send({ error: null });
-//   }
-// );
 
 module.exports = router;

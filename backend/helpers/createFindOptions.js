@@ -1,13 +1,17 @@
 const mongoose = require('mongoose');
 
 module.exports = function ({
+  user,
   search,
   dateStart,
   dateEnd,
   accountId,
   categoryId,
 }) {
+  const userObjectId = new mongoose.Types.ObjectId(user);
+
   const options = [
+    { user: { $in: userObjectId } },
     { comment: { $regex: search, $options: 'i' } },
     {
       createdAt: {

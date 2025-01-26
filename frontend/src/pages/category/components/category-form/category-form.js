@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Select from 'react-select';
 import { Controller, useForm } from 'react-hook-form';
@@ -63,6 +63,7 @@ const CategoryFormContainer = ({ className, categories }) => {
 	const params = useParams();
 	const isEditing = categories.find((category) => category.id === params.id);
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const {
 		register,
@@ -109,6 +110,7 @@ const CategoryFormContainer = ({ className, categories }) => {
 				onConfirm: () => {
 					request(`/categories/${id}`, 'DELETE').then(() => {
 						dispatch(updateCategories);
+						navigate(-1);
 					});
 
 					dispatch(CLOSE_MODAL);
@@ -175,7 +177,7 @@ const CategoryFormContainer = ({ className, categories }) => {
 					type="button"
 					onClick={() => onDeleteCategory(params.id)}
 				>
-					Удалить счёт
+					Удалить категорию
 				</button>
 			)}
 		</form>

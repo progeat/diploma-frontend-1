@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 
 const ListAnalyticsComponent = ({ className, value }) => {
+	if (!value.length) {
+		return <div style={{ textAlign: 'center' }}>Операций нет</div>;
+	}
+
 	return (
 		<ul className={className}>
 			{value.map(({ id, category, count, total }) => (

@@ -13,40 +13,55 @@ const ROLES = require('../constants/roles');
 
 const router = express.Router({ mergeParams: true });
 
-router.get('/', async (req, res) => {
-  const categories = await getCategories();
+router.get('/', authenticated, async (req, res) => {
+  try {
+    const categories = await getCategories(req.user.id);
 
-  res.send({
-    data: categories.map(mapCategory),
-  });
+    res.send({ error: null, data: categories.map(mapCategory) });
+  } catch (e) {
+    res.send({ error: e.message || 'Unknown error', data: null });
+  }
 });
 
-router.get('/:id', async (req, res) => {
-  const category = await getCategory(req.params.id);
+router.get('/:id', authenticated, async (req, res) => {
+  try {
+    const category = await getCategory(req.user.id, req.params.id);
 
-  res.send({ data: mapCategory(category) });
+    res.send({ error: null, data: mapCategory(category) });
+  } catch (e) {
+    res.send({ error: e.message || 'Unknown error', data: null });
+  }
 });
 
 router.post('/', authenticated, hasRole([ROLES.USER]), async (req, res) => {
-  const newCategory = await addCategory({
-    name: req.body.name,
-    type: req.body.type,
-    icon: req.body.icon,
-    color: req.body.color,
-  });
+  try {
+    const newCategory = await addCategory({
+      user: req.user.id,
+      name: req.body.name,
+      type: req.body.type,
+      icon: req.body.icon,
+      color: req.body.color,
+    });
 
-  res.send({ data: mapCategory(newCategory) });
+    res.send({ error: null, data: mapCategory(newCategory) });
+  } catch (e) {
+    res.send({ error: e.message || 'Unknown error', data: null });
+  }
 });
 
 router.patch('/:id', authenticated, hasRole([ROLES.USER]), async (req, res) => {
-  const updatedCategory = await editCategory(req.params.id, {
-    name: req.body.name,
-    type: req.body.type,
-    icon: req.body.icon,
-    color: req.body.color,
-  });
+  try {
+    const updatedCategory = await editCategory(req.user.id, req.params.id, {
+      name: req.body.name,
+      type: req.body.type,
+      icon: req.body.icon,
+      color: req.body.color,
+    });
 
-  res.send({ data: mapCategory(updatedCategory) });
+    res.send({ error: null, data: mapCategory(updatedCategory) });
+  } catch (e) {
+    res.send({ error: e.message || 'Unknown error', data: null });
+  }
 });
 
 router.delete(
@@ -54,9 +69,13 @@ router.delete(
   authenticated,
   hasRole([ROLES.USER]),
   async (req, res) => {
-    await deleteCategory(req.params.id);
+    try {
+      await deleteCategory(req.user.id, req.params.id);
 
-    res.send({ error: null });
+      res.send({ error: null });
+    } catch (e) {
+      res.send({ error: e.message || 'Unknown error' });
+    }
   }
 );
 

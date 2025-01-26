@@ -2,35 +2,42 @@ const Transaction = require('../models/Transaction');
 const createFindOptions = require('../helpers/createFindOptions');
 const updateAccountBalance = require('../helpers/updateAccountBalance');
 const { TYPE_CATEGORY } = require('../constants/typeCategory');
+const { default: mongoose } = require('mongoose');
 
 // add
 async function addTransaction(transaction) {
-  const newTransaction = await Transaction.create(transaction);
-
   await updateAccountBalance({
+    user: transaction.user,
     id: transaction.account,
     type: transaction.type,
     amount: transaction.amount,
   });
 
+  const newTransaction = await Transaction.create(transaction);
+
   return { newTransaction };
 }
 
 // edit
-async function editTransaction(id, transaction) {
-  const oldTransaction = await Transaction.findByIdAndUpdate(id, transaction);
+async function editTransaction(id, user, transactionData) {
+  const transaction = await Transaction.findById(id);
 
-  if (!oldTransaction) {
-    return { message: 'Операция не найдена' };
+  if (!transaction) {
+    throw new Error('Transaction not found');
   }
 
-  const oldType = oldTransaction.type;
-  const oldAmount = oldTransaction.amount;
-  const oldAccount = oldTransaction.account;
+  if (user !== transaction.user.toString()) {
+    throw new Error('Transaction access error');
+  }
 
-  if (oldAccount !== transaction.account) {
+  const oldType = transaction.type;
+  const oldAmount = transaction.amount;
+  const oldAccount = transaction.account;
+
+  if (oldAccount !== transactionData.account) {
     // Восстанавливаем баланс старого счёта если изменился счёт в операции
     await updateAccountBalance({
+      user,
       id: oldAccount,
       oldType,
       type:
@@ -43,31 +50,48 @@ async function editTransaction(id, transaction) {
 
     // Обновляем баланс счёта на который был изменен в операции
     await updateAccountBalance({
-      id: transaction.account,
-      type: transaction.type,
-      amount: transaction.amount,
+      user,
+      id: transactionData.account,
+      type: transactionData.type,
+      amount: transactionData.amount,
     });
   } else {
     await updateAccountBalance({
-      id: transaction.account,
+      user,
+      id: transactionData.account,
       oldType,
-      type: transaction.type,
+      type: transactionData.type,
       oldAmount,
-      amount: transaction.amount,
+      amount: transactionData.amount,
     });
   }
 
-  return { oldTransaction };
+  const updatedTransaction = await Transaction.findByIdAndUpdate(
+    id,
+    transactionData,
+    { new: true }
+  );
+
+  return updatedTransaction;
 }
 
 // delete
-async function deleteTransaction(id) {
+async function deleteTransaction(user, id) {
   const transaction = await Transaction.findById(id).exec();
+
+  if (!transaction) {
+    throw new Error('Transaction not found');
+  }
+
+  if (user !== transaction.user.toString()) {
+    throw new Error('Transaction access error');
+  }
 
   const { account, type, amount } = transaction;
 
   // Восстанавливаем баланс счёта
   await updateAccountBalance({
+    user,
     id: account,
     oldType: type,
     type:
@@ -83,6 +107,7 @@ async function deleteTransaction(id) {
 
 // get list with search, filters and pagination
 async function getTransactions(
+  user = null,
   search = '',
   limit = 10,
   page = 1,
@@ -94,6 +119,7 @@ async function getTransactions(
   const [transactions, count] = await Promise.all([
     Transaction.find({
       $and: createFindOptions({
+        user,
         search,
         dateStart,
         dateEnd,
@@ -109,6 +135,7 @@ async function getTransactions(
 
     Transaction.countDocuments({
       $and: createFindOptions({
+        user,
         search,
         dateStart,
         dateEnd,
@@ -124,20 +151,19 @@ async function getTransactions(
   };
 }
 
-function getTransactionsForPeriod(period) {
-  console.log(period);
-
-  return Transaction.find({
-    createdAt: {
-      $gte: new Date().setDate(new Date().getMonth() - period),
-      $lte: '',
-    },
-  });
-}
-
 // get item
-function getTransaction(id) {
-  return Transaction.findById(id);
+async function getTransaction(user, id) {
+  const transaction = await Transaction.findById(id);
+
+  if (!transaction) {
+    throw new Error('Transaction not found');
+  }
+
+  if (user !== transaction.user.toString()) {
+    throw new Error('Transaction access error');
+  }
+
+  return transaction;
 }
 
 module.exports = {
@@ -145,6 +171,5 @@ module.exports = {
   editTransaction,
   deleteTransaction,
   getTransactions,
-  getTransactionsForPeriod,
   getTransaction,
 };

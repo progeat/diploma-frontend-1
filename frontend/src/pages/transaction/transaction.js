@@ -36,10 +36,6 @@ const TransactionContainer = ({ className }) => {
 		return <Loader />;
 	}
 
-	if (accounts.length === 0 && categories.length === 0) {
-		return <Loader />;
-	}
-
 	return (
 		<div className={className}>
 			<div className="form-wrapper">

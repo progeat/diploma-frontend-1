@@ -15,3 +15,5 @@ export * from './set-account-balance';
 export * from './update-accounts';
 export * from './set-account';
 export * from './update-categories';
+export * from './reset-accounts';
+export * from './reset-categories';

@@ -55,6 +55,7 @@ const PersonalFormContainer = ({ className }) => {
 	const [serverError, setServerError] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const user = useSelector(selectUser);
+	const dispatch = useDispatch();
 
 	const defaultValues = {
 		login: user.login,
@@ -72,8 +73,6 @@ const PersonalFormContainer = ({ className }) => {
 		defaultValues,
 		resolver: yupResolver(personalFormSchema),
 	});
-
-	const dispatch = useDispatch();
 
 	const onSubmit = (data) => {
 		setIsLoading(true);

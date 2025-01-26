@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../button/button';
 import { Icon } from '../icon/icon';
-import { LOGOUT } from '../../actions';
+import { LOGOUT, RESET_ACCOUNTS, RESET_CATEGORIES } from '../../actions';
 import { selectUserLogin, selectUserRole } from '../../selectors';
 import { ROLE } from '../../constants';
 import styled from 'styled-components';
@@ -15,6 +15,8 @@ const HeaderContainer = ({ className }) => {
 
 	const onLogout = () => {
 		dispatch(LOGOUT);
+		dispatch(RESET_ACCOUNTS);
+		dispatch(RESET_CATEGORIES);
 		sessionStorage.removeItem('userData');
 		navigate('/login');
 	};

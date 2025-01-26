@@ -6,6 +6,12 @@ import styled from 'styled-components';
 const ListAccountsComponent = ({ className, value }) => {
 	const navigate = useNavigate();
 
+	console.log('список счетов', value.length);
+
+	if (!value.length) {
+		return <div style={{ textAlign: 'center' }}>Счетов нет</div>;
+	}
+
 	return (
 		<ul className={className}>
 			{value.map(({ id, name, type, balance }) => (

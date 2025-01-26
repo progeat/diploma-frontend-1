@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AuthFormError, Button, Input } from '../../components';
 import { useResetForm } from '../../hooks';
-import { setUser } from '../../actions';
+import { setUser, updateAccounts, updateCategories } from '../../actions';
 import { selectUserRole } from '../../selectors';
 import { request } from '../../utils';
 import { ROLE } from '../../constants';
@@ -67,6 +67,8 @@ const AuthorizationContainer = ({ className }) => {
 			}
 
 			dispatch(setUser(user));
+			dispatch(updateAccounts);
+			dispatch(updateCategories);
 			sessionStorage.setItem('userData', JSON.stringify(user));
 		});
 	};

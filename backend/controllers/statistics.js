@@ -1,14 +1,21 @@
+const mongoose = require('mongoose');
 const Transaction = require('../models/Transaction');
 const getStartPeriodDate = require('../helpers/getStartPeriodDate');
 const getStatisticsOnTransactions = require('../helpers/getStatisticsOnTransactions');
 
-async function getStatisticsForPeriod(period = 1) {
+async function getStatisticsForPeriod(user, period = 1) {
   const startPeriodDate = getStartPeriodDate(period);
+  const userObjectId = new mongoose.Types.ObjectId(user);
 
   const transactions = await Transaction.find({
-    createdAt: {
-      $gte: startPeriodDate,
-    },
+    $and: [
+      { user: { $in: userObjectId } },
+      {
+        createdAt: {
+          $gte: startPeriodDate,
+        },
+      },
+    ],
   });
 
   const statisticsOnTransactions = await getStatisticsOnTransactions(

@@ -9,11 +9,6 @@ const AccountContainer = ({ className }) => {
 	const isEditing = !!useMatch('/account/:id/edit');
 	const accounts = useSelector(selectAccounts);
 
-	// TODO зависимость загрузки сделать через состояние
-	if (accounts.length === 0) {
-		return <Loader />;
-	}
-	// TODO продумать и сделать передачу в форму одного счёта
 	return (
 		<div className={className}>
 			<div className="form-wrapper">

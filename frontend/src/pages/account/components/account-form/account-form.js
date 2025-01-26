@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Select from 'react-select';
 import { Controller, useForm } from 'react-hook-form';
@@ -35,6 +35,7 @@ const AccountFormContainer = ({ className, accounts }) => {
 	const params = useParams();
 	const isEditing = accounts.find((account) => account.id === params.id);
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const {
 		register,
@@ -78,6 +79,7 @@ const AccountFormContainer = ({ className, accounts }) => {
 				onConfirm: () => {
 					request(`/accounts/${id}`, 'DELETE').then(() => {
 						dispatch(updateAccounts);
+						navigate(-1);
 					});
 
 					dispatch(CLOSE_MODAL);

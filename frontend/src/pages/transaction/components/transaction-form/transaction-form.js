@@ -102,6 +102,7 @@ const TransactionFormContainer = ({
 				onConfirm: () => {
 					request(`/transactions/${id}`, 'DELETE').then(() => {
 						dispatch(updateAccounts);
+						navigate(-1);
 					});
 
 					dispatch(CLOSE_MODAL);
@@ -167,7 +168,7 @@ const TransactionFormContainer = ({
 					id="fa-plus-circle"
 					style={{ position: 'absolute', right: '-27px', top: '5px' }}
 					margin="0"
-					onClick={() => navigate('/accounts')}
+					onClick={() => navigate('/account')}
 				/>
 			</div>
 			<Input

@@ -52,7 +52,6 @@ function getRoles() {
   ];
 }
 
-// TODO реализовать функционал изменения данных пользователя
 // edit
 async function updateUser(user, reqData) {
   const userUpdatedData = {};
