@@ -19,8 +19,6 @@ const TransactionItemContainer = ({
 	const navigate = useNavigate();
 	const date = formatDate(createdAt);
 
-	console.log('дата', createdAt);
-
 	const onTransactionRemove = (id) => {
 		dispatch(
 			openModal({
