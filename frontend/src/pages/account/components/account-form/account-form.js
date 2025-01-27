@@ -29,11 +29,11 @@ const accountTypeOptions = [
 	{ value: TYPE_ACCOUNT.CASH, label: GET_TYPE_ACCOUNT[TYPE_ACCOUNT.CASH] },
 ];
 
-// TODO поработать над ошибками
 const AccountFormContainer = ({ className, accounts }) => {
 	const [serverError, setServerError] = useState(null);
+	const [isServerPass, setIsServerPass] = useState(null);
 	const params = useParams();
-	const isEditing = accounts.find((account) => account.id === params.id);
+	const accountEditing = accounts.find((account) => account.id === params.id);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
@@ -45,9 +45,9 @@ const AccountFormContainer = ({ className, accounts }) => {
 		formState: { errors },
 	} = useForm({
 		defaultValues: {
-			name: isEditing?.name || '',
-			type: accountTypeOptions[isEditing?.type] || accountTypeOptions[0],
-			balance: isEditing?.balance || 0,
+			name: accountEditing?.name || '',
+			type: accountTypeOptions[accountEditing?.type] || accountTypeOptions[0],
+			balance: accountEditing?.balance || 0,
 		},
 		resolver: yupResolver(accountFormSchema),
 	});
@@ -63,10 +63,9 @@ const AccountFormContainer = ({ className, accounts }) => {
 				return;
 			}
 
-			console.log('resp', data);
-
+			setIsServerPass(true);
 			dispatch(updateAccounts);
-			if (!isEditing) {
+			if (!accountEditing) {
 				reset();
 			}
 		});
@@ -99,7 +98,10 @@ const AccountFormContainer = ({ className, accounts }) => {
 				type="text"
 				placeholder="Название счёта..."
 				{...register('name', {
-					onChange: () => setServerError(null),
+					onChange: () => {
+						setServerError(null);
+						setIsServerPass(null);
+					},
 				})}
 			/>
 			<Controller
@@ -119,14 +121,18 @@ const AccountFormContainer = ({ className, accounts }) => {
 				type="number"
 				placeholder="Баланс..."
 				{...register('balance', {
-					onChange: () => setServerError(null),
+					onChange: () => {
+						setServerError(null);
+						setIsServerPass(null);
+					},
 				})}
 			/>
 			<Button className="button-submit" type="submit" disabled={!!formError}>
 				Отправить
 			</Button>
 			{errorMessage && <div className="error">{errorMessage}</div>}
-			{isEditing && (
+			{isServerPass && <div className="pass">Отправленно</div>}
+			{accountEditing && (
 				<button
 					className="delete-button"
 					type="button"
@@ -229,5 +235,13 @@ export const AccountForm = styled(AccountFormContainer)`
 
 	& .delete-button:hover {
 		color: #f8f8f9;
+	}
+
+	& .pass {
+		color: #6ccb81;
+	}
+
+	& .error {
+		color: rgb(203, 108, 108);
 	}
 `;

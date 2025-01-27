@@ -111,8 +111,6 @@ export const ControlPanel = styled(ControlPanelContainer)`
 
 	& .react-datepicker {
 		border: 0;
-		// border: 1px solid #5e636f;
-		// border-radius: 8px;
 		background-color: #2b2d32;
 	}
 

@@ -13,6 +13,15 @@ const initialAppState = {
 		account: '',
 		category: '',
 	},
+	isLoading: {
+		accounts: true,
+		account: false,
+		categories: true,
+		category: false,
+		transactions: false,
+		transaction: false,
+		statistics: false,
+	},
 };
 
 export const appReducer = (state = initialAppState, { type, payload }) => {
@@ -77,6 +86,14 @@ export const appReducer = (state = initialAppState, { type, payload }) => {
 				filter: {
 					...state.filter,
 					category: initialAppState.filter.category,
+				},
+			};
+		case ACTION_TYPE.SET_IS_LOADING:
+			return {
+				...state,
+				isLoading: {
+					...state.isLoading,
+					...payload,
 				},
 			};
 		case ACTION_TYPE.CLOSE_MODAL:

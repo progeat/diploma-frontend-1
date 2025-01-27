@@ -1,18 +1,12 @@
-import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { CardInfo } from './components';
-import { selectAccounts } from '../../../../selectors';
-import { request } from '../../../../utils';
+import { selectAccounts, selectStatistics } from '../../../../selectors';
 import styled from 'styled-components';
 import { TYPE_ACCOUNT } from '../../../../constants';
 
 const FinancesSectionContainer = ({ className }) => {
-	const [statistics, setStatistics] = useState({
-		expenses: [],
-		income: [],
-	});
-	const [errorMessage, setErrorMessage] = useState(null);
 	const accounts = useSelector(selectAccounts);
+	const statistics = useSelector(selectStatistics);
 	const totalSavings = accounts.reduce((acc, account) => {
 		if (account.type !== TYPE_ACCOUNT.CREDIT) {
 			acc += account.balance;
@@ -22,24 +16,6 @@ const FinancesSectionContainer = ({ className }) => {
 
 		return acc;
 	}, 0);
-
-	useEffect(() => {
-		request('/statistics?period=1').then((statisticsRes) => {
-			if (statisticsRes.error) {
-				setErrorMessage(statisticsRes.error);
-				return;
-			}
-
-			setStatistics((prev) => ({
-				...prev,
-				...statisticsRes.data,
-			}));
-		});
-	}, []);
-
-	if (errorMessage) {
-		return <div className="error-message">{errorMessage}</div>;
-	}
 
 	return (
 		<div className={className}>

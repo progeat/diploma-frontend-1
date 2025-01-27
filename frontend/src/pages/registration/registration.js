@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { AuthFormError, Button, Input } from '../../components';
+import { Button, Input } from '../../components';
 import { useResetForm } from '../../hooks';
 import { setUser } from '../../actions';
 import { selectUserRole } from '../../selectors';
@@ -106,7 +106,7 @@ const RegistrationContainer = ({ className }) => {
 					<Button className="button-submit" type="submit">
 						Отправить
 					</Button>
-					{errorMessage && <AuthFormError>{errorMessage}</AuthFormError>}
+					{errorMessage && <div className="error">{errorMessage}</div>}
 				</form>
 			</div>
 		</div>
@@ -159,5 +159,9 @@ export const Registration = styled(RegistrationContainer)`
 	& .button-submit:hover {
 		color: #000;
 		background-color: #f8f8f9;
+	}
+
+	& .error {
+		color: rgb(203, 108, 108);
 	}
 `;

@@ -1,10 +1,18 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { AuthFormError, Button, Input, Loader } from '../../../../components';
-import { setUser } from '../../../../actions';
+import { Button, Input, Loader } from '../../../../components';
+import {
+	CLOSE_MODAL,
+	LOGOUT,
+	openModal,
+	RESET_ACCOUNTS,
+	RESET_CATEGORIES,
+	setUser,
+} from '../../../../actions';
 import { selectUser } from '../../../../selectors';
 import { request } from '../../../../utils';
 import styled from 'styled-components';
@@ -53,9 +61,11 @@ const personalFormSchema = yup.object().shape({
 
 const PersonalFormContainer = ({ className }) => {
 	const [serverError, setServerError] = useState(null);
+	const [isServerPass, setIsServerPass] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 	const user = useSelector(selectUser);
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const defaultValues = {
 		login: user.login,
@@ -74,6 +84,26 @@ const PersonalFormContainer = ({ className }) => {
 		resolver: yupResolver(personalFormSchema),
 	});
 
+	const onDeleteUser = () => {
+		dispatch(
+			openModal({
+				text: 'Удалить аккаунт безвозвратно?',
+				onConfirm: () => {
+					request(`/user`, 'DELETE').then(() => {
+						dispatch(LOGOUT);
+						dispatch(RESET_ACCOUNTS);
+						dispatch(RESET_CATEGORIES);
+						sessionStorage.removeItem('userData');
+						navigate('/login');
+					});
+
+					dispatch(CLOSE_MODAL);
+				},
+				onCancel: () => dispatch(CLOSE_MODAL),
+			}),
+		);
+	};
+
 	const onSubmit = (data) => {
 		setIsLoading(true);
 
@@ -88,8 +118,7 @@ const PersonalFormContainer = ({ className }) => {
 					return;
 				}
 
-				console.log('resUser', user);
-
+				setIsServerPass(true);
 				dispatch(setUser(user));
 				sessionStorage.setItem('userData', JSON.stringify(user));
 			})
@@ -118,35 +147,50 @@ const PersonalFormContainer = ({ className }) => {
 					type="text"
 					placeholder="Логин..."
 					{...register('login', {
-						onChange: () => setServerError(null),
+						onChange: () => {
+							setServerError(null);
+							setIsServerPass(null);
+						},
 					})}
 				/>
 				<Input
 					type="text"
 					placeholder="Почта..."
 					{...register('email', {
-						onChange: () => setServerError(null),
+						onChange: () => {
+							setServerError(null);
+							setIsServerPass(null);
+						},
 					})}
 				/>
 				<Input
 					type="tel"
 					placeholder="Телефон..."
 					{...register('phone', {
-						onChange: () => setServerError(null),
+						onChange: () => {
+							setServerError(null);
+							setIsServerPass(null);
+						},
 					})}
 				/>
 				<Input
 					type="password"
 					placeholder="Новый пароль..."
 					{...register('newPassword', {
-						onChange: () => setServerError(null),
+						onChange: () => {
+							setServerError(null);
+							setIsServerPass(null);
+						},
 					})}
 				/>
 				<Input
 					type="password"
 					placeholder="Введите старый пароль..."
 					{...register('oldPassword', {
-						onChange: () => setServerError(null),
+						onChange: () => {
+							setServerError(null);
+							setIsServerPass(null);
+						},
 					})}
 				/>
 				<Button
@@ -156,7 +200,11 @@ const PersonalFormContainer = ({ className }) => {
 				>
 					Отправить
 				</Button>
-				{errorMessage && <AuthFormError>{errorMessage}</AuthFormError>}
+				<button className="delete-button" type="button" onClick={onDeleteUser}>
+					Удалить аккаунт
+				</button>
+				{errorMessage && <div className="error">{errorMessage}</div>}
+				{isServerPass && <div className="pass">Отправленно</div>}
 			</form>
 		</div>
 	);
@@ -197,6 +245,7 @@ export const PersonalForm = styled(PersonalFormContainer)`
 	}
 
 	& .button-submit {
+		margin-bottom: 10px;
 		height: 38px;
 		border: 1px solid #f8f8f9;
 		border-radius: 8px;
@@ -207,5 +256,26 @@ export const PersonalForm = styled(PersonalFormContainer)`
 	& .button-submit:hover {
 		color: #000;
 		background-color: #f8f8f9;
+	}
+
+	& .delete-button {
+		text-align: left;
+		width: max-content;
+		border: 0;
+		color: rgb(156, 156, 156);
+		background-color: inherit;
+		cursor: pointer;
+	}
+
+	& .delete-button:hover {
+		color: #f8f8f9;
+	}
+
+	& .pass {
+		color: #6ccb81;
+	}
+
+	& .error {
+		color: rgb(203, 108, 108);
 	}
 `;

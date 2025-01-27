@@ -41,7 +41,6 @@ const iconsOptions = [
 	{ value: 'fa fa-handshake-o', label: 'Подработка' },
 ];
 
-// TODO вынести в компоненты
 const FormatOptionLabel = ({ value, label }) => {
 	return (
 		<article className="icon-option">
@@ -60,6 +59,7 @@ const FormatOptionLabel = ({ value, label }) => {
 
 const CategoryFormContainer = ({ className, categories }) => {
 	const [serverError, setServerError] = useState(null);
+	const [isServerPass, setIsServerPass] = useState(null);
 	const params = useParams();
 	const isEditing = categories.find((category) => category.id === params.id);
 	const dispatch = useDispatch();
@@ -81,7 +81,6 @@ const CategoryFormContainer = ({ className, categories }) => {
 		resolver: yupResolver(categoryFormSchema),
 	});
 
-	// TODO обработать ошибку сервера
 	const onSubmit = ({ name, type, icon, color }) => {
 		request(`/categories/${params.id || ''}`, `${params.id ? 'PATCH' : 'POST'}`, {
 			name,
@@ -94,8 +93,7 @@ const CategoryFormContainer = ({ className, categories }) => {
 				return;
 			}
 
-			console.log('resp', data);
-
+			setIsServerPass(true);
 			dispatch(updateCategories);
 			if (!isEditing) {
 				reset();
@@ -129,7 +127,10 @@ const CategoryFormContainer = ({ className, categories }) => {
 				type="text"
 				placeholder="Название категории..."
 				{...register('name', {
-					onChange: () => setServerError(null),
+					onChange: () => {
+						setServerError(null);
+						setIsServerPass(null);
+					},
 				})}
 			/>
 			{/* TODO подумать о реализации табом */}
@@ -164,13 +165,17 @@ const CategoryFormContainer = ({ className, categories }) => {
 				type="color"
 				placeholder="Выберите цвет..."
 				{...register('color', {
-					onChange: () => setServerError(null),
+					onChange: () => {
+						setServerError(null);
+						setIsServerPass(null);
+					},
 				})}
 			/>
 			<Button className="button-submit" type="submit" disabled={!!formError}>
 				Отправить
 			</Button>
 			{errorMessage && <div className="error">{errorMessage}</div>}
+			{isServerPass && <div className="pass">Отправленно</div>}
 			{isEditing && (
 				<button
 					className="delete-button"
@@ -292,5 +297,13 @@ export const CategoryForm = styled(CategoryFormContainer)`
 
 	& .delete-button:hover {
 		color: #f8f8f9;
+	}
+
+	& .pass {
+		color: #6ccb81;
+	}
+
+	& .error {
+		color: rgb(203, 108, 108);
 	}
 `;

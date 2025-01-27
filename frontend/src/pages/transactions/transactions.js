@@ -17,7 +17,6 @@ const TransactionsContainer = ({ className }) => {
 	const filter = useSelector(selectFilter);
 	const { account, category, dateRange } = filter;
 
-	// TODO продумать перенос запроса на операции в компонент TransactionsList
 	useEffect(() => {
 		setIsLoading(true);
 		request(
@@ -56,11 +55,9 @@ const TransactionsContainer = ({ className }) => {
 					<TransactionsList
 						transactions={transactions}
 						isLoading={isLoading}
-						// TODO прокидываем сеттер состояния(setTriggerFlag) через компонент(?) или используем менеджер состояния(?)
 						setTriggerFlag={setTriggerFlag}
 					/>
 					{lastPage > 1 && transactions.length > 0 && (
-						// TODO при удалении с последней страницы всех операций нужно переключится на предыдущую
 						<Pagination page={page} lastPage={lastPage} setPage={setPage} />
 					)}
 				</div>

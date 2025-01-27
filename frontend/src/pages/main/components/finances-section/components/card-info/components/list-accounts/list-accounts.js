@@ -1,15 +1,28 @@
 import { useNavigate } from 'react-router-dom';
-import { Icon } from '../../../../../../../../components';
+import { useSelector } from 'react-redux';
+import { selectIsLoadingAccounts } from '../../../../../../../../selectors';
+import { Icon, Loader } from '../../../../../../../../components';
 import { GET_TYPE_ACCOUNT } from '../../../../../../../../constants';
 import styled from 'styled-components';
 
 const ListAccountsComponent = ({ className, value }) => {
 	const navigate = useNavigate();
+	const isLoading = useSelector(selectIsLoadingAccounts);
 
-	console.log('список счетов', value.length);
+	if (isLoading) {
+		return <Loader />;
+	}
 
 	if (!value.length) {
-		return <div style={{ textAlign: 'center' }}>Счетов нет</div>;
+		return (
+			<Icon
+				style={{ textAlign: 'center' }}
+				id="fa-plus-circle"
+				margin="0"
+				size="80px"
+				onClick={() => navigate('/account')}
+			/>
+		);
 	}
 
 	return (

@@ -3,10 +3,10 @@ import { Route, Routes } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {
 	Account,
-	Accounts,
 	Authorization,
 	Categories,
 	Category,
+	Error404,
 	Main,
 	Personal,
 	Registration,
@@ -14,7 +14,7 @@ import {
 	Transactions,
 } from './pages';
 import { AuthMiddleWare, Header, Loader, Modal } from './components';
-import { setAccounts, setCategories, setUser } from './actions';
+import { setAccounts, setCategories, setIsLoadingAccounts, setUser } from './actions';
 import { request } from './utils';
 import styled from 'styled-components';
 
@@ -31,6 +31,7 @@ const AppColumn = styled.div`
 const Page = styled.div`
 	margin: 0 auto;
 	max-width: 1600px;
+	min-width: 1000px;
 	width: 100%;
 	height: 100%;
 	padding: 70px 0 20px;
@@ -69,6 +70,7 @@ export const App = () => {
 				dispatch(setCategories(categoriesRes.data));
 			})
 			.finally(() => {
+				dispatch(setIsLoadingAccounts(false));
 				setIsLoading(false);
 			});
 	}, [dispatch]);
@@ -82,8 +84,6 @@ export const App = () => {
 			<Header />
 			<Page>
 				<Routes>
-					<Route path="/login" element={<Authorization />} />
-					<Route path="/register" element={<Registration />} />
 					<Route element={<AuthMiddleWare />}>
 						<Route path="/" element={<Main />} />
 						<Route path="/transaction" element={<Transaction />} />
@@ -96,7 +96,9 @@ export const App = () => {
 						<Route path="/account/:id/edit" element={<Account />} />
 						<Route path="/personal" element={<Personal />} />
 					</Route>
-					<Route path="*" element={<div>Ошибка</div>} />
+					<Route path="/login" element={<Authorization />} />
+					<Route path="/register" element={<Registration />} />
+					<Route path="*" element={<Error404 />} />
 				</Routes>
 			</Page>
 			<Modal />

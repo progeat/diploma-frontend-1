@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useMatch, useNavigate } from 'react-router-dom';
 import { Button } from '../button/button';
 import { Icon } from '../icon/icon';
 import { LOGOUT, RESET_ACCOUNTS, RESET_CATEGORIES } from '../../actions';
@@ -12,6 +12,7 @@ const HeaderContainer = ({ className }) => {
 	const dispatch = useDispatch();
 	const login = useSelector(selectUserLogin);
 	const roleId = useSelector(selectUserRole);
+	const isLoginPage = !!useMatch('/login');
 
 	const onLogout = () => {
 		dispatch(LOGOUT);
@@ -24,17 +25,32 @@ const HeaderContainer = ({ className }) => {
 	return (
 		<div className={className}>
 			<div className="buttons">
-				<Link to="/">Главная</Link>
-				<Link to="/transactions">История</Link>
-				<Link to="/accounts">Счета</Link>
-				<Link to="/categories">Категории</Link>
-				<button onClick={() => navigate(-1)}>Назад</button>
+				<Icon
+					id="fa fa-chevron-circle-left"
+					margin="0 15px 0 0"
+					onClick={() => navigate(-1)}
+				/>
+				<NavLink className="link" to="/" activeclassname="active-link">
+					Главная
+				</NavLink>
+				<NavLink
+					className="link"
+					to="/transactions"
+					activeclassname="active-link"
+				>
+					История
+				</NavLink>
+				<NavLink className="link" to="/categories" activeclassname="active">
+					Категории
+				</NavLink>
 			</div>
 			<div className="login-control">
 				{roleId === ROLE.GUEST ? (
-					<Button>
-						<Link to="/login">Войти</Link>
-					</Button>
+					!isLoginPage && (
+						<Button>
+							<Link to="/login">Войти</Link>
+						</Button>
+					)
 				) : (
 					<>
 						<div className="login">{login}</div>
@@ -59,13 +75,32 @@ export const Header = styled(HeaderContainer)`
 	align-items: center;
 	height: 70px;
 	width: 100%;
+	min-width: 1000px;
 	padding: 0 30px;
 	background-color: rgb(26 26 26 / 70%);
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Тень */
 	backdrop-filter: blur(20px);
 
+	& .buttons {
+		display: flex;
+		align-items: center;
+	}
+
 	& .buttons > a:not(:last-child) {
 		margin-right: 10px;
+	}
+
+	& .link {
+		padding-bottom: 3px;
+		border-bottom: 2px solid transparent;
+	}
+
+	& .link:hover {
+		border-color: #f8f8f9;
+	}
+
+	& .active {
+		border-color: #f8f8f9;
 	}
 
 	& .login-control {

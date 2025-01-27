@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '../../../../../../components';
-import { ListAccounts, ListAnalytics } from './components';
+import { ListAccounts, ListStatistics } from './components';
 import styled from 'styled-components';
 
 const CardInfoContainer = ({ className, title, value, path }) => {
@@ -10,18 +10,21 @@ const CardInfoContainer = ({ className, title, value, path }) => {
 		<div className={className}>
 			<div className="header">
 				<h3 className="top-panel">{title}</h3>
-				<Icon id="fa-plus-circle" margin="0" onClick={() => navigate(path)} />
+				{value.length !== 0 && (
+					<Icon id="fa-plus-circle" margin="0" onClick={() => navigate(path)} />
+				)}
 			</div>
 			{path === '/account' ? (
 				<ListAccounts value={value} />
 			) : (
-				<ListAnalytics value={value} />
+				<ListStatistics value={value} />
 			)}
 		</div>
 	);
 };
 
 export const CardInfo = styled(CardInfoContainer)`
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	width: 100%;

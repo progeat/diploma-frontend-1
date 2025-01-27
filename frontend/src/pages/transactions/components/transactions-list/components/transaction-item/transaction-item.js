@@ -35,7 +35,6 @@ const TransactionItemContainer = ({
 		);
 	};
 
-	// TODO отображение цвета шрифта иконки подправить
 	return (
 		<div className={className}>
 			<div className="item-column">
@@ -80,6 +79,13 @@ export const TransactionItem = styled(TransactionItemContainer)`
 
 	& .item-column {
 		display: flex;
+	}
+
+	& .item-comment {
+		max-width: 360px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	& .item-amount {

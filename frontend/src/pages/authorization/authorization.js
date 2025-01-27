@@ -4,7 +4,7 @@ import { Link, Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { AuthFormError, Button, Input } from '../../components';
+import { Button, Input } from '../../components';
 import { useResetForm } from '../../hooks';
 import { setUser, updateAccounts, updateCategories } from '../../actions';
 import { selectUserRole } from '../../selectors';
@@ -104,9 +104,9 @@ const AuthorizationContainer = ({ className }) => {
 						type="submit"
 						disabled={!!formError}
 					>
-						Авторизоваться
+						Войти
 					</Button>
-					{errorMessage && <AuthFormError>{errorMessage}</AuthFormError>}
+					{errorMessage && <div className="error">{errorMessage}</div>}
 					<StyledLink to="/register">Регистрация</StyledLink>
 				</form>
 			</div>
@@ -169,5 +169,9 @@ export const Authorization = styled(AuthorizationContainer)`
 
 	& form a:hover {
 		color: #f8f8f9;
+	}
+
+	& .error {
+		color: rgb(203, 108, 108);
 	}
 `;

@@ -11,10 +11,20 @@ const ControlPanelAnalyticsContainer = ({
 	return (
 		<div className={className}>
 			<div className="button-wrapper">
-				<Button width="120px" onClick={onToggle} disabled={isActiveExpenses}>
+				<Button
+					className="tab-button"
+					width="120px"
+					onClick={onToggle}
+					disabled={isActiveExpenses}
+				>
 					Расходы
 				</Button>
-				<Button width="120px" onClick={onToggle} disabled={!isActiveExpenses}>
+				<Button
+					className="tab-button"
+					width="120px"
+					onClick={onToggle}
+					disabled={!isActiveExpenses}
+				>
 					Доходы
 				</Button>
 			</div>
@@ -34,5 +44,13 @@ export const ControlPanelAnalytics = styled(ControlPanelAnalyticsContainer)`
 
 	& > button:not(:last-child) {
 		margin-right: 10px;
+	}
+
+	& .tab-button:not(:disabled) {
+		color: #777;
+	}
+
+	& .tab-button:not(:disabled):hover {
+		color: #eee;
 	}
 `;

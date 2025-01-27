@@ -2,6 +2,9 @@ const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const { generate } = require('../helpers/token');
 const ROLES = require('../constants/roles');
+const Transaction = require('../models/Transaction');
+const Category = require('../models/Category');
+const Account = require('../models/Account');
 
 // register
 async function register(login, password) {
@@ -106,7 +109,11 @@ async function updateUser(user, reqData) {
 }
 
 // delete
-function deleteUser(id) {
+async function deleteUser(id) {
+  await Account.deleteMany({ user: id });
+  await Category.deleteMany({ user: id });
+  await Transaction.deleteMany({ user: id });
+
   return User.deleteOne({ _id: id });
 }
 

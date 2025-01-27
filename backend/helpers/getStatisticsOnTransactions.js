@@ -9,7 +9,6 @@ module.exports = async function (transactions) {
         (category) => category.id === transaction.category.toString()
       );
 
-      // TODO тестирование на отсутствие категории
       if (!category) return;
 
       if (category.type === 0) {

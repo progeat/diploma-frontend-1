@@ -18,13 +18,10 @@ module.exports = async function ({
   if (oldType !== type || oldAmount !== amount) {
     switch (oldType) {
       case TYPE_CATEGORY.INCOME: {
-        console.log('run');
         if (oldType !== type) {
           account.balance -= oldAmount + amount;
         } else {
-          console.log('balance prev', account.balance);
           account.balance = account.balance - oldAmount + amount;
-          console.log('balance after', account.balance);
         }
         break;
       }

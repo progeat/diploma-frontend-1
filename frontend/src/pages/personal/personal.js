@@ -28,7 +28,6 @@ const PersonalContainer = ({ className }) => {
 			});
 	}, [dispatch]);
 
-	// TODO создать для всех ошибок получения данных с сервера общий компонент
 	if (serverError) {
 		<div className="error">{serverError}</div>;
 	}

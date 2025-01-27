@@ -7,8 +7,6 @@ import styled from 'styled-components';
 const CategoriesWrapperContainer = ({ className }) => {
 	const categories = useSelector(selectCategories);
 
-	console.log('categories', categories);
-
 	if (!categories.length) {
 		return <p>Категорий нет</p>;
 	}

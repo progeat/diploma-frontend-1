@@ -1,39 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { ControlPanelAnalytics, ExpensesChart, IncomeChart } from './components';
-import { request } from '../../../../utils';
+import { selectStatistics } from '../../../../selectors';
 import styled from 'styled-components';
-import { Button, Loader } from '../../../../components';
 
 const AnaliticsSectionContainer = ({ className }) => {
-	const [isLoading, setIsLoading] = useState(true);
-	const [statistics, setStatistics] = useState({
-		expenses: [],
-		income: [],
-	});
-	const [errorMessage, setErrorMessage] = useState(null);
 	const [isActiveExpenses, setIsActiveExpenses] = useState(true);
-
-	useEffect(() => {
-		request('/statistics?period=1')
-			.then((statisticsRes) => {
-				if (statisticsRes.error) {
-					setErrorMessage(statisticsRes.error);
-					return;
-				}
-
-				setStatistics((prev) => ({
-					...prev,
-					...statisticsRes.data,
-				}));
-			})
-			.then(() => {
-				setIsLoading(false);
-			});
-	}, []);
-
-	if (isLoading) {
-		return <Loader />;
-	}
+	const statistics = useSelector(selectStatistics);
 
 	return (
 		<div className={className}>
@@ -53,6 +26,8 @@ const AnaliticsSectionContainer = ({ className }) => {
 };
 
 export const AnalyticsSection = styled(AnaliticsSectionContainer)`
+	position: relative;
+
 	& .analytics {
 		margin: 0 auto;
 		width: 400px;

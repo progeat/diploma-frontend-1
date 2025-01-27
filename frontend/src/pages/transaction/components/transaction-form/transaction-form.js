@@ -20,7 +20,6 @@ const transactionFormSchema = yup.object().shape({
 		.min(2, 'Неверно заполнен комментарий. Минимум 2 символа'),
 });
 
-// TODO отрефакторить и посмотреть что можно декомпозировать
 const createSelectorOptions = (arrayValues) =>
 	arrayValues.map((obj) => ({ value: obj.id, label: obj.name }));
 
@@ -35,6 +34,7 @@ const TransactionFormContainer = ({
 	accounts,
 }) => {
 	const [serverError, setServerError] = useState(null);
+	const [isServerPass, setIsServerPass] = useState(null);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
@@ -87,7 +87,7 @@ const TransactionFormContainer = ({
 				return;
 			}
 
-			console.log('resp', data);
+			setIsServerPass(true);
 			dispatch(updateAccounts);
 			if (!transactionId) {
 				reset();
@@ -113,7 +113,11 @@ const TransactionFormContainer = ({
 	};
 
 	const formError =
-		errors?.name?.message || errors?.type?.message || errors?.balance?.message;
+		(errors?.amount?.message && 'Введите сумму') ||
+		errors?.categorySelected?.message ||
+		errors?.accountSelected?.message ||
+		errors?.comment?.message;
+
 	const errorMessage = formError || serverError;
 
 	return (
@@ -122,7 +126,10 @@ const TransactionFormContainer = ({
 				type="number"
 				placeholder="Сумма операции..."
 				{...register('amount', {
-					onChange: () => setServerError(null),
+					onChange: () => {
+						setServerError(null);
+						setIsServerPass(null);
+					},
 				})}
 			/>
 			<div className="select-wrapper">
@@ -175,13 +182,17 @@ const TransactionFormContainer = ({
 				type="text"
 				placeholder="Комментарий..."
 				{...register('comment', {
-					onChange: () => setServerError(null),
+					onChange: () => {
+						setServerError(null);
+						setIsServerPass(null);
+					},
 				})}
 			/>
 			<Button className="button-submit" type="submit" disabled={!!formError}>
 				Отправить
 			</Button>
 			{errorMessage && <div className="error">{errorMessage}</div>}
+			{isServerPass && <div className="pass">Отправленно</div>}
 			{transactionId && (
 				<button
 					className="delete-button"
@@ -268,17 +279,6 @@ export const TransactionForm = styled(TransactionFormContainer)`
 		background-color: rgb(179, 179, 179);
 	}
 
-	// & .icon-plus {
-	// 	position: absolute;
-	// 	top: 5px;
-	// 	right: -27px;
-	// 	color: #4d525f;
-	// }
-
-	// & .icon-plus:hover {
-	// 	color: #f8f8f9;
-	// }
-
 	& .button-submit {
 		margin-bottom: 10px;
 		height: 38px;
@@ -293,10 +293,6 @@ export const TransactionForm = styled(TransactionFormContainer)`
 		background-color: #f8f8f9;
 	}
 
-	& .error {
-		color: red;
-	}
-
 	& .delete-button {
 		text-align: left;
 		width: max-content;
@@ -308,5 +304,13 @@ export const TransactionForm = styled(TransactionFormContainer)`
 
 	& .delete-button:hover {
 		color: #f8f8f9;
+	}
+
+	& .pass {
+		color: #6ccb81;
+	}
+
+	& .error {
+		color: rgb(203, 108, 108);
 	}
 `;

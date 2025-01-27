@@ -4,8 +4,6 @@ import { Doughnut } from 'react-chartjs-2';
 Chart.register(ArcElement);
 
 export const ExpensesChart = ({ expenses }) => {
-	console.log(expenses);
-
 	const data = {
 		labels: expenses.map(({ category }) => category),
 		datasets: [

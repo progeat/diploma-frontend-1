@@ -7,3 +7,4 @@ export * from './account/account';
 export * from './category/category';
 export * from './categories/categories';
 export * from './personal/personal';
+export * from './Error404/Error404';
