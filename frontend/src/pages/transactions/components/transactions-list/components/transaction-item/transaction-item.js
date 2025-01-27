@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Icon } from '../../../../../../components';
 import styled from 'styled-components';
 import { CLOSE_MODAL, openModal, updateAccounts } from '../../../../../../actions';
-import { request } from '../../../../../../utils';
+import { formatDate, request } from '../../../../../../utils';
 
 const TransactionItemContainer = ({
 	className,
@@ -17,6 +17,9 @@ const TransactionItemContainer = ({
 }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const date = formatDate(createdAt);
+
+	console.log('дата', createdAt);
 
 	const onTransactionRemove = (id) => {
 		dispatch(
@@ -42,6 +45,7 @@ const TransactionItemContainer = ({
 					<Icon id={category.icon} margin="0" size="20px" color="#f8f8f9" />
 				</div>
 				<div className="item-info">
+					<div className="item-date">{date}</div>
 					<div>{category.name}</div>
 					<div>{account.name}</div>
 				</div>
@@ -70,12 +74,26 @@ const TransactionItemContainer = ({
 };
 
 export const TransactionItem = styled(TransactionItemContainer)`
+	position: relative;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	border-radius: 12px;
 	padding: 10px 15px 10px 20px;
 	background-color: #393d47;
+
+	& .item-date {
+		position: absolute;
+		top: -7px;
+		left: 83%;
+		transform: translateX(-50%);
+		border: 1px solid #5e636f;
+		border-radius: 10px;
+		padding: 1px 8px;
+		font-size: 11px;
+		color: #808080;
+		background-color: #393d47;
+	}
 
 	& .item-column {
 		display: flex;
