@@ -9,6 +9,9 @@
   "author": "",
   "license": "ISC",
   "description": "",
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.16.7"
+  },
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.7",
