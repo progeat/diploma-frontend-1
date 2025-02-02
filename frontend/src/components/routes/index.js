@@ -1,1 +1,1 @@
-export * from './auth-middleware/auth-middleware';
+export * from './private-routes/private-routes';

@@ -14,8 +14,7 @@ import {
 	Transactions,
 } from './pages';
 import { Modal } from './components/common';
-import { Header } from './components/layout';
-import { AuthMiddleWare } from './components/routes';
+import { PrivateRoutes } from './components/routes';
 import { Loader } from './components/ui';
 import { setAccounts, setCategories, setIsLoadingAccounts, setUser } from './actions';
 import { request } from './utils';
@@ -30,15 +29,6 @@ const AppColumn = styled.div`
 	margin: 0 auto;
 	height: 100vh;
 	background-color: #141414;
-`;
-
-const Page = styled.div`
-	margin: 0 auto;
-	max-width: 1600px;
-	min-width: 1000px;
-	width: 100%;
-	height: 100%;
-	padding: 70px 0 20px;
 `;
 
 export const App = () => {
@@ -93,26 +83,23 @@ export const App = () => {
 
 	return (
 		<AppColumn>
-			<Header />
-			<Page>
-				<Routes>
-					<Route element={<AuthMiddleWare />}>
-						<Route path="/" element={<Main />} />
-						<Route path="/transaction" element={<Transaction />} />
-						<Route path="/transaction/:id/edit" element={<Transaction />} />
-						<Route path="/transactions" element={<Transactions />} />
-						<Route path="/category" element={<Category />} />
-						<Route path="/category/:id/edit" element={<Category />} />
-						<Route path="/categories" element={<Categories />} />
-						<Route path="/account" element={<Account />} />
-						<Route path="/account/:id/edit" element={<Account />} />
-						<Route path="/personal" element={<Personal />} />
-					</Route>
-					<Route path="/login" element={<Authorization />} />
-					<Route path="/register" element={<Registration />} />
-					<Route path="*" element={<Error404 />} />
-				</Routes>
-			</Page>
+			<Routes>
+				<Route element={<PrivateRoutes />}>
+					<Route path="/" element={<Main />} />
+					<Route path="/transaction" element={<Transaction />} />
+					<Route path="/transaction/:id/edit" element={<Transaction />} />
+					<Route path="/transactions" element={<Transactions />} />
+					<Route path="/category" element={<Category />} />
+					<Route path="/category/:id/edit" element={<Category />} />
+					<Route path="/categories" element={<Categories />} />
+					<Route path="/account" element={<Account />} />
+					<Route path="/account/:id/edit" element={<Account />} />
+					<Route path="/personal" element={<Personal />} />
+				</Route>
+				<Route path="/login" element={<Authorization />} />
+				<Route path="/register" element={<Registration />} />
+				<Route path="*" element={<Error404 />} />
+			</Routes>
 			<Modal />
 		</AppColumn>
 	);

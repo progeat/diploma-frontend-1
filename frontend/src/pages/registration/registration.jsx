@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -33,6 +33,17 @@ const regFormSchema = yup.object().shape({
 		.required('Заполните повтор пароля')
 		.oneOf([yup.ref('password'), null], 'Повтор пароля не совпадает'),
 });
+
+const StyledLink = styled(Link)`
+	text-align: left;
+	text-decoration: underline;
+	font-size: 18px;
+	color: #4d525f;
+
+	&:hover {
+		color: #f8f8f9;
+	}
+`;
 
 const RegistrationContainer = ({ className }) => {
 	const {
@@ -107,6 +118,7 @@ const RegistrationContainer = ({ className }) => {
 						Отправить
 					</Button>
 					{errorMessage && <div className="error">{errorMessage}</div>}
+					<StyledLink to="/login">Авторизация</StyledLink>
 				</form>
 			</div>
 		</div>
@@ -149,6 +161,7 @@ export const Registration = styled(RegistrationContainer)`
 	}
 
 	& .button-submit {
+		margin-bottom: 10px;
 		height: 38px;
 		border: 1px solid #f8f8f9;
 		border-radius: 8px;

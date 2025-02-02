@@ -31,10 +31,15 @@ const authFormSchema = yup.object().shape({
 });
 
 const StyledLink = styled(Link)`
-	text-align: center;
+	text-align: left;
 	text-decoration: underline;
 	margin: 20px 0;
 	font-size: 18px;
+	color: #4d525f;
+
+	&:hover {
+		color: #f8f8f9;
+	}
 `;
 
 const AuthorizationContainer = ({ className }) => {
@@ -52,9 +57,7 @@ const AuthorizationContainer = ({ className }) => {
 	});
 
 	const [serverError, setServerError] = useState(null);
-
 	const dispatch = useDispatch();
-
 	const roleId = useSelector(selectUserRole);
 
 	useResetForm(reset);
@@ -161,14 +164,6 @@ export const Authorization = styled(AuthorizationContainer)`
 	& .button-submit:hover {
 		color: #000;
 		background-color: #f8f8f9;
-	}
-
-	& form a {
-		color: #4d525f;
-	}
-
-	& form a:hover {
-		color: #f8f8f9;
 	}
 
 	& .error {
