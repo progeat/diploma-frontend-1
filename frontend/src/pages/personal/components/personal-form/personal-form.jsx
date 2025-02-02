@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Input, Loader } from '../../../../components';
+import { Button, Input } from '../../../../components/common';
+import { Loader } from '../../../../components/ui';
 import {
 	CLOSE_MODAL,
 	LOGOUT,

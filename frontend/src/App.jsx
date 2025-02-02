@@ -13,11 +13,14 @@ import {
 	Transaction,
 	Transactions,
 } from './pages';
-import { AuthMiddleWare, Header, Loader, Modal } from './components';
+import { Modal } from './components/common';
+import { Header } from './components/layout';
+import { AuthMiddleWare } from './components/routes';
+import { Loader } from './components/ui';
 import { setAccounts, setCategories, setIsLoadingAccounts, setUser } from './actions';
 import { request } from './utils';
-import styled from 'styled-components';
 import { selectUserId } from './selectors';
+import styled from 'styled-components';
 
 const AppColumn = styled.div`
 	position: relative;

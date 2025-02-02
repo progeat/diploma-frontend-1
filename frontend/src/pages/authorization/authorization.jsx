@@ -4,7 +4,7 @@ import { Link, Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Input } from '../../components';
+import { Button, Input } from '../../components/common';
 import { useResetForm } from '../../hooks';
 import { setUser, updateAccounts, updateCategories } from '../../actions';
 import { selectUserRole } from '../../selectors';

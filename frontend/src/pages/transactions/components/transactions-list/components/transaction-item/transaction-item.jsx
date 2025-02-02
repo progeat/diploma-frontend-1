@@ -1,9 +1,9 @@
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Icon } from '../../../../../../components';
-import styled from 'styled-components';
+import { Icon } from '../../../../../../components/common';
 import { CLOSE_MODAL, openModal, updateAccounts } from '../../../../../../actions';
 import { formatDate, request } from '../../../../../../utils';
+import styled from 'styled-components';
 
 const TransactionItemContainer = ({
 	className,

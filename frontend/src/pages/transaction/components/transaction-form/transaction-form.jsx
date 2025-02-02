@@ -5,7 +5,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Select from 'react-select';
-import { Button, Icon, Input } from '../../../../components';
+import { Button, Icon, Input } from '../../../../components/common';
 import { request } from '../../../../utils';
 import { CLOSE_MODAL, openModal, updateAccounts } from '../../../../actions';
 import styled from 'styled-components';

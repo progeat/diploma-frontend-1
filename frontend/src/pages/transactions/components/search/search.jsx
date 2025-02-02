@@ -1,4 +1,4 @@
-import { Icon, Input } from '../../../../components';
+import { Icon, Input } from '../../../../components/common';
 import styled from 'styled-components';
 
 const SearchContainer = ({ className, searchPhrase, onChange }) => {

@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectIsLoadingAccounts } from '../../../../../../../../selectors';
-import { Icon, Loader } from '../../../../../../../../components';
+import { Icon } from '../../../../../../../../components/common';
+import { Loader } from '../../../../../../../../components/ui';
 import { GET_TYPE_ACCOUNT } from '../../../../../../../../constants';
 import styled from 'styled-components';
 

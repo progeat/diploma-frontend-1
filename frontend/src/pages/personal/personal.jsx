@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Loader } from '../../components';
+import { Loader } from '../../components/ui';
 import { PersonalForm } from './components';
 import { setUser } from '../../actions';
 import { request } from '../../utils';

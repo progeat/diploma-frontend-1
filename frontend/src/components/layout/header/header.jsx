@@ -1,10 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, useMatch, useNavigate } from 'react-router-dom';
-import { Button } from '../button/button';
-import { Icon } from '../icon/icon';
-import { LOGOUT, RESET_ACCOUNTS, RESET_CATEGORIES } from '../../actions';
-import { selectUserLogin, selectUserRole } from '../../selectors';
-import { ROLE } from '../../constants';
+import { Button, Icon } from '../../common';
+import { LOGOUT, RESET_ACCOUNTS, RESET_CATEGORIES } from '../../../actions';
+import { selectUserLogin, selectUserRole } from '../../../selectors';
+import { ROLE } from '../../../constants';
 import styled from 'styled-components';
 
 const HeaderContainer = ({ className }) => {

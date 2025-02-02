@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useMatch, useParams } from 'react-router-dom';
-import { Loader } from '../../components';
-import { request } from '../../utils';
-import styled from 'styled-components';
-import { TransactionForm } from './components';
 import { useSelector } from 'react-redux';
+import { Loader } from '../../components/ui';
+import { TransactionForm } from './components';
+import { request } from '../../utils';
 import { selectAccounts, selectCategories } from '../../selectors';
+import styled from 'styled-components';
 
 const TransactionContainer = ({ className }) => {
 	const [transaction, setTransaction] = useState({});

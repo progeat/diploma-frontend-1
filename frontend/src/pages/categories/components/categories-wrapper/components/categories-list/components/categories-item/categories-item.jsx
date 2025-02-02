@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { Icon } from '../../../../../../../../components';
+import { Icon } from '../../../../../../../../components/common';
 import {
 	CLOSE_MODAL,
 	openModal,

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { Icon } from '../../components';
+import { Icon } from '../../components/common';
 import { CategoriesWrapper } from './components';
 import styled from 'styled-components';
 

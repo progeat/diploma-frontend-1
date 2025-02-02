@@ -5,7 +5,7 @@ import Select from 'react-select';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Input } from '../../../../components';
+import { Button, Input } from '../../../../components/common';
 import { request } from '../../../../utils';
 import { CLOSE_MODAL, openModal, updateAccounts } from '../../../../actions';
 import { GET_TYPE_ACCOUNT, TYPE_ACCOUNT } from '../../../../constants';

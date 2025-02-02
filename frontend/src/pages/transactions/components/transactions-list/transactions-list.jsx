@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { Icon, Loader } from '../../../../components';
+import { Icon } from '../../../../components/common';
+import { Loader } from '../../../../components/ui';
 import { TransactionItem } from './components';
 import styled from 'styled-components';
 
