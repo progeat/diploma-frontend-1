@@ -3,22 +3,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Select from 'react-select';
 import { Controller, useForm } from 'react-hook-form';
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Input } from '../../../../components/common';
 import { request } from '../../../../utils';
 import { CLOSE_MODAL, openModal, updateAccounts } from '../../../../actions';
 import { GET_TYPE_ACCOUNT, TYPE_ACCOUNT } from '../../../../constants';
 import styled from 'styled-components';
-
-const accountFormSchema = yup.object().shape({
-	name: yup
-		.string()
-		.required('Заполните название')
-		.min(3, 'Неверно заполнено название. Минимум 3 символа'),
-	type: yup.object({ value: yup.number() }).required('Выберите тип счёта'),
-	balance: yup.number().required('Введите сумму баланса'),
-});
+import { accountSchema } from '../../../../utils/validators';
 
 // TODO вынести в константу
 const accountTypeOptions = [
@@ -49,7 +40,7 @@ const AccountFormContainer = ({ className, accounts }) => {
 			type: accountTypeOptions[accountEditing?.type] || accountTypeOptions[0],
 			balance: accountEditing?.balance || 0,
 		},
-		resolver: yupResolver(accountFormSchema),
+		resolver: yupResolver(accountSchema),
 	});
 
 	const onSubmit = ({ name, type, balance }) => {

@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Input } from '../../components/common';
 import { useResetForm } from '../../hooks';
@@ -11,28 +10,7 @@ import { selectUserRole } from '../../selectors';
 import { request } from '../../utils';
 import { ROLE } from '../../constants';
 import styled from 'styled-components';
-
-const regFormSchema = yup.object().shape({
-	login: yup
-		.string()
-		.required('Заполните логин')
-		.matches(/^\w+$/, 'Неверно заполнен логин. Допускаются только буквы и цифры')
-		.min(3, 'Неверно заполнен логин. Минимум 3 символа')
-		.max(15, 'Неверно заполнен логин. Максимум 15 символов'),
-	password: yup
-		.string()
-		.required('Заполните пароль')
-		.matches(
-			/^[\w#%]+$/,
-			'Неверно заполнен пароль. Допускаются только буквы, цифры и знаки # %',
-		)
-		.min(6, 'Неверно заполнен пароль. Минимум 6 символов')
-		.max(30, 'Неверно заполнен пароль. Максимум 30 символов'),
-	passcheck: yup
-		.string()
-		.required('Заполните повтор пароля')
-		.oneOf([yup.ref('password'), null], 'Повтор пароля не совпадает'),
-});
+import { regSchema } from '../../utils/validators';
 
 const StyledLink = styled(Link)`
 	text-align: left;
@@ -57,7 +35,7 @@ const RegistrationContainer = ({ className }) => {
 			password: '',
 			passcheck: '',
 		},
-		resolver: yupResolver(regFormSchema),
+		resolver: yupResolver(regSchema),
 	});
 
 	const [serverError, setServerError] = useState(null);

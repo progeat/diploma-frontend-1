@@ -3,22 +3,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Select from 'react-select';
 import { Controller, useForm } from 'react-hook-form';
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Icon, Input } from '../../../../components/common';
 import { CLOSE_MODAL, openModal, updateCategories } from '../../../../actions';
 import { request } from '../../../../utils';
 import styled from 'styled-components';
-
-const categoryFormSchema = yup.object().shape({
-	name: yup
-		.string()
-		.required('Заполните название')
-		.min(3, 'Неверно заполнено название. Минимум 3 символа'),
-	type: yup.object({ value: yup.number() }).required('Выберите тип категории'),
-	icon: yup.object({ value: yup.string() }).required('Выберите иконку'),
-	color: yup.string().required('Выберите цвет для иконки'),
-});
+import { categorySchema } from '../../../../utils/validators';
 
 // TODO сделать константу под категории
 const categoryTypeOptions = [
@@ -78,7 +68,7 @@ const CategoryFormContainer = ({ className, categories }) => {
 			icon: isEditing?.icon || null,
 			color: isEditing?.color || '#78D9C5',
 		},
-		resolver: yupResolver(categoryFormSchema),
+		resolver: yupResolver(categorySchema),
 	});
 
 	const onSubmit = ({ name, type, icon, color }) => {

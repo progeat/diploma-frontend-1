@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Input } from '../../components/common';
 import { useResetForm } from '../../hooks';
@@ -11,24 +10,7 @@ import { selectUserRole } from '../../selectors';
 import { request } from '../../utils';
 import { ROLE } from '../../constants';
 import styled from 'styled-components';
-
-const authFormSchema = yup.object().shape({
-	login: yup
-		.string()
-		.required('Заполните логин')
-		.matches(/^\w+$/, 'Неверно заполнен логин. Допускаются только буквы и цифры')
-		.min(3, 'Неверно заполнен логин. Минимум 3 символа')
-		.max(15, 'Неверно заполнен логин. Максимум 15 символов'),
-	password: yup
-		.string()
-		.required('Заполните пароль')
-		.matches(
-			/^[\w#%]+$/,
-			'Неверно заполнен пароль. Допускаются только буквы, цифры и знаки # %',
-		)
-		.min(6, 'Неверно заполнен пароль. Минимум 6 символов')
-		.max(30, 'Неверно заполнен пароль. Максимум 30 символов'),
-});
+import { authSchema } from '../../utils/validators';
 
 const StyledLink = styled(Link)`
 	text-align: left;
@@ -53,7 +35,7 @@ const AuthorizationContainer = ({ className }) => {
 			login: '',
 			password: '',
 		},
-		resolver: yupResolver(authFormSchema),
+		resolver: yupResolver(authSchema),
 	});
 
 	const [serverError, setServerError] = useState(null);

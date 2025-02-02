@@ -3,22 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import Select from 'react-select';
 import { Button, Icon, Input } from '../../../../components/common';
 import { request } from '../../../../utils';
 import { CLOSE_MODAL, openModal, updateAccounts } from '../../../../actions';
 import styled from 'styled-components';
-
-const transactionFormSchema = yup.object().shape({
-	amount: yup.number().required('Введите сумму'),
-	categorySelected: yup.object({ value: yup.string() }).required('Выберите категорию'),
-	accountSelected: yup.object({ value: yup.string() }).required('Выберите счёт'),
-	comment: yup
-		.string()
-		.required('Введите комментарий')
-		.min(2, 'Неверно заполнен комментарий. Минимум 2 символа'),
-});
+import { transactionSchema } from '../../../../utils/validators';
 
 const createSelectorOptions = (arrayValues) =>
 	arrayValues.map((obj) => ({ value: obj.id, label: obj.name }));
@@ -63,7 +53,7 @@ const TransactionFormContainer = ({
 			accountSelected: accountsOptions[indexSelectForAccount] || null,
 			comment: transaction?.comment || '',
 		},
-		resolver: yupResolver(transactionFormSchema),
+		resolver: yupResolver(transactionSchema),
 	});
 
 	const onSubmit = ({ amount, categorySelected, accountSelected, comment }) => {

@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Input } from '../../../../components/common';
 import { Loader } from '../../../../components/ui';
@@ -17,48 +16,7 @@ import {
 import { selectUser } from '../../../../selectors';
 import { request } from '../../../../utils';
 import styled from 'styled-components';
-
-// TODO сделать обязательным ввод нового пароля с привязкой к вводу старого пароля
-const personalFormSchema = yup.object().shape({
-	login: yup
-		.string()
-		.required('Заполните логин')
-		.matches(/^\w+$/, 'Неверно заполнен логин. Допускаются только буквы и цифры')
-		.min(3, 'Неверно заполнен логин. Минимум 3 символа')
-		.max(15, 'Неверно заполнен логин. Максимум 15 символов'),
-	email: yup.string().email('Неверно заполнена почта').nullable(),
-	phone: yup
-		.string()
-		.matches(
-			/^$|^(\+?7|8)\d{10}$/,
-			'Неверно задан номер телефона, формат +7XXXXXXXXXX',
-		)
-		.nullable(),
-	newPassword: yup
-		.string()
-		.matches(
-			/^$|^[\w#%]{6,}$/,
-			'Неверно заполнен новый пароль. Допускаются только буквы, цифры, минимум 6 символов и знаки # %',
-		)
-		.max(30, 'Неверно заполнен пароль. Максимум 30 символов')
-		.nullable(),
-
-	// TODO не работает привязка(выдает ошибку)
-	// oldPassword: yup.string().when('newPassword', {
-	// 	is: (value) => value && value.length > 0,
-	// 	then: yup.string().required('Для смены пароля введите текущий пароль'),
-	// 	otherwise: yup.string().nullable(),
-	// }),
-
-	oldPassword: yup
-		.string()
-		.matches(
-			/^$|^[\w#%]{6,}$/,
-			'Неверно заполнен старый пароль. Допускаются только буквы, цифры, минимум 6 символов и знаки # %',
-		)
-		.max(30, 'Неверно заполнен пароль. Максимум 30 символов')
-		.nullable(),
-});
+import { userSchema } from '../../../../utils/validators';
 
 const PersonalFormContainer = ({ className }) => {
 	const [serverError, setServerError] = useState(null);
@@ -82,7 +40,7 @@ const PersonalFormContainer = ({ className }) => {
 		formState: { isDirty, errors },
 	} = useForm({
 		defaultValues,
-		resolver: yupResolver(personalFormSchema),
+		resolver: yupResolver(userSchema),
 	});
 
 	const onDeleteUser = () => {
