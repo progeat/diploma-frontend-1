@@ -1,7 +1,7 @@
 import { useMatch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { CategoryForm } from './components';
-import { selectCategories } from '../../selectors';
+import { selectCategories } from '../../store/selectors';
 import styled from 'styled-components';
 
 const CategoryContainer = ({ className }) => {

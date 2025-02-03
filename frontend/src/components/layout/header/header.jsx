@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, useMatch, useNavigate } from 'react-router-dom';
 import { Button, Icon } from '../../common';
-import { LOGOUT, RESET_ACCOUNTS, RESET_CATEGORIES } from '../../../actions';
-import { selectUserLogin, selectUserRole } from '../../../selectors';
+import { LOGOUT, RESET_ACCOUNTS, RESET_CATEGORIES } from '../../../store/actions';
+import { selectUserLogin, selectUserRole } from '../../../store/selectors';
 import { ROLE } from '../../../constants';
 import styled from 'styled-components';
 

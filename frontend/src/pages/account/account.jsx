@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { useMatch } from 'react-router-dom';
 import { AccountForm } from './components';
-import { selectAccounts } from '../../selectors';
+import { selectAccounts } from '../../store/selectors';
 import styled from 'styled-components';
 
 const AccountContainer = ({ className }) => {

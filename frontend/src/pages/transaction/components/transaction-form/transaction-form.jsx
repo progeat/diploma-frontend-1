@@ -6,9 +6,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import Select from 'react-select';
 import { Button, Icon, Input } from '../../../../components/common';
 import { request } from '../../../../utils';
-import { CLOSE_MODAL, openModal, updateAccounts } from '../../../../actions';
-import styled from 'styled-components';
+import { CLOSE_MODAL, openModal, updateAccounts } from '../../../../store/actions';
 import { transactionSchema } from '../../../../utils/validators';
+import styled from 'styled-components';
 
 const createSelectorOptions = (arrayValues) =>
 	arrayValues.map((obj) => ({ value: obj.id, label: obj.name }));

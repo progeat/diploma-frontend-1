@@ -5,10 +5,10 @@ import Select from 'react-select';
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Icon, Input } from '../../../../components/common';
-import { CLOSE_MODAL, openModal, updateCategories } from '../../../../actions';
+import { CLOSE_MODAL, openModal, updateCategories } from '../../../../store/actions';
 import { request } from '../../../../utils';
-import styled from 'styled-components';
 import { categorySchema } from '../../../../utils/validators';
+import styled from 'styled-components';
 
 // TODO сделать константу под категории
 const categoryTypeOptions = [

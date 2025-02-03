@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Loader } from '../../components/ui';
 import { PersonalForm } from './components';
-import { setUser } from '../../actions';
+import { setUser } from '../../store/actions';
 import { request } from '../../utils';
 import styled from 'styled-components';
 

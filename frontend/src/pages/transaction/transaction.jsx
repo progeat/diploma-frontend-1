@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Loader } from '../../components/ui';
 import { TransactionForm } from './components';
 import { request } from '../../utils';
-import { selectAccounts, selectCategories } from '../../selectors';
+import { selectAccounts, selectCategories } from '../../store/selectors';
 import styled from 'styled-components';
 
 const TransactionContainer = ({ className }) => {

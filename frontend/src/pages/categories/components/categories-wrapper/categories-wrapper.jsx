@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { CategoriesList } from './components';
+import { selectCategories } from '../../../../store/selectors';
 import { TYPE_CATEGORY } from '../../../../constants';
-import { selectCategories } from '../../../../selectors';
 import styled from 'styled-components';
 
 const CategoriesWrapperContainer = ({ className }) => {

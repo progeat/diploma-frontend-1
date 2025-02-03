@@ -16,9 +16,14 @@ import {
 import { Modal } from './components/common';
 import { PrivateRoutes } from './components/routes';
 import { Loader } from './components/ui';
-import { setAccounts, setCategories, setIsLoadingAccounts, setUser } from './actions';
+import {
+	setAccounts,
+	setCategories,
+	setIsLoadingAccounts,
+	setUser,
+} from './store/actions';
 import { request } from './utils';
-import { selectUserId } from './selectors';
+import { selectUserId } from './store/selectors';
 import styled from 'styled-components';
 
 const AppColumn = styled.div`

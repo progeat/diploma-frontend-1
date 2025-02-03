@@ -1,9 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Icon } from '../../../../../../../../components/common';
-import { selectIsLoadingStatistics } from '../../../../../../../../selectors';
-import styled from 'styled-components';
 import { Loader } from '../../../../../../../../components/ui';
+import { selectIsLoadingStatistics } from '../../../../../../../../store/selectors';
+import styled from 'styled-components';
 
 const ListStatisticsComponent = ({ className, value }) => {
 	const navigate = useNavigate();

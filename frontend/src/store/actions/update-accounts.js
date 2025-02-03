@@ -1,4 +1,4 @@
-import { request } from '../utils';
+import { request } from '../../utils';
 import { setAccounts } from './set-accounts';
 import { setIsLoadingAccounts } from './set-is-loading-accounts';
 

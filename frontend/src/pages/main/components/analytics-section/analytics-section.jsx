@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ControlPanelAnalytics, ExpensesChart, IncomeChart } from './components';
-import { selectStatistics } from '../../../../selectors';
+import { selectStatistics } from '../../../../store/selectors';
 import styled from 'styled-components';
 
 const AnaliticsSectionContainer = ({ className }) => {

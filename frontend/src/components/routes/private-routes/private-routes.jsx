@@ -1,6 +1,6 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { selectUserRole } from '../../../selectors';
+import { selectUserRole } from '../../../store/selectors';
 import { ROLE } from '../../../constants';
 import { Layout } from '../../layout';
 

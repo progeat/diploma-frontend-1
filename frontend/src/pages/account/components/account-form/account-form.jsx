@@ -6,10 +6,10 @@ import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Input } from '../../../../components/common';
 import { request } from '../../../../utils';
-import { CLOSE_MODAL, openModal, updateAccounts } from '../../../../actions';
+import { CLOSE_MODAL, openModal, updateAccounts } from '../../../../store/actions';
+import { accountSchema } from '../../../../utils/validators';
 import { GET_TYPE_ACCOUNT, TYPE_ACCOUNT } from '../../../../constants';
 import styled from 'styled-components';
-import { accountSchema } from '../../../../utils/validators';
 
 // TODO вынести в константу
 const accountTypeOptions = [

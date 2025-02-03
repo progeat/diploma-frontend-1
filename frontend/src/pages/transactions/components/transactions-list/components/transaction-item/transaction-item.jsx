@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '../../../../../../components/common';
-import { CLOSE_MODAL, openModal, updateAccounts } from '../../../../../../actions';
+import { CLOSE_MODAL, openModal, updateAccounts } from '../../../../../../store/actions';
 import { formatDate, request } from '../../../../../../utils';
 import styled from 'styled-components';
 

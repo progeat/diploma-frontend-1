@@ -12,11 +12,11 @@ import {
 	RESET_ACCOUNTS,
 	RESET_CATEGORIES,
 	setUser,
-} from '../../../../actions';
-import { selectUser } from '../../../../selectors';
+} from '../../../../store/actions';
+import { selectUser } from '../../../../store/selectors';
 import { request } from '../../../../utils';
-import styled from 'styled-components';
 import { userSchema } from '../../../../utils/validators';
+import styled from 'styled-components';
 
 const PersonalFormContainer = ({ className }) => {
 	const [serverError, setServerError] = useState(null);

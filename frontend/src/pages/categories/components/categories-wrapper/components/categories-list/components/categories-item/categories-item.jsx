@@ -5,7 +5,7 @@ import {
 	CLOSE_MODAL,
 	openModal,
 	updateCategories,
-} from '../../../../../../../../actions';
+} from '../../../../../../../../store/actions';
 import { request } from '../../../../../../../../utils';
 import styled from 'styled-components';
 

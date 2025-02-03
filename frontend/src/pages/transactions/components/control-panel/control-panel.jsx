@@ -10,8 +10,8 @@ import {
 	setFilterAccount,
 	setFilterCategory,
 	setFilterDate,
-} from '../../../../actions';
-import { selectAccounts, selectCategories } from '../../../../selectors';
+} from '../../../../store/actions';
+import { selectAccounts, selectCategories } from '../../../../store/selectors';
 import styled from 'styled-components';
 
 const createSelectorOptions = (arrayValues) =>

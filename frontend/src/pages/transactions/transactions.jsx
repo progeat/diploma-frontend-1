@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ControlPanel, Pagination, Search, TransactionsList } from './components';
-import { selectFilter } from '../../selectors';
+import { selectFilter } from '../../store/selectors';
 import { request } from '../../utils';
 import { debounce } from './utils';
 import { PAGINATION_LIMIT } from '../../constants';

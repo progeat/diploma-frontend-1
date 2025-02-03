@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { AnalyticsSection, FinancesSection } from './components';
-import { setIsLoadingStatistics, setStatistics } from '../../actions';
+import { setIsLoadingStatistics, setStatistics } from '../../store/actions';
 import { request } from '../../utils';
 import styled from 'styled-components';
 

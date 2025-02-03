@@ -5,12 +5,12 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Input } from '../../components/common';
 import { useResetForm } from '../../hooks';
-import { setUser, updateAccounts, updateCategories } from '../../actions';
-import { selectUserRole } from '../../selectors';
+import { setUser, updateAccounts, updateCategories } from '../../store/actions';
+import { selectUserRole } from '../../store/selectors';
 import { request } from '../../utils';
+import { authSchema } from '../../utils/validators';
 import { ROLE } from '../../constants';
 import styled from 'styled-components';
-import { authSchema } from '../../utils/validators';
 
 const StyledLink = styled(Link)`
 	text-align: left;
