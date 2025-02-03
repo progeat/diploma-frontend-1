@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import Select from 'react-select';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Icon, Input } from '../../../../components/common';
+import { SelectForm } from '../../../../components/form';
 import { CLOSE_MODAL, openModal, updateCategories } from '../../../../store/actions';
 import { request } from '../../../../utils';
 import { categorySchema } from '../../../../utils/validators';
@@ -30,22 +30,6 @@ const iconsOptions = [
 	{ value: 'fa fa-plane', label: 'Путешествия' },
 	{ value: 'fa fa-handshake-o', label: 'Подработка' },
 ];
-
-const FormatOptionLabel = ({ value, label }) => {
-	return (
-		<article className="icon-option">
-			<Icon
-				color="#fff"
-				inactive="true"
-				id={value}
-				size="18px"
-				margin="0 10px 0 0"
-				onClick={() => {}}
-			/>
-			<div>{label}</div>
-		</article>
-	);
-};
 
 const CategoryFormContainer = ({ className, categories }) => {
 	const [serverError, setServerError] = useState(null);
@@ -124,32 +108,17 @@ const CategoryFormContainer = ({ className, categories }) => {
 				})}
 			/>
 			{/* TODO подумать о реализации табом */}
-			<Controller
+			<SelectForm
 				name="type"
 				control={control}
-				render={({ field }) => (
-					<Select
-						{...field}
-						className="select"
-						classNamePrefix="select"
-						options={categoryTypeOptions}
-						placeholder="Выберите тип категории"
-					/>
-				)}
+				options={categoryTypeOptions}
+				placeholder="Выберите тип категории"
 			/>
-			<Controller
+			<SelectForm
 				name="icon"
 				control={control}
-				render={({ field }) => (
-					<Select
-						{...field}
-						className="select"
-						classNamePrefix="select"
-						options={iconsOptions}
-						formatOptionLabel={FormatOptionLabel}
-						placeholder="Выберите иконку"
-					/>
-				)}
+				options={iconsOptions}
+				placeholder="Выберите иконку"
 			/>
 			<Input
 				type="color"
@@ -209,52 +178,6 @@ export const CategoryForm = styled(CategoryFormContainer)`
 
 	& input:hover {
 		outline: 2px solid #f8f8f9;
-	}
-
-	& .select {
-		margin-bottom: 10px;
-		width: 100%;
-	}
-
-	& .select__control {
-		height: 40px;
-		border-radius: 8px;
-		border-color: #5e636f;
-	}
-
-	& .select__control,
-	.select__menu {
-		background-color: #2b2d32;
-	}
-
-	& .select__placeholder,
-	.select__single-value {
-		color: #f8f8f9;
-	}
-
-	& .select__control:hover {
-		border-color: #f8f8f9;
-		box-shadow: 0 0 0 1px #f8f8f9;
-	}
-
-	& .select__control--is-focused {
-		border-color: #f8f8f9;
-		box-shadow: 0 0 0 1px #f8f8f9;
-	}
-
-	& .select__menu {
-		z-index: 10;
-	}
-
-	& .select__option:hover,
-	.select__option--is-focused {
-		color: #2b2d32;
-		background-color: #f8f8f9;
-	}
-
-	& .select__option--is-selected {
-		color: #4d525f;
-		background-color: rgb(179, 179, 179);
 	}
 
 	& .icon-option,

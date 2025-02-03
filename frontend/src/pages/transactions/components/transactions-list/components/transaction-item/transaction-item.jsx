@@ -78,12 +78,13 @@ export const TransactionItem = styled(TransactionItemContainer)`
 	align-items: center;
 	border-radius: 12px;
 	padding: 10px 15px 10px 20px;
+	font-size: 14px;
 	background-color: #393d47;
 
 	& .item-date {
 		position: absolute;
 		top: -7px;
-		left: 83%;
+		left: 82%;
 		transform: translateX(-50%);
 		border: 1px solid #5e636f;
 		border-radius: 10px;

@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import Select from 'react-select';
 import { Button, Icon, Input } from '../../../../components/common';
+import { SelectForm } from '../../../../components/form';
 import { request } from '../../../../utils';
+import { transactionSchema } from '../../../../utils/validators';
 import { CLOSE_MODAL, openModal, updateAccounts } from '../../../../store/actions';
 import { createSelectOptions, findIndexForSelect } from './utils';
-import { transactionSchema } from '../../../../utils/validators';
 import styled from 'styled-components';
 
 const TransactionFormContainer = ({
@@ -118,19 +118,12 @@ const TransactionFormContainer = ({
 				})}
 			/>
 			<div className="select-wrapper">
-				<Controller
+				<SelectForm
 					name="categorySelected"
 					control={control}
-					render={({ field }) => (
-						<Select
-							{...field}
-							className="select"
-							classNamePrefix="select"
-							options={categoriesOptions}
-							placeholder="Выберите категорию"
-							isClearable
-						/>
-					)}
+					options={categoriesOptions}
+					placeholder="Выберите категорию"
+					isClearable
 				/>
 				<Icon
 					className="icon-plus"
@@ -141,19 +134,12 @@ const TransactionFormContainer = ({
 				/>
 			</div>
 			<div className="select-wrapper">
-				<Controller
+				<SelectForm
 					name="accountSelected"
 					control={control}
-					render={({ field }) => (
-						<Select
-							{...field}
-							className="select"
-							classNamePrefix="select"
-							options={accountsOptions}
-							placeholder="Выберите счёт"
-							isClearable
-						/>
-					)}
+					options={accountsOptions}
+					placeholder="Выберите счёт"
+					isClearable
 				/>
 				<Icon
 					className="icon-plus"
@@ -216,52 +202,6 @@ export const TransactionForm = styled(TransactionFormContainer)`
 		display: flex;
 		justify-content: center;
 		align-items: center;
-	}
-
-	& .select {
-		margin-bottom: 10px;
-		width: 100%;
-	}
-
-	& .select__control {
-		height: 40px;
-		border-radius: 8px;
-		border-color: #5e636f;
-	}
-
-	& .select__control,
-	.select__menu {
-		background-color: #2b2d32;
-	}
-
-	& .select__placeholder,
-	.select__single-value {
-		color: #f8f8f9;
-	}
-
-	& .select__control:hover {
-		border-color: #f8f8f9;
-		box-shadow: 0 0 0 1px #f8f8f9;
-	}
-
-	& .select__control--is-focused {
-		border-color: #f8f8f9;
-		box-shadow: 0 0 0 1px #f8f8f9;
-	}
-
-	& .select__menu {
-		z-index: 10;
-	}
-
-	& .select__option:hover,
-	.select__option--is-focused {
-		color: #2b2d32;
-		background-color: #f8f8f9;
-	}
-
-	& .select__option--is-selected {
-		color: #4d525f;
-		background-color: rgb(179, 179, 179);
 	}
 
 	& .button-submit {

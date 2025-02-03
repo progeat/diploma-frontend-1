@@ -1,17 +1,16 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import Select from 'react-select';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Input } from '../../../../components/common';
+import { SelectForm } from '../../../../components/form';
 import { request } from '../../../../utils';
 import { CLOSE_MODAL, openModal, updateAccounts } from '../../../../store/actions';
 import { accountSchema } from '../../../../utils/validators';
 import { GET_TYPE_ACCOUNT, TYPE_ACCOUNT } from '../../../../constants';
 import styled from 'styled-components';
 
-// TODO вынести в константу
 const accountTypeOptions = [
 	{ value: TYPE_ACCOUNT.DEBIT, label: GET_TYPE_ACCOUNT[TYPE_ACCOUNT.DEBIT] },
 	{ value: TYPE_ACCOUNT.CREDIT, label: GET_TYPE_ACCOUNT[TYPE_ACCOUNT.CREDIT] },
@@ -95,18 +94,11 @@ const AccountFormContainer = ({ className, accounts }) => {
 					},
 				})}
 			/>
-			<Controller
+			<SelectForm
 				name="type"
 				control={control}
-				render={({ field }) => (
-					<Select
-						{...field}
-						className="select"
-						classNamePrefix="select"
-						options={accountTypeOptions}
-						placeholder="Выберите тип счёта"
-					/>
-				)}
+				options={accountTypeOptions}
+				placeholder="Выберите тип счёта"
 			/>
 			<Input
 				type="number"
@@ -153,52 +145,6 @@ export const AccountForm = styled(AccountFormContainer)`
 
 	& input:hover {
 		outline: 2px solid #f8f8f9;
-	}
-
-	& .select {
-		margin-bottom: 10px;
-		width: 100%;
-	}
-
-	& .select__control {
-		height: 40px;
-		border-radius: 8px;
-		border-color: #5e636f;
-	}
-
-	& .select__control,
-	.select__menu {
-		background-color: #2b2d32;
-	}
-
-	& .select__placeholder,
-	.select__single-value {
-		color: #f8f8f9;
-	}
-
-	& .select__control:hover {
-		border-color: #f8f8f9;
-		box-shadow: 0 0 0 1px #f8f8f9;
-	}
-
-	& .select__control--is-focused {
-		border-color: #f8f8f9;
-		box-shadow: 0 0 0 1px #f8f8f9;
-	}
-
-	& .select__menu {
-		z-index: 10;
-	}
-
-	& .select__option:hover,
-	.select__option--is-focused {
-		color: #2b2d32;
-		background-color: #f8f8f9;
-	}
-
-	& .select__option--is-selected {
-		color: #4d525f;
-		background-color: rgb(179, 179, 179);
 	}
 
 	& .button-submit {
