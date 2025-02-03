@@ -7,14 +7,9 @@ import Select from 'react-select';
 import { Button, Icon, Input } from '../../../../components/common';
 import { request } from '../../../../utils';
 import { CLOSE_MODAL, openModal, updateAccounts } from '../../../../store/actions';
+import { createSelectOptions, findIndexForSelect } from './utils';
 import { transactionSchema } from '../../../../utils/validators';
 import styled from 'styled-components';
-
-const createSelectorOptions = (arrayValues) =>
-	arrayValues.map((obj) => ({ value: obj.id, label: obj.name }));
-
-const findIndexForSelect = (id, options) =>
-	options.findIndex((option) => option.value === id);
 
 const TransactionFormContainer = ({
 	className,
@@ -28,8 +23,8 @@ const TransactionFormContainer = ({
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	const categoriesOptions = createSelectorOptions(categories);
-	const accountsOptions = createSelectorOptions(accounts);
+	const categoriesOptions = createSelectOptions(categories);
+	const accountsOptions = createSelectOptions(accounts);
 
 	const indexSelectForCategory = findIndexForSelect(
 		transaction?.category,
