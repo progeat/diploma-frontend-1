@@ -2,21 +2,31 @@ import { Controller } from 'react-hook-form';
 import Select from 'react-select';
 import styled from 'styled-components';
 
-const SelectFormContainer = ({ className, name, control, options, ...props }) => {
+const Label = styled.label`
+	display: block;
+	margin-bottom: 5px;
+	font-size: 14px;
+	color: #cfcfcf;
+`;
+
+const SelectFormContainer = ({ className, label, name, control, options, ...props }) => {
 	return (
-		<Controller
-			name={name}
-			control={control}
-			render={({ field }) => (
-				<Select
-					{...field}
-					className={className}
-					classNamePrefix="select"
-					options={options}
-					{...props}
-				/>
-			)}
-		/>
+		<div className={className}>
+			{label && <Label>{label}</Label>}
+			<Controller
+				name={name}
+				control={control}
+				render={({ field }) => (
+					<Select
+						{...field}
+						className="select"
+						classNamePrefix="select"
+						options={options}
+						{...props}
+					/>
+				)}
+			/>
+		</div>
 	);
 };
 
@@ -60,8 +70,17 @@ export const SelectForm = styled(SelectFormContainer)`
 		background-color: #f8f8f9;
 	}
 
+	& .select__option:hover i,
+	.select__option--is-focused i {
+		color: #2b2d32;
+	}
+
 	& .select__option--is-selected {
 		color: #4d525f;
 		background-color: rgb(179, 179, 179);
+	}
+
+	& .select__option--is-selected i {
+		color: #2b2d32;
 	}
 `;

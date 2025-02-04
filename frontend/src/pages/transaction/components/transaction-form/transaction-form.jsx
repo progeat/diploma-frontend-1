@@ -108,6 +108,7 @@ const TransactionFormContainer = ({
 	return (
 		<form className={className} onSubmit={handleSubmit(onSubmit)}>
 			<Input
+				label="Сумма"
 				type="number"
 				placeholder="Сумма операции..."
 				{...register('amount', {
@@ -119,6 +120,7 @@ const TransactionFormContainer = ({
 			/>
 			<div className="select-wrapper">
 				<SelectForm
+					label="Категория"
 					name="categorySelected"
 					control={control}
 					options={categoriesOptions}
@@ -128,13 +130,14 @@ const TransactionFormContainer = ({
 				<Icon
 					className="icon-plus"
 					id="fa-plus-circle"
-					style={{ position: 'absolute', right: '-27px', top: '5px' }}
+					style={{ position: 'absolute', right: '-27px', top: '27px' }}
 					margin="0"
 					onClick={() => navigate('/category')}
 				/>
 			</div>
 			<div className="select-wrapper">
 				<SelectForm
+					label="Счёт"
 					name="accountSelected"
 					control={control}
 					options={accountsOptions}
@@ -144,12 +147,13 @@ const TransactionFormContainer = ({
 				<Icon
 					className="icon-plus"
 					id="fa-plus-circle"
-					style={{ position: 'absolute', right: '-27px', top: '5px' }}
+					style={{ position: 'absolute', right: '-27px', top: '27px' }}
 					margin="0"
 					onClick={() => navigate('/account')}
 				/>
 			</div>
 			<Input
+				label="Комментарий"
 				type="text"
 				placeholder="Комментарий..."
 				{...register('comment', {
@@ -189,10 +193,6 @@ export const TransactionForm = styled(TransactionFormContainer)`
 		color: #f8f8f9;
 	}
 
-	& input:not(:first-child) {
-		margin-bottom: 20px;
-	}
-
 	& input:hover {
 		outline: 2px solid #f8f8f9;
 	}
@@ -205,7 +205,7 @@ export const TransactionForm = styled(TransactionFormContainer)`
 	}
 
 	& .button-submit {
-		margin-bottom: 10px;
+		margin: 10px 0;
 		height: 38px;
 		border: 1px solid #f8f8f9;
 		border-radius: 8px;

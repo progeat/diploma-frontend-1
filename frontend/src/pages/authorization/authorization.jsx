@@ -71,6 +71,7 @@ const AuthorizationContainer = ({ className }) => {
 				<h2>Авторизация</h2>
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<Input
+						label="Логин"
 						type="text"
 						placeholder="Логин..."
 						{...register('login', {
@@ -78,6 +79,7 @@ const AuthorizationContainer = ({ className }) => {
 						})}
 					/>
 					<Input
+						label="Пароль"
 						type="password"
 						placeholder="Пароль..."
 						{...register('password', {
@@ -135,7 +137,7 @@ export const Authorization = styled(AuthorizationContainer)`
 	}
 
 	& .button-submit {
-		margin-bottom: 10px;
+		margin: 10px 0;
 		height: 38px;
 		border: 1px solid #f8f8f9;
 		border-radius: 8px;

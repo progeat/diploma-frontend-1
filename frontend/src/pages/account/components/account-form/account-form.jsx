@@ -85,8 +85,9 @@ const AccountFormContainer = ({ className, accounts }) => {
 	return (
 		<form className={className} onSubmit={handleSubmit(onSubmit)}>
 			<Input
+				label="Имя"
 				type="text"
-				placeholder="Название счёта..."
+				placeholder="Имя счёта..."
 				{...register('name', {
 					onChange: () => {
 						setServerError(null);
@@ -95,12 +96,14 @@ const AccountFormContainer = ({ className, accounts }) => {
 				})}
 			/>
 			<SelectForm
+				label="Тип"
 				name="type"
 				control={control}
 				options={accountTypeOptions}
 				placeholder="Выберите тип счёта"
 			/>
 			<Input
+				label="Баланс"
 				type="number"
 				placeholder="Баланс..."
 				{...register('balance', {
@@ -139,16 +142,12 @@ export const AccountForm = styled(AccountFormContainer)`
 		color: #f8f8f9;
 	}
 
-	& input:not(:first-child) {
-		margin-bottom: 20px;
-	}
-
 	& input:hover {
 		outline: 2px solid #f8f8f9;
 	}
 
 	& .button-submit {
-		margin-bottom: 10px;
+		margin: 10px 0;
 		height: 38px;
 		border: 1px solid #f8f8f9;
 		border-radius: 8px;

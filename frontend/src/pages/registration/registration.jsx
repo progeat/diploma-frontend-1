@@ -72,6 +72,7 @@ const RegistrationContainer = ({ className }) => {
 				<h2>Регистрация</h2>
 				<form onSubmit={handleSubmit(onSubmit)} className="form">
 					<Input
+						label="Логин"
 						type="text"
 						placeholder="Логин..."
 						{...register('login', {
@@ -79,6 +80,7 @@ const RegistrationContainer = ({ className }) => {
 						})}
 					/>
 					<Input
+						label="Пароль"
 						type="password"
 						placeholder="Пароль..."
 						{...register('password', {
@@ -86,6 +88,7 @@ const RegistrationContainer = ({ className }) => {
 						})}
 					/>
 					<Input
+						label="Повтор пароля"
 						type="password"
 						placeholder="Повтор пароля..."
 						{...register('passcheck', {
@@ -139,7 +142,7 @@ export const Registration = styled(RegistrationContainer)`
 	}
 
 	& .button-submit {
-		margin-bottom: 10px;
+		margin: 10px 0;
 		height: 38px;
 		border: 1px solid #f8f8f9;
 		border-radius: 8px;

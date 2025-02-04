@@ -31,6 +31,22 @@ const iconsOptions = [
 	{ value: 'fa fa-handshake-o', label: 'Подработка' },
 ];
 
+const FormatOptionLabel = ({ value, label }) => {
+	return (
+		<article className="icon-option">
+			<Icon
+				color="#fff"
+				inactive="true"
+				id={value}
+				size="18px"
+				margin="0 10px 0 0"
+				onClick={() => {}}
+			/>
+			<div>{label}</div>
+		</article>
+	);
+};
+
 const CategoryFormContainer = ({ className, categories }) => {
 	const [serverError, setServerError] = useState(null);
 	const [isServerPass, setIsServerPass] = useState(null);
@@ -98,6 +114,7 @@ const CategoryFormContainer = ({ className, categories }) => {
 	return (
 		<form className={className} onSubmit={handleSubmit(onSubmit)}>
 			<Input
+				label="Имя"
 				type="text"
 				placeholder="Название категории..."
 				{...register('name', {
@@ -109,18 +126,22 @@ const CategoryFormContainer = ({ className, categories }) => {
 			/>
 			{/* TODO подумать о реализации табом */}
 			<SelectForm
+				label="Тип"
 				name="type"
 				control={control}
 				options={categoryTypeOptions}
 				placeholder="Выберите тип категории"
 			/>
 			<SelectForm
+				label="Иконка"
 				name="icon"
 				control={control}
 				options={iconsOptions}
+				formatOptionLabel={FormatOptionLabel}
 				placeholder="Выберите иконку"
 			/>
 			<Input
+				label="Цвет"
 				type="color"
 				placeholder="Выберите цвет..."
 				{...register('color', {
@@ -152,10 +173,6 @@ export const CategoryForm = styled(CategoryFormContainer)`
 	display: flex;
 	flex-direction: column;
 
-	& input {
-		margin-bottom: 10px;
-	}
-
 	& .select {
 		margin-bottom: 10px;
 		width: 100%;
@@ -172,10 +189,6 @@ export const CategoryForm = styled(CategoryFormContainer)`
 		color: #f8f8f9;
 	}
 
-	& input:not(:first-child) {
-		margin-bottom: 20px;
-	}
-
 	& input:hover {
 		outline: 2px solid #f8f8f9;
 	}
@@ -186,7 +199,7 @@ export const CategoryForm = styled(CategoryFormContainer)`
 	}
 
 	& .button-submit {
-		margin-bottom: 10px;
+		margin: 10px 0;
 		height: 38px;
 		border: 1px solid #f8f8f9;
 		border-radius: 8px;

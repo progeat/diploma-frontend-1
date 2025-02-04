@@ -103,6 +103,7 @@ const PersonalFormContainer = ({ className }) => {
 			<h2>Изменить данные</h2>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<Input
+					label="Логин"
 					type="text"
 					placeholder="Логин..."
 					{...register('login', {
@@ -113,6 +114,7 @@ const PersonalFormContainer = ({ className }) => {
 					})}
 				/>
 				<Input
+					label="Почта"
 					type="text"
 					placeholder="Почта..."
 					{...register('email', {
@@ -123,6 +125,7 @@ const PersonalFormContainer = ({ className }) => {
 					})}
 				/>
 				<Input
+					label="Телефон"
 					type="tel"
 					placeholder="Телефон..."
 					{...register('phone', {
@@ -133,6 +136,7 @@ const PersonalFormContainer = ({ className }) => {
 					})}
 				/>
 				<Input
+					label="Новый пароль"
 					type="password"
 					placeholder="Новый пароль..."
 					{...register('newPassword', {
@@ -143,6 +147,7 @@ const PersonalFormContainer = ({ className }) => {
 					})}
 				/>
 				<Input
+					label="Старый пароль"
 					type="password"
 					placeholder="Введите старый пароль..."
 					{...register('oldPassword', {
@@ -194,17 +199,12 @@ export const PersonalForm = styled(PersonalFormContainer)`
 		color: #f8f8f9;
 	}
 
-	// TODO разобраться почему не работает last-child
-	& form input:last-child {
-		margin-bottom: 20px;
-	}
-
 	& form input:hover {
 		outline: 2px solid #f8f8f9;
 	}
 
 	& .button-submit {
-		margin-bottom: 10px;
+		margin: 10px 0;
 		height: 38px;
 		border: 1px solid #f8f8f9;
 		border-radius: 8px;
