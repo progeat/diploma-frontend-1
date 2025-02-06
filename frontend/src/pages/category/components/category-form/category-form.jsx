@@ -11,12 +11,12 @@ import { categorySchema } from '../../../../utils/validators';
 import { TYPE_CATEGORY } from '../../../../constants';
 import styled from 'styled-components';
 
-const categoryTypeOptions = [
+const CATEGORY_TYPE_OPTIONS = [
 	{ value: TYPE_CATEGORY.EXPENSE, label: 'Расход' },
 	{ value: TYPE_CATEGORY.INCOME, label: 'Доход' },
 ];
 
-const iconsOptions = [
+const ICON_OPTIONS = [
 	{ value: 'fa fa-shopping-basket', label: 'Магазины' },
 	{ value: 'fa fa-cutlery', label: 'Кафе и рестораны' },
 	{ value: 'fa fa-car', label: 'Автомобиль' },
@@ -53,7 +53,7 @@ const CategoryFormContainer = ({ className, categories }) => {
 	const params = useParams();
 	// TODO изменить имя константы(так подразумевается хранить объект категории, а имя константы означает хранение булева значения)
 	const isEditing = categories.find((category) => category.id === params.id);
-	const indexIconCategoryEdited = iconsOptions.findIndex(
+	const indexIconCategoryEdited = ICON_OPTIONS.findIndex(
 		(icon) => icon.value === isEditing?.icon,
 	);
 	const dispatch = useDispatch();
@@ -68,8 +68,8 @@ const CategoryFormContainer = ({ className, categories }) => {
 	} = useForm({
 		defaultValues: {
 			name: isEditing?.name || '',
-			type: categoryTypeOptions[isEditing?.type] || categoryTypeOptions[0],
-			icon: iconsOptions[indexIconCategoryEdited] || null,
+			type: CATEGORY_TYPE_OPTIONS[isEditing?.type] || CATEGORY_TYPE_OPTIONS[0],
+			icon: ICON_OPTIONS[indexIconCategoryEdited] || null,
 			color: isEditing?.color || '#78D9C5',
 		},
 		resolver: yupResolver(categorySchema),
@@ -133,14 +133,14 @@ const CategoryFormContainer = ({ className, categories }) => {
 				label="Тип"
 				name="type"
 				control={control}
-				options={categoryTypeOptions}
+				options={CATEGORY_TYPE_OPTIONS}
 				placeholder="Выберите тип категории"
 			/>
 			<SelectForm
 				label="Иконка"
 				name="icon"
 				control={control}
-				options={iconsOptions}
+				options={ICON_OPTIONS}
 				formatOptionLabel={FormatOptionLabel}
 				placeholder="Выберите иконку"
 			/>

@@ -11,7 +11,7 @@ import { accountSchema } from '../../../../utils/validators';
 import { GET_TYPE_ACCOUNT, TYPE_ACCOUNT } from '../../../../constants';
 import styled from 'styled-components';
 
-const accountTypeOptions = [
+const ACCOUNT_TYPE_OPTIONS = [
 	{ value: TYPE_ACCOUNT.DEBIT, label: GET_TYPE_ACCOUNT[TYPE_ACCOUNT.DEBIT] },
 	{ value: TYPE_ACCOUNT.CREDIT, label: GET_TYPE_ACCOUNT[TYPE_ACCOUNT.CREDIT] },
 	{ value: TYPE_ACCOUNT.DEPOSIT, label: GET_TYPE_ACCOUNT[TYPE_ACCOUNT.DEPOSIT] },
@@ -36,7 +36,7 @@ const AccountFormContainer = ({ className, accounts }) => {
 	} = useForm({
 		defaultValues: {
 			name: accountEditing?.name || '',
-			type: accountTypeOptions[accountEditing?.type] || accountTypeOptions[0],
+			type: ACCOUNT_TYPE_OPTIONS[accountEditing?.type] || ACCOUNT_TYPE_OPTIONS[0],
 			balance: accountEditing?.balance || 0,
 		},
 		resolver: yupResolver(accountSchema),
@@ -99,7 +99,7 @@ const AccountFormContainer = ({ className, accounts }) => {
 				label="Тип"
 				name="type"
 				control={control}
-				options={accountTypeOptions}
+				options={ACCOUNT_TYPE_OPTIONS}
 				placeholder="Выберите тип счёта"
 			/>
 			<Input
