@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Icon } from '../../../../../../components/common';
 import { CLOSE_MODAL, openModal, updateAccounts } from '../../../../../../store/actions';
 import { formatDate, request } from '../../../../../../utils';
+import { TYPE_CATEGORY } from '../../../../../../constants';
 import styled from 'styled-components';
 
 const TransactionItemContainer = ({
@@ -51,7 +52,7 @@ const TransactionItemContainer = ({
 			<div className="item-comment">{comment}</div>
 			<div className="item-column">
 				<div className="item-amount">
-					{!category.type && '-'} {amount} ₽
+					{category.type === TYPE_CATEGORY.EXPENSE && '-'} {amount} ₽
 				</div>
 				<div className="item-control">
 					<Icon
@@ -107,7 +108,8 @@ export const TransactionItem = styled(TransactionItemContainer)`
 
 	& .item-amount {
 		margin-right: 15px;
-		color: ${({ category }) => (category.type ? '#7bcb82' : '#f8f8f9')};
+		color: ${({ category }) =>
+			category.type === TYPE_CATEGORY.INCOME ? '#7bcb82' : '#f8f8f9'};
 	}
 
 	& .item-icon {

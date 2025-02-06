@@ -8,12 +8,12 @@ import { SelectForm } from '../../../../components/form';
 import { CLOSE_MODAL, openModal, updateCategories } from '../../../../store/actions';
 import { request } from '../../../../utils';
 import { categorySchema } from '../../../../utils/validators';
+import { TYPE_CATEGORY } from '../../../../constants';
 import styled from 'styled-components';
 
-// TODO сделать константу под категории
 const categoryTypeOptions = [
-	{ value: 0, label: 'Расход' },
-	{ value: 1, label: 'Доход' },
+	{ value: TYPE_CATEGORY.EXPENSE, label: 'Расход' },
+	{ value: TYPE_CATEGORY.INCOME, label: 'Доход' },
 ];
 
 const iconsOptions = [
@@ -51,7 +51,11 @@ const CategoryFormContainer = ({ className, categories }) => {
 	const [serverError, setServerError] = useState(null);
 	const [isServerPass, setIsServerPass] = useState(null);
 	const params = useParams();
+	// TODO изменить имя константы(так подразумевается хранить объект категории, а имя константы означает хранение булева значения)
 	const isEditing = categories.find((category) => category.id === params.id);
+	const indexIconCategoryEdited = iconsOptions.findIndex(
+		(icon) => icon.value === isEditing?.icon,
+	);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
@@ -65,7 +69,7 @@ const CategoryFormContainer = ({ className, categories }) => {
 		defaultValues: {
 			name: isEditing?.name || '',
 			type: categoryTypeOptions[isEditing?.type] || categoryTypeOptions[0],
-			icon: isEditing?.icon || null,
+			icon: iconsOptions[indexIconCategoryEdited] || null,
 			color: isEditing?.color || '#78D9C5',
 		},
 		resolver: yupResolver(categorySchema),
