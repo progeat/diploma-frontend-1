@@ -51,7 +51,10 @@ const TransactionFormContainer = ({
 		resolver: yupResolver(transactionSchema),
 	});
 
+	// TODO если ошибка прилетела с сервера, то при повторной отправке формы обнулять ошибку перед запросом(в других формах тоже подправить)
 	const onSubmit = ({ amount, categorySelected, accountSelected, comment }) => {
+		setServerError(null);
+
 		const categoryType = categories.find(
 			(category) => category.id === categorySelected.value,
 		).type;
