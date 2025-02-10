@@ -33,7 +33,13 @@ const CategoriesItemContainer = ({ className, category }) => {
 	return (
 		<li className={className}>
 			<div className="item-icon" color={color}>
-				<Icon id={icon} margin="0" size="15px" color="#f8f8f9" />
+				<Icon
+					className="icon-category"
+					id={icon}
+					margin="0"
+					size="15px"
+					color="#f8f8f9"
+				/>
 			</div>
 			<div className="item-title">{name}</div>
 			<div className="item-control">
@@ -59,15 +65,21 @@ export const CategoriesItem = styled(CategoriesItemContainer)`
 	background-color: #393d47;
 
 	& .item-icon {
-		display: flex;
-		justify-content: center;
-		align-items: center;
+		position: relative;
 		margin-right: 10px;
 		border-radius: 50px;
 		width: 30px;
 		height: 30px;
 		color: #fff;
 		background-color: ${({ category }) => (category.color ? category.color : 'pink')};
+	}
+
+	& .icon-category {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		line-height: 0;
+		transform: translate(-50%, -50%);
 	}
 
 	& .item-title {

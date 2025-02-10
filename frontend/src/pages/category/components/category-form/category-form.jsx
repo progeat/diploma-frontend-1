@@ -54,7 +54,10 @@ const CategoryFormContainer = ({ className, categories }) => {
 	// TODO изменить имя константы(так подразумевается хранить объект категории, а имя константы означает хранение булева значения)
 	const isEditing = categories.find((category) => category.id === params.id);
 	const indexIconCategoryEdited = ICON_OPTIONS.findIndex(
-		(icon) => icon.value === isEditing?.icon,
+		(option) => option.value === isEditing?.icon,
+	);
+	const indexTypeCategoryEdited = CATEGORY_TYPE_OPTIONS.findIndex(
+		(option) => option.value === isEditing?.type,
 	);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -68,7 +71,9 @@ const CategoryFormContainer = ({ className, categories }) => {
 	} = useForm({
 		defaultValues: {
 			name: isEditing?.name || '',
-			type: CATEGORY_TYPE_OPTIONS[isEditing?.type] || CATEGORY_TYPE_OPTIONS[0],
+			type:
+				CATEGORY_TYPE_OPTIONS[indexTypeCategoryEdited] ||
+				CATEGORY_TYPE_OPTIONS[0],
 			icon: ICON_OPTIONS[indexIconCategoryEdited] || null,
 			color: isEditing?.color || '#78D9C5',
 		},

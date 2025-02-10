@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 import { CardInfo } from './components';
 import { selectAccounts, selectStatistics } from '../../../../store/selectors';
+import { getTotalPrice } from './utils';
 import { TYPE_ACCOUNT } from '../../../../constants';
 import styled from 'styled-components';
 
@@ -20,8 +21,22 @@ const FinancesSectionContainer = ({ className }) => {
 	return (
 		<div className={className}>
 			<div className="header-info">
-				Всего накоплений:
-				<span className="total-savings"> {totalSavings} ₽</span>
+				<div className="total-info">
+					Всего накоплений:
+					<span className="total-price">{totalSavings} ₽</span>
+				</div>
+				<div className="total-info">
+					Расход:
+					<span className="total-price">
+						{getTotalPrice(statistics?.expenses) || 0} ₽
+					</span>
+				</div>
+				<div className="total-info">
+					Доход:
+					<span className="total-price">
+						{getTotalPrice(statistics?.income) || 0} ₽
+					</span>
+				</div>
 			</div>
 			<div className="cards-wrapper">
 				<CardInfo title="Доходы" path="/transaction" value={statistics.income} />
@@ -40,11 +55,14 @@ export const FinancesSection = styled(FinancesSectionContainer)`
 	padding: 20px;
 
 	& .header-info {
+		display: flex;
+		column-gap: 5%;
 		margin-bottom: 20px;
 		color: #777;
 	}
 
-	& .total-savings {
+	& .total-price {
+		margin-left: 5px;
 		font-weight: 600;
 		color: #f8f8f9;
 	}
