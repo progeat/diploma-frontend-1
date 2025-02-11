@@ -5,7 +5,7 @@ Chart.register(ArcElement);
 
 export const ExpensesChart = ({ expenses }) => {
 	const data = {
-		labels: expenses.map(({ category }) => category),
+		labels: expenses.map(({ category }) => category?.name),
 		datasets: [
 			{
 				label: 'Расходы',

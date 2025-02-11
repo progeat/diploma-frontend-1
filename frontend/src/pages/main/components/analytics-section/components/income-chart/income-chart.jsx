@@ -5,7 +5,7 @@ Chart.register(ArcElement);
 
 export const IncomeChart = ({ income }) => {
 	const data = {
-		labels: income.map(({ category }) => category),
+		labels: income.map(({ category }) => category?.name),
 		datasets: [
 			{
 				label: 'Доходы',

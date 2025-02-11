@@ -3,10 +3,14 @@ import { useSelector } from 'react-redux';
 import { ControlPanelAnalytics, ExpensesChart, IncomeChart } from './components';
 import { selectStatistics } from '../../../../store/selectors';
 import styled from 'styled-components';
+import { TabSwitcher } from '../../../../components/common';
 
 const AnaliticsSectionContainer = ({ className }) => {
+	const [indexActive, setIndexActive] = useState(0);
 	const [isActiveExpenses, setIsActiveExpenses] = useState(true);
 	const statistics = useSelector(selectStatistics);
+
+	const onToggleActive = () => {};
 
 	return (
 		<div className={className}>

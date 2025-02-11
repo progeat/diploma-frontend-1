@@ -1,0 +1,64 @@
+import { Icon } from '../../../../../../../../../../components/common';
+import styled from 'styled-components';
+
+const ItemStatisticsContainer = ({ className, category, count, total }) => {
+	return (
+		<li className={className}>
+			<div className="item-icon">
+				<Icon id={category?.icon} margin="0" size="17px" color="#f8f8f9" />
+			</div>
+			<div className="item-info">
+				<div className="item-title">{category?.name}</div>
+				<div className="item-count">Операций: {count}</div>
+			</div>
+			<div className="item-right">{total} ₽</div>
+		</li>
+	);
+};
+
+export const ItemStatistics = styled(ItemStatisticsContainer)`
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	border-radius: 12px;
+	padding: 5px 10px;
+	background-color: #393d47;
+
+	&:not(:last-child) {
+		margin-bottom: 8px;
+	}
+
+	& .item-icon {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin-right: 10px;
+		border-radius: 50px;
+		width: 30px;
+		height: 30px;
+		color: #fff;
+		background-color: ${({ category }) => category?.color};
+	}
+
+	& .item-info {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.item-title {
+		margin-bottom: 3px;
+		font-size: 16px;
+		font-weight: 600;
+	}
+
+	.item-count {
+		font-size: 12px;
+		color: #8d8d8d;
+	}
+
+	.item-right {
+		margin-left: auto;
+		font-size: 16px;
+		font-weight: 600;
+	}
+`;

@@ -22,7 +22,11 @@ module.exports = async function (transactions) {
 
         acc.expenses[transaction.category] = {
           id: category.id,
-          category: category.name,
+          category: {
+            name: category.name,
+            icon: category.icon,
+            color: category.color,
+          },
           color: category.color,
           count: 1,
           total: transaction.amount,
@@ -39,7 +43,11 @@ module.exports = async function (transactions) {
 
         acc.income[transaction.category] = {
           id: category.id,
-          category: category.name,
+          category: {
+            name: category.name,
+            icon: category.icon,
+            color: category.color,
+          },
           color: category.color,
           count: 1,
           total: transaction.amount,
