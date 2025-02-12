@@ -72,7 +72,7 @@ export const Header = styled(HeaderContainer)`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	height: 70px;
+	height: 60px;
 	width: 100%;
 	min-width: 1000px;
 	padding: 0 30px;

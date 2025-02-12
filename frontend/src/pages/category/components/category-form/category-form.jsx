@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Icon, Input } from '../../../../components/common';
+import { Button, Icon, Input, TabSwitcher } from '../../../../components/common';
 import { SelectForm } from '../../../../components/form';
 import { CLOSE_MODAL, openModal, updateCategories } from '../../../../store/actions';
 import { request } from '../../../../utils';
@@ -50,6 +50,7 @@ const FormatOptionLabel = ({ value, label }) => {
 const CategoryFormContainer = ({ className, categories }) => {
 	const [serverError, setServerError] = useState(null);
 	const [isServerPass, setIsServerPass] = useState(null);
+	const [indexActive, setIndexActive] = useState(0);
 	const params = useParams();
 	// TODO изменить имя константы(так подразумевается хранить объект категории, а имя константы означает хранение булева значения)
 	const isEditing = categories.find((category) => category.id === params.id);
@@ -100,6 +101,10 @@ const CategoryFormContainer = ({ className, categories }) => {
 		});
 	};
 
+	const onToggleActive = (index) => {
+		setIndexActive(index);
+	};
+
 	const onDeleteCategory = (id) => {
 		dispatch(
 			openModal({
@@ -134,6 +139,18 @@ const CategoryFormContainer = ({ className, categories }) => {
 				})}
 			/>
 			{/* TODO подумать о реализации табом */}
+			<div className="switcher-wrapper">
+				<label className="switcher-label">Тип</label>
+				<TabSwitcher
+					className="switcher"
+					names={[
+						CATEGORY_TYPE_OPTIONS[0].label,
+						CATEGORY_TYPE_OPTIONS[1].label,
+					]}
+					indexActive={indexActive}
+					onToggleActive={onToggleActive}
+				/>
+			</div>
 			<SelectForm
 				label="Тип"
 				name="type"
@@ -205,6 +222,17 @@ export const CategoryForm = styled(CategoryFormContainer)`
 	& .icon-option,
 	icon-single-value {
 		display: flex;
+	}
+
+	& .switcher {
+		justify-content: center;
+	}
+
+	& .switcher-label {
+		display: block;
+		margin-bottom: 5px;
+		font-size: 14px;
+		color: #cfcfcf;
 	}
 
 	& .button-submit {

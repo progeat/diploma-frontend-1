@@ -7,7 +7,7 @@ const Page = styled.main`
 	min-width: 1000px;
 	width: 100%;
 	height: 100%;
-	padding: 70px 0 20px;
+	padding: 60px 0 20px;
 `;
 
 export const Layout = ({ children }) => {

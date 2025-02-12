@@ -20,14 +20,6 @@ const TabSwitcherContainer = ({
 						{name}
 					</button>
 				))}
-				{/* <Button
-						className="tab-button"
-						width="120px"
-						onClick={onToggle}
-						disabled={isActiveExpenses}
-					>
-						Расходы
-					</Button> */}
 			</div>
 		</div>
 	);
