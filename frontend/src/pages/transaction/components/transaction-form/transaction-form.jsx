@@ -3,14 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Icon, Input } from '../../../../components/common';
+import { Button, Icon, Input, TabSwitcher } from '../../../../components/common';
 import { SelectForm } from '../../../../components/form';
 import { request } from '../../../../utils';
 import { transactionSchema } from '../../../../utils/validators';
 import { CLOSE_MODAL, openModal, updateAccounts } from '../../../../store/actions';
 import { createSelectOptions, findIndexForSelect } from './utils';
+import { NAMES_TYPES_CATEGORY } from '../../../../constants';
 import styled from 'styled-components';
 
+// TODO завершить процесс внедрения таба
 const TransactionFormContainer = ({
 	className,
 	transaction,
@@ -18,6 +20,7 @@ const TransactionFormContainer = ({
 	categories,
 	accounts,
 }) => {
+	const [indexActive, setIndexActive] = useState(0);
 	const [serverError, setServerError] = useState(null);
 	const [isServerPass, setIsServerPass] = useState(null);
 	const navigate = useNavigate();
@@ -83,6 +86,10 @@ const TransactionFormContainer = ({
 		});
 	};
 
+	const onToggleActive = (index) => {
+		setIndexActive(index);
+	};
+
 	const onDeleteTransaction = (id) => {
 		dispatch(
 			openModal({
@@ -110,6 +117,14 @@ const TransactionFormContainer = ({
 
 	return (
 		<form className={className} onSubmit={handleSubmit(onSubmit)}>
+			<div className="switcher-wrapper">
+				<TabSwitcher
+					className="switcher"
+					names={NAMES_TYPES_CATEGORY}
+					indexActive={indexActive}
+					onToggleActive={onToggleActive}
+				/>
+			</div>
 			<Input
 				label="Сумма"
 				type="number"
@@ -188,6 +203,14 @@ export const TransactionForm = styled(TransactionFormContainer)`
 	display: flex;
 	flex-direction: column;
 	min-width: 220px;
+
+	& .switcher-wrapper {
+		margin-bottom: 10px;
+	}
+
+	& .switcher {
+		justify-content: center;
+	}
 
 	& input {
 		margin-bottom: 10px;

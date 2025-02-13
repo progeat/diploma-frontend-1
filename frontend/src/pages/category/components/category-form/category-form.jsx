@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -47,18 +47,20 @@ const FormatOptionLabel = ({ value, label }) => {
 	);
 };
 
-const CategoryFormContainer = ({ className, categories }) => {
-	const [serverError, setServerError] = useState(null);
-	const [isServerPass, setIsServerPass] = useState(null);
-	const [indexActive, setIndexActive] = useState(0);
-	const params = useParams();
-	// TODO изменить имя константы(так подразумевается хранить объект категории, а имя константы означает хранение булева значения)
-	const isEditing = categories.find((category) => category.id === params.id);
-	const indexIconCategoryEdited = ICON_OPTIONS.findIndex(
-		(option) => option.value === isEditing?.icon,
+const CategoryFormContainer = ({ className, category }) => {
+	let indexTypeCategoryEdited = CATEGORY_TYPE_OPTIONS.findIndex(
+		(option) => option.value === category?.type,
 	);
-	const indexTypeCategoryEdited = CATEGORY_TYPE_OPTIONS.findIndex(
-		(option) => option.value === isEditing?.type,
+
+	if (indexTypeCategoryEdited < 0) {
+		indexTypeCategoryEdited = 0;
+	}
+
+	const [indexActive, setIndexActive] = useState(indexTypeCategoryEdited || 0);
+	const [isServerPass, setIsServerPass] = useState(null);
+	const [serverError, setServerError] = useState(null);
+	const indexIconCategoryEdited = ICON_OPTIONS.findIndex(
+		(option) => option.value === category?.icon,
 	);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -71,23 +73,24 @@ const CategoryFormContainer = ({ className, categories }) => {
 		formState: { errors },
 	} = useForm({
 		defaultValues: {
-			name: isEditing?.name || '',
-			type:
-				CATEGORY_TYPE_OPTIONS[indexTypeCategoryEdited] ||
-				CATEGORY_TYPE_OPTIONS[0],
+			name: category?.name || '',
 			icon: ICON_OPTIONS[indexIconCategoryEdited] || null,
-			color: isEditing?.color || '#78D9C5',
+			color: category?.color || '#78D9C5',
 		},
 		resolver: yupResolver(categorySchema),
 	});
 
-	const onSubmit = ({ name, type, icon, color }) => {
-		request(`/categories/${params.id || ''}`, `${params.id ? 'PATCH' : 'POST'}`, {
-			name,
-			type: type.value,
-			icon: icon.value,
-			color,
-		}).then(({ error, data }) => {
+	const onSubmit = ({ name, icon, color }) => {
+		request(
+			`/categories/${category?.id || ''}`,
+			`${category?.id ? 'PATCH' : 'POST'}`,
+			{
+				name,
+				type: CATEGORY_TYPE_OPTIONS[indexActive].value,
+				icon: icon.value,
+				color,
+			},
+		).then(({ error, data }) => {
 			if (error) {
 				setServerError(`Ошибка запроса: ${error}`);
 				return;
@@ -95,7 +98,8 @@ const CategoryFormContainer = ({ className, categories }) => {
 
 			setIsServerPass(true);
 			dispatch(updateCategories);
-			if (!isEditing) {
+			if (!category) {
+				setIndexActive(0);
 				reset();
 			}
 		});
@@ -127,20 +131,7 @@ const CategoryFormContainer = ({ className, categories }) => {
 
 	return (
 		<form className={className} onSubmit={handleSubmit(onSubmit)}>
-			<Input
-				label="Имя"
-				type="text"
-				placeholder="Название категории..."
-				{...register('name', {
-					onChange: () => {
-						setServerError(null);
-						setIsServerPass(null);
-					},
-				})}
-			/>
-			{/* TODO подумать о реализации табом */}
 			<div className="switcher-wrapper">
-				<label className="switcher-label">Тип</label>
 				<TabSwitcher
 					className="switcher"
 					names={[
@@ -151,12 +142,16 @@ const CategoryFormContainer = ({ className, categories }) => {
 					onToggleActive={onToggleActive}
 				/>
 			</div>
-			<SelectForm
-				label="Тип"
-				name="type"
-				control={control}
-				options={CATEGORY_TYPE_OPTIONS}
-				placeholder="Выберите тип категории"
+			<Input
+				label="Имя"
+				type="text"
+				placeholder="Название категории..."
+				{...register('name', {
+					onChange: () => {
+						setServerError(null);
+						setIsServerPass(null);
+					},
+				})}
 			/>
 			<SelectForm
 				label="Иконка"
@@ -182,11 +177,11 @@ const CategoryFormContainer = ({ className, categories }) => {
 			</Button>
 			{errorMessage && <div className="error">{errorMessage}</div>}
 			{isServerPass && <div className="pass">Отправленно</div>}
-			{isEditing && (
+			{category && (
 				<button
 					className="delete-button"
 					type="button"
-					onClick={() => onDeleteCategory(params.id)}
+					onClick={() => onDeleteCategory(category?.id)}
 				>
 					Удалить категорию
 				</button>
@@ -224,15 +219,12 @@ export const CategoryForm = styled(CategoryFormContainer)`
 		display: flex;
 	}
 
-	& .switcher {
-		justify-content: center;
+	& .switcher-wrapper {
+		margin-bottom: 10px;
 	}
 
-	& .switcher-label {
-		display: block;
-		margin-bottom: 5px;
-		font-size: 14px;
-		color: #cfcfcf;
+	& .switcher {
+		justify-content: center;
 	}
 
 	& .button-submit {
