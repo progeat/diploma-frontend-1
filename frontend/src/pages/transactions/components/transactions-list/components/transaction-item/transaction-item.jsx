@@ -41,7 +41,13 @@ const TransactionItemContainer = ({
 		<div className={className}>
 			<div className="item-column">
 				<div className="item-icon">
-					<Icon id={category.icon} margin="0" size="20px" color="#f8f8f9" />
+					<Icon
+						className="icon"
+						id={category.icon}
+						margin="0"
+						size="20px"
+						color="#f8f8f9"
+					/>
 				</div>
 				<div className="item-info">
 					<div className="item-date">{date}</div>
@@ -113,15 +119,21 @@ export const TransactionItem = styled(TransactionItemContainer)`
 	}
 
 	& .item-icon {
-		display: flex;
-		justify-content: center;
-		align-items: center;
+		position: relative;
 		margin-right: 10px;
 		border-radius: 50px;
 		width: 40px;
 		height: 40px;
 		color: #fff;
 		background-color: ${({ category }) => category.color};
+	}
+
+	& .icon {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-52%, -50%);
+		line-height: 0;
 	}
 
 	& .item-control {

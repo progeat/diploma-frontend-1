@@ -5,7 +5,13 @@ const ItemStatisticsContainer = ({ className, category, count, total }) => {
 	return (
 		<li className={className}>
 			<div className="item-icon">
-				<Icon id={category?.icon} margin="0" size="17px" color="#f8f8f9" />
+				<Icon
+					className="icon"
+					id={category?.icon}
+					margin="0"
+					size="17px"
+					color="#f8f8f9"
+				/>
 			</div>
 			<div className="item-info">
 				<div className="item-title">{category?.name}</div>
@@ -29,15 +35,21 @@ export const ItemStatistics = styled(ItemStatisticsContainer)`
 	}
 
 	& .item-icon {
-		display: flex;
-		justify-content: center;
-		align-items: center;
+		position: relative;
 		margin-right: 10px;
 		border-radius: 50px;
 		width: 30px;
 		height: 30px;
 		color: #fff;
 		background-color: ${({ category }) => category?.color};
+	}
+
+	& .icon {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-52%, -50%);
+		line-height: 0;
 	}
 
 	& .item-info {

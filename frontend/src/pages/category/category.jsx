@@ -5,7 +5,7 @@ import { selectCategories } from '../../store/selectors';
 import styled from 'styled-components';
 
 const CategoryContainer = ({ className }) => {
-	const isEditing = !!useMatch('/transaction/:id/edit');
+	const isEditing = !!useMatch('/category/:id/edit');
 	const params = useParams();
 	const categories = useSelector(selectCategories);
 	const category = categories.find((category) => category.id === params.id);

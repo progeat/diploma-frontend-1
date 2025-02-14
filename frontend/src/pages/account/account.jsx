@@ -31,9 +31,9 @@ export const Account = styled(AccountContainer)`
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		width: 281px;
+		max-width: 285px;
 		border-radius: 24px;
-		padding: 20px;
+		padding: 15px 30px;
 		background-color: #2b2d32;
 	}
 

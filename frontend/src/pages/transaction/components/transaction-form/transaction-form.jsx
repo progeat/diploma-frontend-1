@@ -8,8 +8,12 @@ import { SelectForm } from '../../../../components/form';
 import { request } from '../../../../utils';
 import { transactionSchema } from '../../../../utils/validators';
 import { CLOSE_MODAL, openModal, updateAccounts } from '../../../../store/actions';
-import { createSelectOptions, findIndexForSelect } from './utils';
-import { NAMES_TYPES_CATEGORY } from '../../../../constants';
+import {
+	createAccountsSelectOptions,
+	createCategoriesSelectOptions,
+	findIndexForSelect,
+} from './utils';
+import { NAMES_TYPES_CATEGORY, TYPE_CATEGORY } from '../../../../constants';
 import styled from 'styled-components';
 
 // TODO завершить процесс внедрения таба
@@ -20,14 +24,17 @@ const TransactionFormContainer = ({
 	categories,
 	accounts,
 }) => {
-	const [indexActive, setIndexActive] = useState(0);
+	const [indexActive, setIndexActive] = useState(
+		transaction?.type === TYPE_CATEGORY.INCOME ? 1 : 0,
+	);
+	console.log(indexActive);
 	const [serverError, setServerError] = useState(null);
 	const [isServerPass, setIsServerPass] = useState(null);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
-	const categoriesOptions = createSelectOptions(categories);
-	const accountsOptions = createSelectOptions(accounts);
+	const categoriesOptions = createCategoriesSelectOptions(categories, indexActive);
+	const accountsOptions = createAccountsSelectOptions(accounts);
 
 	const indexSelectForCategory = findIndexForSelect(
 		transaction?.category,
@@ -87,6 +94,7 @@ const TransactionFormContainer = ({
 	};
 
 	const onToggleActive = (index) => {
+		reset({ ['categorySelected']: null });
 		setIndexActive(index);
 	};
 

@@ -79,7 +79,7 @@ export const CategoriesItem = styled(CategoriesItemContainer)`
 		top: 50%;
 		left: 50%;
 		line-height: 0;
-		transform: translate(-50%, -50%);
+		transform: translate(-52%, -50%);
 	}
 
 	& .item-title {

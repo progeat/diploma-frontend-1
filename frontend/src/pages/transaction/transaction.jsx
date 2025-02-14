@@ -61,6 +61,7 @@ export const Transaction = styled(TransactionContainer)`
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		max-width: 285px;
 		border-radius: 24px;
 		padding: 15px 35px 25px 30px;
 		background-color: #2b2d32;

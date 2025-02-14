@@ -134,6 +134,7 @@ const AccountFormContainer = ({ className, accounts }) => {
 export const AccountForm = styled(AccountFormContainer)`
 	display: flex;
 	flex-direction: column;
+	width: 100%;
 
 	& input {
 		margin-bottom: 10px;

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
+import { Icon } from '../../../../components/common';
 import {
 	RESET_FILTER_ACCOUNT,
 	RESET_FILTER_CATEGORY,
@@ -79,7 +80,16 @@ const ControlPanelContainer = ({ className }) => {
 				onChange={onSetFilterCategory}
 				isClearable
 			/>
-			{/* TODO добавить возможность сбрасывать выбор даты*/}
+			{dateRange[0] && dateRange[1] && (
+				<div className="icon-wrapper">
+					<Icon
+						className="icon"
+						id="fa-times"
+						size="20px"
+						onClick={() => onSetFilterDate([null, null])}
+					/>
+				</div>
+			)}
 			<DatePicker
 				selected={startDate}
 				onChange={onSetFilterDate}
@@ -109,6 +119,19 @@ export const ControlPanel = styled(ControlPanelContainer)`
 		margin: 10px;
 	}
 
+	& .icon-wrapper {
+		position: relative;
+		width: 100%;
+	}
+
+	& .icon {
+		position: absolute;
+		z-index: 1;
+		top: 28px;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+
 	& .react-datepicker {
 		border: 0;
 		background-color: #2b2d32;
@@ -128,8 +151,16 @@ export const ControlPanel = styled(ControlPanelContainer)`
 		color: #f8f8f9;
 	}
 
+	& .react-datepicker__day--today {
+		color: #61cfa7;
+	}
+
 	& .react-datepicker__day:hover {
 		color: #2b2d32;
+	}
+
+	& .react-datepicker__day--keyboard-selected {
+		color: #393d47;
 	}
 
 	& .select {
