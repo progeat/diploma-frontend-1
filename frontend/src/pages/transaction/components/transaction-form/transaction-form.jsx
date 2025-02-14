@@ -1,8 +1,10 @@
+import { ru } from 'date-fns/locale';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import DatePicker from 'react-datepicker';
 import { Button, Icon, Input, TabSwitcher } from '../../../../components/common';
 import { SelectForm } from '../../../../components/form';
 import { request } from '../../../../utils';
@@ -16,6 +18,13 @@ import {
 import { NAMES_TYPES_CATEGORY, TYPE_CATEGORY } from '../../../../constants';
 import styled from 'styled-components';
 
+const Label = styled.label`
+	display: block;
+	margin-bottom: 5px;
+	font-size: 14px;
+	color: #cfcfcf;
+`;
+
 // TODO завершить процесс внедрения таба
 const TransactionFormContainer = ({
 	className,
@@ -27,7 +36,7 @@ const TransactionFormContainer = ({
 	const [indexActive, setIndexActive] = useState(
 		transaction?.type === TYPE_CATEGORY.INCOME ? 1 : 0,
 	);
-	console.log(indexActive);
+	const [startDate, setStartDate] = useState(new Date());
 	const [serverError, setServerError] = useState(null);
 	const [isServerPass, setIsServerPass] = useState(null);
 	const navigate = useNavigate();
@@ -178,6 +187,17 @@ const TransactionFormContainer = ({
 					onClick={() => navigate('/account')}
 				/>
 			</div>
+			<Label>Дата и время</Label>
+			<DatePicker
+				selected={startDate}
+				onChange={(date) => setStartDate(date)}
+				timeFormat="HH:mm"
+				timeIntervals={15}
+				dateFormat="dd MMMM yyyy HH:mm"
+				locale={ru}
+				showTimeInput
+				timeInputLabel="Время"
+			/>
 			<Input
 				label="Комментарий"
 				type="text"
@@ -220,7 +240,7 @@ export const TransactionForm = styled(TransactionFormContainer)`
 		justify-content: center;
 	}
 
-	& input {
+	& > input {
 		margin-bottom: 10px;
 		border-radius: 8px;
 		border-color: #5e636f;
@@ -236,6 +256,67 @@ export const TransactionForm = styled(TransactionFormContainer)`
 		display: flex;
 		justify-content: center;
 		align-items: center;
+	}
+
+	& .react-datepicker {
+		border-radius: 8px;
+		border-color: #a3a3a3;
+		background-color: #2b2d32;
+	}
+
+	& .react-datepicker__input-container input {
+		text-align: center;
+		margin-bottom: 10px;
+		width: 100%;
+		border-radius: 8px;
+		border: 1px solid #5e636f;
+		padding: 10px;
+		font-size: 15px;
+		font-weight: normal;
+		line-height: 0;
+		color: #f8f8f9;
+		background-color: #2b2d32;
+	}
+
+	& .react-datepicker-time__caption {
+		color: #cfcfcf;
+	}
+
+	& .react-datepicker-time__input-container input {
+		margin: 0;
+		padding: 3px 6px;
+		width: 100%;
+		border-radius: 8px;
+		border: 1px solid #5e636f;
+		color: #f8f8f9;
+		background-color: #2b2d32;
+	}
+
+	& .react-datepicker .react-datepicker__month-container,
+	.react-datepicker .react-datepicker__header {
+		border-top-right-radius: 8px;
+		border-top-left-radius: 8px;
+		color: #f8f8f9;
+		background-color: #2b2d32;
+	}
+
+	& .react-datepicker__current-month,
+	.react-datepicker__day-name,
+	.react-datepicker__day {
+		color: #f8f8f9;
+	}
+
+	& .react-datepicker__day--today {
+		color: #61cfa7;
+	}
+
+	& .react-datepicker__day:hover {
+		color: #2b2d32;
+	}
+
+	& .react-datepicker__day--keyboard-selected {
+		color: #2b2d32;
+		background-color: #61cfa7;
 	}
 
 	& .button-submit {

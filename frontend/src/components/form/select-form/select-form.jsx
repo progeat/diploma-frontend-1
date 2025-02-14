@@ -62,6 +62,14 @@ export const SelectForm = styled(SelectFormContainer)`
 
 	& .select__menu {
 		z-index: 10;
+		border: 1px solid #5e636f;
+		border-radius: 8px;
+		padding: 5px;
+		background-color: #3f4147;
+	}
+
+	& .select__option {
+		border-radius: 8px;
 	}
 
 	& .select__option:hover,

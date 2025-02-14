@@ -160,7 +160,8 @@ export const ControlPanel = styled(ControlPanelContainer)`
 	}
 
 	& .react-datepicker__day--keyboard-selected {
-		color: #393d47;
+		color: #2b2d32;
+		background-color: #61cfa7;
 	}
 
 	& .select {
