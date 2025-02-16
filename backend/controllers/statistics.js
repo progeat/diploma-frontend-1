@@ -13,7 +13,7 @@ async function getStatisticsForPeriod(user, period = 1) {
     $and: [
       { user: { $in: userObjectId } },
       {
-        createdAt: {
+        transactionAt: {
           $gte: startPeriodDate,
           $lte: endPeriodDate,
         },

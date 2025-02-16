@@ -19,7 +19,7 @@ const TransactionsListContainer = ({
 					<Loader />
 				) : transactions.length > 0 ? (
 					transactions.map(
-						({ id, account, category, amount, comment, createdAt }) => (
+						({ id, account, category, amount, comment, transactionAt }) => (
 							<TransactionItem
 								key={id}
 								id={id}
@@ -27,7 +27,7 @@ const TransactionsListContainer = ({
 								category={category}
 								amount={amount}
 								comment={comment}
-								createdAt={createdAt}
+								transactionAt={transactionAt}
 								setTriggerFlag={setTriggerFlag}
 							/>
 						),

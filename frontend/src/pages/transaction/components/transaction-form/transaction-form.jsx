@@ -36,7 +36,12 @@ const TransactionFormContainer = ({
 	const [indexActive, setIndexActive] = useState(
 		transaction?.type === TYPE_CATEGORY.INCOME ? 1 : 0,
 	);
-	const [startDate, setStartDate] = useState(new Date());
+
+	const valueDate = transaction?.transactionAt
+		? new Date(transaction?.transactionAt)
+		: new Date();
+
+	const [startDate, setStartDate] = useState(valueDate);
 	const [serverError, setServerError] = useState(null);
 	const [isServerPass, setIsServerPass] = useState(null);
 	const navigate = useNavigate();
@@ -86,6 +91,7 @@ const TransactionFormContainer = ({
 				amount,
 				category: categorySelected.value,
 				account: accountSelected.value,
+				transactionAt: startDate,
 				comment,
 			},
 		).then(({ error, data }) => {

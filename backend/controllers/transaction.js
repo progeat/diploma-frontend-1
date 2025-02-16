@@ -129,7 +129,7 @@ async function getTransactions(
     })
       .limit(limit)
       .skip((page - 1) * limit)
-      .sort({ createdAt: -1 })
+      .sort({ transactionAt: -1 })
       .populate('category')
       .populate('account'),
 

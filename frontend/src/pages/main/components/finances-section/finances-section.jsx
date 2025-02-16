@@ -28,7 +28,7 @@ export const FinancesSection = styled(FinancesSectionContainer)`
 	& .cards-wrapper {
 		display: flex;
 		justify-content: space-between;
-		min-height: 500px;
+		min-height: 360px;
 	}
 
 	& .cards-wrapper > div:not(:last-child) {

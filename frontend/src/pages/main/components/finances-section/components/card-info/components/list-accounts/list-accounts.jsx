@@ -34,7 +34,7 @@ const ListAccountsComponent = ({ className, value }) => {
 						<div className="account-name">{name}</div>
 						<div className="account-type">{GET_TYPE_ACCOUNT[type]}</div>
 					</div>
-					<div>{balance} ₽</div>
+					<div className="balance">{balance} ₽</div>
 					{name && (
 						<Icon
 							id="fa-pencil"
@@ -77,6 +77,10 @@ export const ListAccounts = styled(ListAccountsComponent)`
 	}
 
 	& .account-name {
+		max-width: 120px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 		margin-bottom: 3px;
 	}
 
@@ -84,5 +88,9 @@ export const ListAccounts = styled(ListAccountsComponent)`
 		font-size: 12px;
 		font-weight: 400;
 		color: #8d8d8d;
+	}
+
+	& .balance {
+		white-space: nowrap;
 	}
 `;

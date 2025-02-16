@@ -6,6 +6,6 @@ module.exports = function (transaction) {
     category: transaction.category,
     amount: transaction.amount,
     comment: transaction.comment,
-    createdAt: transaction.createdAt,
+    transactionAt: transaction?.transactionAt,
   };
 };

@@ -58,6 +58,10 @@ export const ItemStatistics = styled(ItemStatisticsContainer)`
 	}
 
 	.item-title {
+		max-width: 120px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 		margin-bottom: 3px;
 		font-size: 16px;
 		font-weight: 600;
@@ -72,5 +76,6 @@ export const ItemStatistics = styled(ItemStatisticsContainer)`
 		margin-left: auto;
 		font-size: 16px;
 		font-weight: 600;
+		white-space: nowrap;
 	}
 `;

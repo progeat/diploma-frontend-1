@@ -13,12 +13,12 @@ const TransactionItemContainer = ({
 	account,
 	category,
 	comment,
-	createdAt,
+	transactionAt,
 	setTriggerFlag,
 }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const date = formatDate(createdAt);
+	const date = formatDate(transactionAt);
 
 	const onTransactionRemove = (id) => {
 		dispatch(

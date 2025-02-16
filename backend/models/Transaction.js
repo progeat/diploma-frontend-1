@@ -25,6 +25,9 @@ const TransactionSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    transactionAt: {
+      type: Date,
+    },
     comment: {
       type: String,
     },

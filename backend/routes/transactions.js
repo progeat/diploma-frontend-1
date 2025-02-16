@@ -53,6 +53,7 @@ router.post('/', authenticated, hasRole([ROLES.USER]), async (req, res) => {
       account: req.body.account,
       category: req.body.category,
       amount: req.body.amount,
+      transactionAt: req.body.transactionAt,
       comment: req.body.comment,
     });
 
@@ -77,6 +78,7 @@ router.patch('/:id', authenticated, hasRole([ROLES.USER]), async (req, res) => {
         account: req.body.account,
         category: req.body.category,
         amount: req.body.amount,
+        transactionAt: req.body.transactionAt,
         comment: req.body.comment,
       }
     );
