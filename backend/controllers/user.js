@@ -29,13 +29,13 @@ async function login(login, password) {
   const user = await User.findOne({ login });
 
   if (!user) {
-    throw new Error('User not found');
+    throw new Error('Пользователь не найден');
   }
 
   const isPasswordMatch = await bcrypt.compare(password, user.password);
 
   if (!isPasswordMatch) {
-    throw new Error('Wrong password');
+    throw new Error('Неверно введен пароль');
   }
 
   const token = generate({ id: user.id });

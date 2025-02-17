@@ -1,11 +1,12 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ControlPanel, Pagination, Search, TransactionsList } from './components';
 import { selectFilter } from '../../store/selectors';
 import { request } from '../../utils';
 import { debounce } from './utils';
-import { PAGINATION_LIMIT } from '../../constants';
 import styled from 'styled-components';
+
+const getNumberLimitPage = (listHeight) => Math.floor(listHeight / 70);
 
 const TransactionsContainer = ({ className }) => {
 	const [transactions, setTransactions] = useState([]);
@@ -16,11 +17,21 @@ const TransactionsContainer = ({ className }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const filter = useSelector(selectFilter);
 	const { account, category, dateRange } = filter;
+	const transactionListRef = useRef(null);
 
 	useEffect(() => {
 		setIsLoading(true);
+		const listElement = transactionListRef.current;
+		let paginationLimit = null;
+		const subtractedHeight = transactions.length > 0 ? 0 : 35;
+
+		if (listElement) {
+			const listHeight = listElement.clientHeight;
+			paginationLimit = getNumberLimitPage(listHeight - subtractedHeight);
+		}
+
 		request(
-			`/transactions?search=${searchPhrase}&page=${page}&limit=${PAGINATION_LIMIT}&dateStart=${dateRange.start}&dateEnd=${dateRange.end}&account=${account}&category=${category}`,
+			`/transactions?search=${searchPhrase}&page=${page}&limit=${paginationLimit}&dateStart=${dateRange.start}&dateEnd=${dateRange.end}&account=${account}&category=${category}`,
 		)
 			.then(({ data: { transactions, lastPage } }) => {
 				setTransactions(transactions);
@@ -56,6 +67,7 @@ const TransactionsContainer = ({ className }) => {
 						transactions={transactions}
 						isLoading={isLoading}
 						setTriggerFlag={setTriggerFlag}
+						transactionListRef={transactionListRef}
 					/>
 					{lastPage > 1 && transactions.length > 0 && (
 						<Pagination page={page} lastPage={lastPage} setPage={setPage} />

@@ -31,6 +31,10 @@ export const FinancesSection = styled(FinancesSectionContainer)`
 		min-height: 360px;
 	}
 
+	& .cards-wrapper > div {
+		flex: 1 calc(33.33% - 30px);
+	}
+
 	& .cards-wrapper > div:not(:last-child) {
 		margin-right: 15px;
 	}

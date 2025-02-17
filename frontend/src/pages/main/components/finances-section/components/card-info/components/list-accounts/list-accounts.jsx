@@ -74,10 +74,12 @@ export const ListAccounts = styled(ListAccountsComponent)`
 	& .item-left {
 		display: flex;
 		flex-direction: column;
+		width: 100%;
+		max-width: 57%;
 	}
 
 	& .account-name {
-		max-width: 120px;
+		width: 100%;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;

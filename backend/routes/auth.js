@@ -12,6 +12,10 @@ router.post('/register', async (req, res) => {
       .cookie('token', token, { httpOnly: true })
       .send({ error: null, user: mapUser(user) });
   } catch (e) {
+    if (e.code === 11000) {
+      return res.send({ error: 'Логин занят' });
+    }
+
     res.send({ error: e.message || 'Unknown error' });
   }
 });

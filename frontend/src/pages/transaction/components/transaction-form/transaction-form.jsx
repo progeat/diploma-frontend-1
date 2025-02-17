@@ -131,7 +131,7 @@ const TransactionFormContainer = ({
 	};
 
 	const formError =
-		(errors?.amount?.message && 'Введите сумму') ||
+		(errors?.amount?.message && 'Введите положительное число') ||
 		errors?.categorySelected?.message ||
 		errors?.accountSelected?.message ||
 		errors?.comment?.message;

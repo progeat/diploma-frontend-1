@@ -39,7 +39,7 @@ const TransactionItemContainer = ({
 
 	return (
 		<div className={className}>
-			<div className="item-column">
+			<div className="item-column-left">
 				<div className="item-icon">
 					<Icon
 						className="icon"
@@ -56,7 +56,7 @@ const TransactionItemContainer = ({
 				</div>
 			</div>
 			<div className="item-comment">{comment}</div>
-			<div className="item-column">
+			<div className="item-column-right">
 				<div className="item-amount">
 					{category.type === TYPE_CATEGORY.EXPENSE && '-'} {amount} ₽
 				</div>
@@ -101,12 +101,21 @@ export const TransactionItem = styled(TransactionItemContainer)`
 		background-color: #393d47;
 	}
 
-	& .item-column {
+	& .item-column-left {
+		display: flex;
+	}
+
+	& .item-column-right {
 		display: flex;
 	}
 
 	& .item-comment {
-		max-width: 360px;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-45%, -50%);
+		text-align: center;
+		max-width: 42%;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;

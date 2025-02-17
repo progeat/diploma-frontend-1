@@ -36,10 +36,11 @@ export const ItemStatistics = styled(ItemStatisticsContainer)`
 
 	& .item-icon {
 		position: relative;
+		flex: none;
 		margin-right: 10px;
-		border-radius: 50px;
 		width: 30px;
 		height: 30px;
+		border-radius: 50px;
 		color: #fff;
 		background-color: ${({ category }) => category?.color};
 	}
@@ -55,16 +56,17 @@ export const ItemStatistics = styled(ItemStatisticsContainer)`
 	& .item-info {
 		display: flex;
 		flex-direction: column;
+		width: 100%;
+		max-width: 57%;
 	}
 
 	.item-title {
-		max-width: 120px;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
 		margin-bottom: 3px;
 		font-size: 16px;
 		font-weight: 600;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	.item-count {
@@ -73,9 +75,9 @@ export const ItemStatistics = styled(ItemStatisticsContainer)`
 	}
 
 	.item-right {
+		white-space: nowrap;
 		margin-left: auto;
 		font-size: 16px;
 		font-weight: 600;
-		white-space: nowrap;
 	}
 `;

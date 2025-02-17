@@ -9,12 +9,13 @@ const TransactionsListContainer = ({
 	transactions,
 	isLoading = true,
 	setTriggerFlag,
+	transactionListRef,
 }) => {
 	const navigate = useNavigate();
 
 	return (
 		<div className={className}>
-			<div className="list">
+			<div ref={transactionListRef} className="list">
 				{isLoading ? (
 					<Loader />
 				) : transactions.length > 0 ? (
@@ -57,6 +58,10 @@ export const TransactionsList = styled(TransactionsListContainer)`
 	border-radius: 12px;
 	padding: 12px;
 	background-color: #2b2d32;
+
+	& .list {
+		height: 100%;
+	}
 
 	& .list > div:not(:last-child) {
 		margin-bottom: 10px;
