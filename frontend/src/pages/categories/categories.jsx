@@ -24,7 +24,6 @@ const CategoriesContainer = ({ className }) => {
 export const Categories = styled(CategoriesContainer)`
 	display: flex;
 	flex-direction: column;
-	height: 100%;
 	padding: 30px;
 
 	& .top {
