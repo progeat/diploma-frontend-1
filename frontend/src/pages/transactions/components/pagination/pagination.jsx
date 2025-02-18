@@ -1,9 +1,10 @@
+import { forwardRef } from 'react';
 import { Button } from '../../../../components/common';
 import styled from 'styled-components';
 
-const PaginationContainer = ({ className, page, lastPage, setPage }) => {
+const PaginationContainer = forwardRef(({ className, page, lastPage, setPage }, ref) => {
 	return (
-		<div className={className}>
+		<div ref={ref} className={className}>
 			<Button
 				className="pagination-button"
 				disabled={page === 1}
@@ -35,7 +36,7 @@ const PaginationContainer = ({ className, page, lastPage, setPage }) => {
 			</Button>
 		</div>
 	);
-};
+});
 
 export const Pagination = styled(PaginationContainer)`
 	display: flex;

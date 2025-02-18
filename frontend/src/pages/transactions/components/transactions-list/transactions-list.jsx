@@ -7,6 +7,7 @@ import styled from 'styled-components';
 const TransactionsListContainer = ({
 	className,
 	transactions,
+	transactionsOnPage,
 	isLoading = true,
 	setTriggerFlag,
 	transactionListRef,
@@ -60,10 +61,16 @@ export const TransactionsList = styled(TransactionsListContainer)`
 	background-color: #2b2d32;
 
 	& .list {
+		display: flex;
+		flex-direction: column;
+		justify-content: ${({ transactions, transactionsOnPage }) =>
+			transactions.length === transactionsOnPage ? 'space-evenly' : 'start'};
+		min-height: 100%;
 		height: 100%;
 	}
 
 	& .list > div:not(:last-child) {
-		margin-bottom: 10px;
+		margin-bottom: ${({ transactions, transactionsOnPage }) =>
+			transactions.length === transactionsOnPage ? '0' : '10px'};
 	}
 `;

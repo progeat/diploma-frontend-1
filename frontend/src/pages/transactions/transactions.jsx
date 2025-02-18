@@ -10,6 +10,7 @@ const getNumberLimitPage = (listHeight) => Math.floor(listHeight / 70);
 
 const TransactionsContainer = ({ className }) => {
 	const [transactions, setTransactions] = useState([]);
+	const [transactionsOnPage, setTransactionsOnPage] = useState(null);
 	const [page, setPage] = useState(1);
 	const [lastPage, setLastPage] = useState(1);
 	const [searchPhrase, setSearchPhrase] = useState('');
@@ -18,20 +19,24 @@ const TransactionsContainer = ({ className }) => {
 	const filter = useSelector(selectFilter);
 	const { account, category, dateRange } = filter;
 	const transactionListRef = useRef(null);
+	const paginationRef = useRef(null);
 
 	useEffect(() => {
 		setIsLoading(true);
 		const listElement = transactionListRef.current;
-		let paginationLimit = null;
-		const subtractedHeight = transactions.length > 0 ? 0 : 35;
+		const paginationElement = paginationRef.current;
+		let transactionsLimitOnPage = null;
 
 		if (listElement) {
+			// Если пагинация есть, то не вычитывать высоту, если нет, то учитывать высоту отсутствующей пагинации
+			const subtractedHeight = paginationElement ? 0 : 52;
 			const listHeight = listElement.clientHeight;
-			paginationLimit = getNumberLimitPage(listHeight - subtractedHeight);
+			transactionsLimitOnPage = getNumberLimitPage(listHeight - subtractedHeight);
+			setTransactionsOnPage(transactionsLimitOnPage);
 		}
 
 		request(
-			`/transactions?search=${searchPhrase}&page=${page}&limit=${paginationLimit}&dateStart=${dateRange.start}&dateEnd=${dateRange.end}&account=${account}&category=${category}`,
+			`/transactions?search=${searchPhrase}&page=${page}&limit=${transactionsLimitOnPage}&dateStart=${dateRange.start}&dateEnd=${dateRange.end}&account=${account}&category=${category}`,
 		)
 			.then(({ data: { transactions, lastPage } }) => {
 				setTransactions(transactions);
@@ -65,12 +70,18 @@ const TransactionsContainer = ({ className }) => {
 					<Search searchPhrase={searchPhrase} onChange={onSearch} />
 					<TransactionsList
 						transactions={transactions}
+						transactionsOnPage={transactionsOnPage}
 						isLoading={isLoading}
 						setTriggerFlag={setTriggerFlag}
 						transactionListRef={transactionListRef}
 					/>
 					{lastPage > 1 && transactions.length > 0 && (
-						<Pagination page={page} lastPage={lastPage} setPage={setPage} />
+						<Pagination
+							ref={paginationRef}
+							page={page}
+							lastPage={lastPage}
+							setPage={setPage}
+						/>
 					)}
 				</div>
 			</div>
