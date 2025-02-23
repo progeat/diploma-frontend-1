@@ -1,7 +1,9 @@
 import { ACTION_TYPE } from '../actions';
 
 const initialAccountsState = {
-	accounts: [],
+	accounts: null,
+	isLoading: false,
+	error: false,
 };
 
 export const accountsReducer = (state = initialAccountsState, { type, payload }) => {
@@ -10,6 +12,16 @@ export const accountsReducer = (state = initialAccountsState, { type, payload })
 			return {
 				...state,
 				accounts: [...payload],
+			};
+		case ACTION_TYPE.SET_ACCOUNTS_IS_LOADING:
+			return {
+				...state,
+				isLoading: payload,
+			};
+		case ACTION_TYPE.SET_ACCOUNTS_ERROR:
+			return {
+				...state,
+				error: payload,
 			};
 		case ACTION_TYPE.SET_ACCOUNT:
 			return {

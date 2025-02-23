@@ -1,1 +1,1 @@
-export const selectAccounts = ({ accounts }) => accounts.accounts;
+export const selectAccounts = ({ accounts }) => accounts;

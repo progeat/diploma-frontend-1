@@ -5,16 +5,22 @@ import { Loader } from '../../../../../../../../components/ui';
 import { selectIsLoadingAccounts } from '../../../../../../../../store/selectors';
 import { GET_TYPE_ACCOUNT } from '../../../../../../../../constants';
 import styled from 'styled-components';
+import { useAccounts } from '../../../../../../../../hooks';
+import { useEffect } from 'react';
 
-const ListAccountsComponent = ({ className, value }) => {
+const ListAccountsComponent = ({ className }) => {
 	const navigate = useNavigate();
-	const isLoading = useSelector(selectIsLoadingAccounts);
+	const { accounts, isLoading, error, loadAccounts } = useAccounts();
 
-	if (isLoading) {
+	useEffect(() => {
+		loadAccounts();
+	}, []);
+
+	if (isLoading || !accounts) {
 		return <Loader />;
 	}
 
-	if (!value.length) {
+	if (!accounts.length) {
 		return (
 			<Icon
 				style={{ textAlign: 'center' }}
@@ -28,7 +34,7 @@ const ListAccountsComponent = ({ className, value }) => {
 
 	return (
 		<ul className={className}>
-			{value.map(({ id, name, type, balance }) => (
+			{accounts.map(({ id, name, type, balance }) => (
 				<li className="item" key={id}>
 					<div className="item-left">
 						<div className="account-name">{name}</div>

@@ -37,9 +37,9 @@ const AppColumn = styled.div`
 `;
 
 export const App = () => {
-	const [isLoading, setIsLoading] = useState(true);
+	// const [isLoading, setIsLoading] = useState(true);
 	const dispatch = useDispatch();
-	const isUser = useSelector(selectUserId);
+	// const isUser = useSelector(selectUserId);
 
 	useLayoutEffect(() => {
 		const currentUserDataJSON = sessionStorage.getItem('userData');
@@ -58,33 +58,33 @@ export const App = () => {
 		);
 	}, [dispatch]);
 
-	useEffect(() => {
-		if (isUser) {
-			Promise.all([request('/accounts'), request('/categories')])
-				.then(([accountsRes, categoriesRes]) => {
-					if (accountsRes.error || categoriesRes.error) {
-						console.error(
-							'Ошибка:',
-							accountsRes.error || categoriesRes.error,
-						);
-						return;
-					}
+	// useEffect(() => {
+	// 	if (isUser) {
+	// 		Promise.all([request('/accounts'), request('/categories')])
+	// 			.then(([accountsRes, categoriesRes]) => {
+	// 				if (accountsRes.error || categoriesRes.error) {
+	// 					console.error(
+	// 						'Ошибка:',
+	// 						accountsRes.error || categoriesRes.error,
+	// 					);
+	// 					return;
+	// 				}
 
-					dispatch(setAccounts(accountsRes.data));
-					dispatch(setCategories(categoriesRes.data));
-				})
-				.finally(() => {
-					dispatch(setIsLoadingAccounts(false));
-					setIsLoading(false);
-				});
-		} else {
-			setIsLoading(false);
-		}
-	}, [dispatch, isUser]);
+	// 				dispatch(setAccounts(accountsRes.data));
+	// 				dispatch(setCategories(categoriesRes.data));
+	// 			})
+	// 			.finally(() => {
+	// 				dispatch(setIsLoadingAccounts(false));
+	// 				setIsLoading(false);
+	// 			});
+	// 	} else {
+	// 		setIsLoading(false);
+	// 	}
+	// }, [dispatch, isUser]);
 
-	if (isLoading) {
-		return <Loader />;
-	}
+	// if (isLoading) {
+	// 	return <Loader />;
+	// }
 
 	return (
 		<AppColumn>

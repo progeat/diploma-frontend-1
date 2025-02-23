@@ -3,19 +3,36 @@ import { useMatch, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Loader } from '../../components/ui';
 import { TransactionForm } from './components';
+import { useAccounts, useCategories } from '../../hooks';
 import { request } from '../../utils';
 import { selectAccounts, selectCategories } from '../../store/selectors';
 import styled from 'styled-components';
 
+// TODO продумать вывод ошибки запроса категорий
 const TransactionContainer = ({ className }) => {
 	const [transaction, setTransaction] = useState({});
 	const [isLoading, setIsLoading] = useState(false);
 	const params = useParams();
 	const isEditing = !!useMatch('/transaction/:id/edit');
-	const accounts = useSelector(selectAccounts);
-	const categories = useSelector(selectCategories);
+	// const accounts = useSelector(selectAccounts);
+	// const categories = useSelector(selectCategories);
+	const {
+		categories,
+		isLoading: isLoadingCategories,
+		error: errorCategories,
+		loadCategories,
+	} = useCategories();
+	const {
+		accounts,
+		isLoading: isLoadingAccounts,
+		error: errorAccounts,
+		loadAccounts,
+	} = useAccounts();
 
 	useEffect(() => {
+		loadAccounts();
+		loadCategories();
+
 		if (!isEditing) {
 			return;
 		}
@@ -32,7 +49,7 @@ const TransactionContainer = ({ className }) => {
 		});
 	}, [isEditing, params.id]);
 
-	if (isLoading) {
+	if (isLoading || isLoadingCategories || isLoadingAccounts) {
 		return <Loader />;
 	}
 

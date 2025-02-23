@@ -20,6 +20,7 @@ const CategoriesListContainer = ({ className, categories, typeCategory }) => {
 };
 
 export const CategoriesList = styled(CategoriesListContainer)`
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	align-items: center;

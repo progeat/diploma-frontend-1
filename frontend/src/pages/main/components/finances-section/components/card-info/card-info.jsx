@@ -14,11 +14,7 @@ const CardInfoContainer = ({ className, title, value, path }) => {
 					<Icon id="fa-plus-circle" margin="0" onClick={() => navigate(path)} />
 				)}
 			</div>
-			{path === '/account' ? (
-				<ListAccounts value={value} />
-			) : (
-				<ListStatistics value={value} />
-			)}
+			{path === '/account' ? <ListAccounts /> : <ListStatistics value={value} />}
 		</div>
 	);
 };

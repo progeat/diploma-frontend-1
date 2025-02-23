@@ -6,13 +6,12 @@ import styled from 'styled-components';
 
 const AccountContainer = ({ className }) => {
 	const isEditing = !!useMatch('/account/:id/edit');
-	const accounts = useSelector(selectAccounts);
 
 	return (
 		<div className={className}>
 			<div className="form-wrapper">
 				<h2>{isEditing ? 'Редактирование счёта' : 'Новый счёт'}</h2>
-				<AccountForm accounts={accounts} />
+				<AccountForm />
 			</div>
 		</div>
 	);

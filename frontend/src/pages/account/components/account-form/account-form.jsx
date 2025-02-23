@@ -19,10 +19,11 @@ const ACCOUNT_TYPE_OPTIONS = [
 	{ value: TYPE_ACCOUNT.CASH, label: GET_TYPE_ACCOUNT[TYPE_ACCOUNT.CASH] },
 ];
 
-const AccountFormContainer = ({ className, accounts }) => {
+const AccountFormContainer = ({ className }) => {
 	const [serverError, setServerError] = useState(null);
 	const [isServerPass, setIsServerPass] = useState(null);
 	const params = useParams();
+	// TODO продумать хук для запроса одного счёта
 	const accountEditing = accounts.find((account) => account.id === params.id);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
