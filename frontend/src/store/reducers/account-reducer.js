@@ -1,12 +1,9 @@
 import { ACTION_TYPE } from '../actions';
 
 const initialAccountState = {
-	id: '',
-	title: '',
-	type: '',
-	amount: '',
-	icon: '',
-	createdAt: '',
+	account: null,
+	isLoading: true,
+	error: null,
 };
 
 export const accountReducer = (state = initialAccountState, { type, payload }) => {
@@ -14,7 +11,17 @@ export const accountReducer = (state = initialAccountState, { type, payload }) =
 		case ACTION_TYPE.SET_ACCOUNT_DATA:
 			return {
 				...state,
-				...payload,
+				account: payload,
+			};
+		case ACTION_TYPE.SET_ACCOUNT_IS_LOADING:
+			return {
+				...state,
+				isLoading: payload,
+			};
+		case ACTION_TYPE.SET_ACCOUNT_ERROR:
+			return {
+				...state,
+				error: payload,
 			};
 		case ACTION_TYPE.RESET_ACCOUNT_DATA:
 			return initialAccountState;

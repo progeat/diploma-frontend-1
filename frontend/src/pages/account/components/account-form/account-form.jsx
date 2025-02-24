@@ -19,12 +19,14 @@ const ACCOUNT_TYPE_OPTIONS = [
 	{ value: TYPE_ACCOUNT.CASH, label: GET_TYPE_ACCOUNT[TYPE_ACCOUNT.CASH] },
 ];
 
-const AccountFormContainer = ({ className }) => {
+const AccountFormContainer = ({ className, account }) => {
 	const [serverError, setServerError] = useState(null);
 	const [isServerPass, setIsServerPass] = useState(null);
+	const indexTypeAccountEdited = ACCOUNT_TYPE_OPTIONS.findIndex(
+		(option) => option.value === account?.type,
+	);
 	const params = useParams();
-	// TODO продумать хук для запроса одного счёта
-	const accountEditing = accounts.find((account) => account.id === params.id);
+
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
@@ -36,31 +38,31 @@ const AccountFormContainer = ({ className }) => {
 		formState: { errors },
 	} = useForm({
 		defaultValues: {
-			name: accountEditing?.name || '',
-			type: ACCOUNT_TYPE_OPTIONS[accountEditing?.type] || ACCOUNT_TYPE_OPTIONS[0],
-			balance: accountEditing?.balance || 0,
+			name: account?.name || '',
+			type: ACCOUNT_TYPE_OPTIONS[indexTypeAccountEdited] || ACCOUNT_TYPE_OPTIONS[0],
+			balance: account?.balance || 0,
 		},
 		resolver: yupResolver(accountSchema),
 	});
 
-	const onSubmit = ({ name, type, balance }) => {
-		request(`/accounts/${params.id || ''}`, `${params.id ? 'PATCH' : 'POST'}`, {
-			name,
-			type: type.value,
-			balance,
-		}).then(({ error, data }) => {
-			if (error) {
-				setServerError(`Ошибка запроса: ${error}`);
-				return;
-			}
+	// const onSubmit = ({ name, type, balance }) => {
+	// 	request(`/accounts/${params.id || ''}`, `${params.id ? 'PATCH' : 'POST'}`, {
+	// 		name,
+	// 		type: type.value,
+	// 		balance,
+	// 	}).then(({ error, data }) => {
+	// 		if (error) {
+	// 			setServerError(`Ошибка запроса: ${error}`);
+	// 			return;
+	// 		}
 
-			setIsServerPass(true);
-			dispatch(updateAccounts);
-			if (!accountEditing) {
-				reset();
-			}
-		});
-	};
+	// 		setIsServerPass(true);
+	// 		dispatch(updateAccounts);
+	// 		if (!account) {
+	// 			reset();
+	// 		}
+	// 	});
+	// };
 
 	const onDeleteAccount = (id) => {
 		dispatch(
@@ -119,7 +121,7 @@ const AccountFormContainer = ({ className }) => {
 			</Button>
 			{errorMessage && <div className="error">{errorMessage}</div>}
 			{isServerPass && <div className="pass">Отправленно</div>}
-			{accountEditing && (
+			{account && (
 				<button
 					className="delete-button"
 					type="button"

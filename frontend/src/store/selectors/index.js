@@ -3,6 +3,7 @@ export * from './select-user-login';
 export * from './select-user-id';
 export * from './select-user-role';
 export * from './select-user-session';
+export * from './select-account';
 export * from './select-accounts';
 export * from './select-categories';
 export * from './select-modal-is-open';

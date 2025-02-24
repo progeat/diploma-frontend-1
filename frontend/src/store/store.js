@@ -6,12 +6,14 @@ import {
 	accountsReducer,
 	categoriesReducer,
 	statisticsReducer,
+	accountReducer,
 } from './reducers';
 
 const reducer = combineReducers({
 	app: appReducer,
 	user: userReducer,
 	accounts: accountsReducer,
+	account: accountReducer,
 	categories: categoriesReducer,
 	statistics: statisticsReducer,
 });

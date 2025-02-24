@@ -1,6 +1,6 @@
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
 	Account,
 	Authorization,
@@ -13,17 +13,10 @@ import {
 	Transaction,
 	Transactions,
 } from './pages';
-import { Modal } from './components/common';
 import { PrivateRoutes } from './components/routes';
+import { Modal } from './components/common';
 import { Loader } from './components/ui';
-import {
-	setAccounts,
-	setCategories,
-	setIsLoadingAccounts,
-	setUser,
-} from './store/actions';
-import { request } from './utils';
-import { selectUserId } from './store/selectors';
+import { setUser } from './store/actions';
 import styled from 'styled-components';
 
 const AppColumn = styled.div`
@@ -37,14 +30,15 @@ const AppColumn = styled.div`
 `;
 
 export const App = () => {
-	// const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(true);
 	const dispatch = useDispatch();
-	// const isUser = useSelector(selectUserId);
 
 	useLayoutEffect(() => {
 		const currentUserDataJSON = sessionStorage.getItem('userData');
 
 		if (!currentUserDataJSON) {
+			setIsLoading(false);
+
 			return;
 		}
 
@@ -56,35 +50,13 @@ export const App = () => {
 				roleId: Number(currentUserData.roleId),
 			}),
 		);
+
+		setIsLoading(false);
 	}, [dispatch]);
 
-	// useEffect(() => {
-	// 	if (isUser) {
-	// 		Promise.all([request('/accounts'), request('/categories')])
-	// 			.then(([accountsRes, categoriesRes]) => {
-	// 				if (accountsRes.error || categoriesRes.error) {
-	// 					console.error(
-	// 						'Ошибка:',
-	// 						accountsRes.error || categoriesRes.error,
-	// 					);
-	// 					return;
-	// 				}
-
-	// 				dispatch(setAccounts(accountsRes.data));
-	// 				dispatch(setCategories(categoriesRes.data));
-	// 			})
-	// 			.finally(() => {
-	// 				dispatch(setIsLoadingAccounts(false));
-	// 				setIsLoading(false);
-	// 			});
-	// 	} else {
-	// 		setIsLoading(false);
-	// 	}
-	// }, [dispatch, isUser]);
-
-	// if (isLoading) {
-	// 	return <Loader />;
-	// }
+	if (isLoading) {
+		return <Loader />;
+	}
 
 	return (
 		<AppColumn>

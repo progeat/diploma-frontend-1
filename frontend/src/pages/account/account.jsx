@@ -1,17 +1,25 @@
-import { useSelector } from 'react-redux';
-import { useMatch } from 'react-router-dom';
+import { useMatch, useParams } from 'react-router-dom';
 import { AccountForm } from './components';
-import { selectAccounts } from '../../store/selectors';
+import { useAccount } from '../../hooks';
 import styled from 'styled-components';
+import { Loader } from '../../components/ui';
 
 const AccountContainer = ({ className }) => {
 	const isEditing = !!useMatch('/account/:id/edit');
+	const params = useParams();
+	const { account, isLoading, error } = useAccount(params.id);
+
+	console.log('проверка', isEditing, isLoading);
+
+	if (isEditing && isLoading) {
+		return <Loader />;
+	}
 
 	return (
 		<div className={className}>
 			<div className="form-wrapper">
 				<h2>{isEditing ? 'Редактирование счёта' : 'Новый счёт'}</h2>
-				<AccountForm />
+				<AccountForm account={account} />
 			</div>
 		</div>
 	);
