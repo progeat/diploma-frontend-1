@@ -7,9 +7,15 @@ import { Loader } from '../../components/ui';
 const AccountContainer = ({ className }) => {
 	const isEditing = !!useMatch('/account/:id/edit');
 	const params = useParams();
-	const { account, isLoading, error } = useAccount(params.id);
-
-	console.log('проверка', isEditing, isLoading);
+	const {
+		account,
+		isLoading,
+		serverError,
+		isServerPass,
+		onSubmitAccount,
+		onDeleteAccount,
+		resetServerStatus,
+	} = useAccount(params.id);
 
 	if (isEditing && isLoading) {
 		return <Loader />;
@@ -19,7 +25,14 @@ const AccountContainer = ({ className }) => {
 		<div className={className}>
 			<div className="form-wrapper">
 				<h2>{isEditing ? 'Редактирование счёта' : 'Новый счёт'}</h2>
-				<AccountForm account={account} />
+				<AccountForm
+					account={account}
+					serverError={serverError}
+					isServerPass={isServerPass}
+					onSubmitAccount={onSubmitAccount}
+					onDeleteAccount={onDeleteAccount}
+					resetServerStatus={resetServerStatus}
+				/>
 			</div>
 		</div>
 	);

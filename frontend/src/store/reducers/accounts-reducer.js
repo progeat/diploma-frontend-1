@@ -26,7 +26,22 @@ export const accountsReducer = (state = initialAccountsState, { type, payload })
 		case ACTION_TYPE.SET_ACCOUNT:
 			return {
 				...state,
-				accounts: [...state.accounts, payload],
+				accounts: [...state.accounts, payload].sort(
+					(a, b) => b.balance - a.balance,
+				),
+			};
+		case ACTION_TYPE.UPDATE_ACCOUNT:
+			return {
+				...state,
+				accounts: [...state.accounts].map((account) =>
+					account.id === payload.id ? payload : account,
+				),
+			};
+
+		case ACTION_TYPE.REMOVE_ACCOUNT:
+			return {
+				...state,
+				accounts: [...state.accounts].filter((account) => account.id !== payload),
 			};
 		case ACTION_TYPE.SET_ACCOUNT_BALANCE:
 			return {

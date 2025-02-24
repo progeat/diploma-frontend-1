@@ -19,9 +19,15 @@ const ACCOUNT_TYPE_OPTIONS = [
 	{ value: TYPE_ACCOUNT.CASH, label: GET_TYPE_ACCOUNT[TYPE_ACCOUNT.CASH] },
 ];
 
-const AccountFormContainer = ({ className, account }) => {
-	const [serverError, setServerError] = useState(null);
-	const [isServerPass, setIsServerPass] = useState(null);
+const AccountFormContainer = ({
+	className,
+	account,
+	serverError,
+	isServerPass,
+	onSubmitAccount,
+	onDeleteAccount,
+	resetServerStatus,
+}) => {
 	const indexTypeAccountEdited = ACCOUNT_TYPE_OPTIONS.findIndex(
 		(option) => option.value === account?.type,
 	);
@@ -45,57 +51,23 @@ const AccountFormContainer = ({ className, account }) => {
 		resolver: yupResolver(accountSchema),
 	});
 
-	// const onSubmit = ({ name, type, balance }) => {
-	// 	request(`/accounts/${params.id || ''}`, `${params.id ? 'PATCH' : 'POST'}`, {
-	// 		name,
-	// 		type: type.value,
-	// 		balance,
-	// 	}).then(({ error, data }) => {
-	// 		if (error) {
-	// 			setServerError(`Ошибка запроса: ${error}`);
-	// 			return;
-	// 		}
-
-	// 		setIsServerPass(true);
-	// 		dispatch(updateAccounts);
-	// 		if (!account) {
-	// 			reset();
-	// 		}
-	// 	});
-	// };
-
-	const onDeleteAccount = (id) => {
-		dispatch(
-			openModal({
-				text: 'Удалить счёт?',
-				onConfirm: () => {
-					request(`/accounts/${id}`, 'DELETE').then(() => {
-						dispatch(updateAccounts);
-						navigate(-1);
-					});
-
-					dispatch(CLOSE_MODAL);
-				},
-				onCancel: () => dispatch(CLOSE_MODAL),
-			}),
-		);
-	};
-
 	const formError =
 		errors?.name?.message || errors?.type?.message || errors?.balance?.message;
 	const errorMessage = formError || serverError;
 
 	return (
-		<form className={className} onSubmit={handleSubmit(onSubmit)}>
+		<form
+			className={className}
+			onSubmit={handleSubmit((formData) =>
+				onSubmitAccount({ formData, resetForm: reset }),
+			)}
+		>
 			<Input
 				label="Имя"
 				type="text"
 				placeholder="Имя счёта..."
 				{...register('name', {
-					onChange: () => {
-						setServerError(null);
-						setIsServerPass(null);
-					},
+					onChange: resetServerStatus,
 				})}
 			/>
 			<SelectForm
@@ -110,10 +82,7 @@ const AccountFormContainer = ({ className, account }) => {
 				type="number"
 				placeholder="Баланс..."
 				{...register('balance', {
-					onChange: () => {
-						setServerError(null);
-						setIsServerPass(null);
-					},
+					onChange: resetServerStatus,
 				})}
 			/>
 			<Button className="button-submit" type="submit" disabled={!!formError}>
@@ -122,11 +91,7 @@ const AccountFormContainer = ({ className, account }) => {
 			{errorMessage && <div className="error">{errorMessage}</div>}
 			{isServerPass && <div className="pass">Отправленно</div>}
 			{account && (
-				<button
-					className="delete-button"
-					type="button"
-					onClick={() => onDeleteAccount(params.id)}
-				>
+				<button className="delete-button" type="button" onClick={onDeleteAccount}>
 					Удалить счёт
 				</button>
 			)}

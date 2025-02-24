@@ -1,12 +1,25 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { loadAccountAsync, RESET_ACCOUNT_DATA } from '../store/actions';
-import { selectAccount } from '../store/selectors';
 import { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+	CLOSE_MODAL,
+	loadAccountAsync,
+	loadAccountsAsync,
+	openModal,
+	removeAccount,
+	RESET_ACCOUNT_DATA,
+	saveAccountAsync,
+} from '../store/actions';
+import { request } from '../utils';
+import { selectAccount, selectAccounts } from '../store/selectors';
 
 export const useAccount = (idAccount) => {
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 	const [serverError, setServerError] = useState(null);
+	const [isServerPass, setIsServerPass] = useState(null);
 	const { account, isLoading, error } = useSelector(selectAccount);
+	const { accounts } = useSelector(selectAccounts);
 
 	const loadAccount = useCallback(
 		(id) => {
@@ -18,29 +31,44 @@ export const useAccount = (idAccount) => {
 		[dispatch],
 	);
 
-	const onSubmit = async (formData) => {
+	const onSubmitAccount = ({ formData, resetForm }) => {
 		try {
-			const resData = await dispatch(saveAccountAsync(idAccount, formData));
+			if (!accounts) {
+				dispatch(loadAccountsAsync);
+			}
+
+			dispatch(saveAccountAsync(idAccount, formData));
+
+			setIsServerPass(true);
+
+			if (!idAccount) {
+				resetForm();
+			}
 		} catch (e) {
 			setServerError(e.massage);
 		}
+	};
 
-		// request(`/accounts/${params.id || ''}`, `${params.id ? 'PATCH' : 'POST'}`, {
-		// 	name,
-		// 	type: type.value,
-		// 	balance,
-		// }).then(({ error, data }) => {
-		// 	if (error) {
-		// 		setServerError(`Ошибка запроса: ${error}`);
-		// 		return;
-		// 	}
+	const onDeleteAccount = () => {
+		dispatch(
+			openModal({
+				text: 'Удалить счёт?',
+				onConfirm: () => {
+					request(`/accounts/${idAccount}`, 'DELETE').then(() => {
+						dispatch(removeAccount(idAccount));
+						navigate(-1);
+					});
 
-		// 	setIsServerPass(true);
-		// 	dispatch(updateAccounts);
-		// 	if (!account) {
-		// 		reset();
-		// 	}
-		// });
+					dispatch(CLOSE_MODAL);
+				},
+				onCancel: () => dispatch(CLOSE_MODAL),
+			}),
+		);
+	};
+
+	const resetServerStatus = () => {
+		setServerError(null);
+		setIsServerPass(null);
 	};
 
 	useEffect(() => {
@@ -54,8 +82,11 @@ export const useAccount = (idAccount) => {
 	return {
 		account,
 		isLoading,
-		error,
-		loadAccount,
+		serverError: error,
+		onSubmitAccount,
+		onDeleteAccount,
 		serverError,
+		isServerPass,
+		resetServerStatus,
 	};
 };
