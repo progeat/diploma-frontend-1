@@ -1,7 +1,7 @@
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadCategoriesAsync } from '../store/actions';
 import { selectCategories } from '../store/selectors';
-import { useCallback, useEffect } from 'react';
 
 export const useCategories = () => {
 	const dispatch = useDispatch();
@@ -21,6 +21,5 @@ export const useCategories = () => {
 		categories,
 		isLoading,
 		error,
-		// loadCategories,
 	};
 };

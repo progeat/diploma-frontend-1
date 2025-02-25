@@ -4,60 +4,63 @@ import { ControlPanel, Pagination, Search, TransactionsList } from './components
 import { selectFilter } from '../../store/selectors';
 import { request } from '../../utils';
 import { debounce } from './utils';
+import { useTransactions } from '../../hooks';
 import styled from 'styled-components';
 
-const getNumberLimitPage = (listHeight) => Math.floor(listHeight / 70);
+// const getNumberLimitPage = (listHeight) => Math.floor(listHeight / 70);
 
 const TransactionsContainer = ({ className }) => {
-	const [transactions, setTransactions] = useState([]);
-	const [transactionsOnPage, setTransactionsOnPage] = useState(null);
-	const [page, setPage] = useState(1);
-	const [lastPage, setLastPage] = useState(1);
-	const [searchPhrase, setSearchPhrase] = useState('');
+	// const [transactions, setTransactions] = useState([]);
+	// const [transactionsOnPage, setTransactionsOnPage] = useState(null);
+	// const [page, setPage] = useState(1);
+	// const [lastPage, setLastPage] = useState(1);
+	// const [searchPhrase, setSearchPhrase] = useState('');
+	// const [isLoading, setIsLoading] = useState(false);
+	// const filter = useSelector(selectFilter);
+	// const { account, category, dateRange } = filter;
+	// const transactionListRef = useRef(null);
+	// const paginationRef = useRef(null);
 	const [triggerFlag, setTriggerFlag] = useState(false);
-	const [isLoading, setIsLoading] = useState(false);
-	const filter = useSelector(selectFilter);
-	const { account, category, dateRange } = filter;
-	const transactionListRef = useRef(null);
-	const paginationRef = useRef(null);
+	const dataUseTransactions = useTransactions();
+	const { transactions } = dataUseTransactions;
 
-	useEffect(() => {
-		setIsLoading(true);
-		const listElement = transactionListRef.current;
-		const paginationElement = paginationRef.current;
-		let transactionsLimitOnPage = null;
+	// useEffect(() => {
+	// 	setIsLoading(true);
+	// 	const listElement = transactionListRef.current;
+	// 	const paginationElement = paginationRef.current;
+	// 	let transactionsLimitOnPage = null;
 
-		if (listElement) {
-			// Если пагинация есть, то не вычитывать высоту, если нет, то учитывать высоту отсутствующей пагинации
-			const subtractedHeight = paginationElement ? 0 : 52;
-			const listHeight = listElement.clientHeight;
-			transactionsLimitOnPage = getNumberLimitPage(listHeight - subtractedHeight);
-			setTransactionsOnPage(transactionsLimitOnPage);
-		}
+	// 	if (listElement) {
+	// 		// Если пагинация есть, то не вычитывать высоту, если нет, то учитывать высоту отсутствующей пагинации
+	// 		const subtractedHeight = paginationElement ? 0 : 52;
+	// 		const listHeight = listElement.clientHeight;
+	// 		transactionsLimitOnPage = getNumberLimitPage(listHeight - subtractedHeight);
+	// 		setTransactionsOnPage(transactionsLimitOnPage);
+	// 	}
 
-		request(
-			`/transactions?search=${searchPhrase}&page=${page}&limit=${transactionsLimitOnPage}&dateStart=${dateRange.start}&dateEnd=${dateRange.end}&account=${account}&category=${category}`,
-		)
-			.then(({ data: { transactions, lastPage } }) => {
-				setTransactions(transactions);
-				setLastPage(lastPage);
+	// 	request(
+	// 		`/transactions?search=${searchPhrase}&page=${page}&limit=${transactionsLimitOnPage}&dateStart=${dateRange.start}&dateEnd=${dateRange.end}&account=${account}&category=${category}`,
+	// 	)
+	// 		.then(({ data: { transactions, lastPage } }) => {
+	// 			setTransactions(transactions);
+	// 			setLastPage(lastPage);
 
-				if (page > lastPage) {
-					setPage(lastPage);
-				}
-			})
-			.finally(() => {
-				setIsLoading(false);
-			});
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [page, filter, triggerFlag]);
+	// 			if (page > lastPage) {
+	// 				setPage(lastPage);
+	// 			}
+	// 		})
+	// 		.finally(() => {
+	// 			setIsLoading(false);
+	// 		});
+	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
+	// }, [page, filter, triggerFlag]);
 
-	const startDelayedSearch = useMemo(() => debounce(setTriggerFlag, 2000), []);
+	// const startDelayedSearch = useMemo(() => debounce(setTriggerFlag, 2000), []);
 
-	const onSearch = ({ target }) => {
-		setSearchPhrase(target.value);
-		startDelayedSearch(!triggerFlag);
-	};
+	// const onSearch = ({ target }) => {
+	// 	setSearchPhrase(target.value);
+	// 	startDelayedSearch(!triggerFlag);
+	// };
 
 	return (
 		<div className={className}>

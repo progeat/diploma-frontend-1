@@ -38,6 +38,7 @@ export * from './remove-category';
 export * from './reset-accounts';
 export * from './reset-categories';
 export * from './set-is-loading-accounts';
+export * from './load-transactions-async';
 export * from './set-is-loading-statistics';
 export * from './set-statistics';
 export * from './reset-statistics';
