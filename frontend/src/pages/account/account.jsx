@@ -1,21 +1,14 @@
 import { useMatch, useParams } from 'react-router-dom';
 import { AccountForm } from './components';
+import { Loader } from '../../components/ui';
 import { useAccount } from '../../hooks';
 import styled from 'styled-components';
-import { Loader } from '../../components/ui';
 
 const AccountContainer = ({ className }) => {
 	const isEditing = !!useMatch('/account/:id/edit');
 	const params = useParams();
-	const {
-		account,
-		isLoading,
-		serverError,
-		isServerPass,
-		onSubmitAccount,
-		onDeleteAccount,
-		resetServerStatus,
-	} = useAccount(params.id);
+	const dataUseAccount = useAccount(params.id);
+	const { isLoading } = dataUseAccount;
 
 	if (isEditing && isLoading) {
 		return <Loader />;
@@ -25,14 +18,7 @@ const AccountContainer = ({ className }) => {
 		<div className={className}>
 			<div className="form-wrapper">
 				<h2>{isEditing ? 'Редактирование счёта' : 'Новый счёт'}</h2>
-				<AccountForm
-					account={account}
-					serverError={serverError}
-					isServerPass={isServerPass}
-					onSubmitAccount={onSubmitAccount}
-					onDeleteAccount={onDeleteAccount}
-					resetServerStatus={resetServerStatus}
-				/>
+				<AccountForm {...dataUseAccount} />
 			</div>
 		</div>
 	);

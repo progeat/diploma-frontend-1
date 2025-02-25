@@ -5,6 +5,7 @@ export * from './select-user-role';
 export * from './select-user-session';
 export * from './select-account';
 export * from './select-accounts';
+export * from './select-category';
 export * from './select-categories';
 export * from './select-modal-is-open';
 export * from './select-modal-on-cancel';

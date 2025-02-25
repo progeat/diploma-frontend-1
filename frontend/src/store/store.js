@@ -3,17 +3,19 @@ import { thunk } from 'redux-thunk';
 import {
 	appReducer,
 	userReducer,
+	accountReducer,
 	accountsReducer,
+	categoryReducer,
 	categoriesReducer,
 	statisticsReducer,
-	accountReducer,
 } from './reducers';
 
 const reducer = combineReducers({
 	app: appReducer,
 	user: userReducer,
-	accounts: accountsReducer,
 	account: accountReducer,
+	accounts: accountsReducer,
+	category: categoryReducer,
 	categories: categoriesReducer,
 	statistics: statisticsReducer,
 });

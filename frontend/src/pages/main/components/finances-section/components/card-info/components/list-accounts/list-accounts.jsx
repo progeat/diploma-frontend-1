@@ -1,20 +1,13 @@
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { Icon } from '../../../../../../../../components/common';
 import { Loader } from '../../../../../../../../components/ui';
-import { selectIsLoadingAccounts } from '../../../../../../../../store/selectors';
 import { GET_TYPE_ACCOUNT } from '../../../../../../../../constants';
 import styled from 'styled-components';
 import { useAccounts } from '../../../../../../../../hooks';
-import { useEffect } from 'react';
 
 const ListAccountsComponent = ({ className }) => {
 	const navigate = useNavigate();
-	const { accounts, isLoading, error, loadAccounts } = useAccounts();
-
-	useEffect(() => {
-		loadAccounts();
-	}, []);
+	const { accounts, isLoading } = useAccounts();
 
 	if (isLoading || !accounts) {
 		return <Loader />;

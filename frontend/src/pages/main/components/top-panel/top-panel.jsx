@@ -1,20 +1,15 @@
 import { useSelector } from 'react-redux';
 import { TabSwitcher } from '../../../../components/common';
+import { useAccounts } from '../../../../hooks';
 import { selectStatistics } from '../../../../store/selectors';
 import { getNamesOfPastMonths, getTotalPrice, getTotalSavings } from './utils';
 import styled from 'styled-components';
-import { useAccounts } from '../../../../hooks';
-import { useEffect } from 'react';
 
 const TopPanelContainer = ({ className, indexActive, onToggleActive }) => {
-	const { accounts, loadAccounts } = useAccounts();
+	const { accounts } = useAccounts();
 	const statistics = useSelector(selectStatistics);
 	const namesTabSwitcher = getNamesOfPastMonths(3);
 	const totalSavings = getTotalSavings(accounts);
-
-	useEffect(() => {
-		loadAccounts();
-	}, []);
 
 	return (
 		<div className={className}>

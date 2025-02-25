@@ -3,45 +3,45 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	CLOSE_MODAL,
-	loadAccountAsync,
-	loadAccountsAsync,
+	loadCategoriesAsync,
+	loadCategoryAsync,
 	openModal,
-	removeAccount,
-	RESET_ACCOUNT_DATA,
-	saveAccountAsync,
+	removeCategory,
+	RESET_CATEGORY_DATA,
+	saveCategoryAsync,
 } from '../store/actions';
 import { request } from '../utils';
-import { selectAccount, selectAccounts } from '../store/selectors';
+import { selectCategory, selectCategories } from '../store/selectors';
 
-export const useAccount = (idAccount) => {
+export const useCategory = (idCategory) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const [serverError, setServerError] = useState(null);
 	const [isServerPass, setIsServerPass] = useState(null);
-	const { account, isLoading, error } = useSelector(selectAccount);
-	const { accounts } = useSelector(selectAccounts);
+	const { category, isLoading, error } = useSelector(selectCategory);
+	const { categories } = useSelector(selectCategories);
 
-	const loadAccount = useCallback(
+	const loadCategory = useCallback(
 		(id) => {
-			if (!account) {
-				dispatch(loadAccountAsync(id));
+			if (!category) {
+				dispatch(loadCategoryAsync(id));
 			}
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[dispatch],
 	);
 
-	const onSubmitAccount = ({ formData, resetForm }) => {
+	const onSubmitCategory = ({ formData, resetForm }) => {
 		try {
-			if (!accounts) {
-				dispatch(loadAccountsAsync);
+			if (!categories) {
+				dispatch(loadCategoriesAsync);
 			}
 
-			dispatch(saveAccountAsync(idAccount, formData));
+			dispatch(saveCategoryAsync(idCategory, formData));
 
 			setIsServerPass(true);
 
-			if (!idAccount) {
+			if (!idCategory) {
 				resetForm();
 			}
 		} catch (e) {
@@ -49,13 +49,13 @@ export const useAccount = (idAccount) => {
 		}
 	};
 
-	const onDeleteAccount = () => {
+	const onDeleteCategory = () => {
 		dispatch(
 			openModal({
-				text: 'Удалить счёт?',
+				text: 'Удалить категорию?',
 				onConfirm: () => {
-					request(`/accounts/${idAccount}`, 'DELETE').then(() => {
-						dispatch(removeAccount(idAccount));
+					request(`/categories/${idCategory}`, 'DELETE').then(() => {
+						dispatch(removeCategory(idCategory));
 						navigate(-1);
 					});
 
@@ -72,23 +72,23 @@ export const useAccount = (idAccount) => {
 	};
 
 	useEffect(() => {
-		if (!idAccount) {
+		if (!idCategory) {
 			return;
 		}
 
-		loadAccount(idAccount);
+		loadCategory(idCategory);
 
 		return () => {
-			dispatch(RESET_ACCOUNT_DATA);
+			dispatch(RESET_CATEGORY_DATA);
 		};
-	}, [dispatch, loadAccount, idAccount]);
+	}, [dispatch, loadCategory, idCategory]);
 
 	return {
-		account,
+		category,
 		isLoading,
-		accountError: error || serverError,
-		onSubmitAccount,
-		onDeleteAccount,
+		categoryError: error || serverError,
+		onSubmitCategory,
+		onDeleteCategory,
 		isServerPass,
 		resetServerStatus,
 	};

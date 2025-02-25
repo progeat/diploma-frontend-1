@@ -1,6 +1,7 @@
 import { Icon, Input } from '../../../../components/common';
 import styled from 'styled-components';
 
+// TODO поправить фокус на инпуте
 const SearchContainer = ({ className, searchPhrase, onChange }) => {
 	return (
 		<div className={className}>

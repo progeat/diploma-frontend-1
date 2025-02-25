@@ -10,7 +10,7 @@ const CardInfoContainer = ({ className, title, value, path }) => {
 		<div className={className}>
 			<div className="header">
 				<h3 className="top-panel">{title}</h3>
-				{value.length !== 0 && (
+				{value && (
 					<Icon id="fa-plus-circle" margin="0" onClick={() => navigate(path)} />
 				)}
 			</div>

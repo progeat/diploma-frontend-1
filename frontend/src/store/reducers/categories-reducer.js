@@ -23,6 +23,25 @@ export const categoriesReducer = (state = initialCategoriesState, { type, payloa
 				...state,
 				error: payload,
 			};
+		case ACTION_TYPE.SET_CATEGORY:
+			return {
+				...state,
+				categories: [...state.categories, payload],
+			};
+		case ACTION_TYPE.UPDATE_CATEGORY:
+			return {
+				...state,
+				categories: [...state.categories].map((category) =>
+					category.id === payload.id ? payload : category,
+				),
+			};
+		case ACTION_TYPE.REMOVE_CATEGORY:
+			return {
+				...state,
+				categories: [...state.categories].filter(
+					(category) => category.id !== payload,
+				),
+			};
 		case ACTION_TYPE.RESET_CATEGORIES:
 			return initialCategoriesState;
 		default:

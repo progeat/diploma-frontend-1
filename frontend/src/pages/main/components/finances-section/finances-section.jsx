@@ -1,10 +1,11 @@
 import { useSelector } from 'react-redux';
 import { CardInfo } from './components';
-import { selectAccounts, selectStatistics } from '../../../../store/selectors';
+import { useAccounts } from '../../../../hooks';
+import { selectStatistics } from '../../../../store/selectors';
 import styled from 'styled-components';
 
 const FinancesSectionContainer = ({ className }) => {
-	const accounts = useSelector(selectAccounts);
+	const { accounts } = useAccounts();
 	const statistics = useSelector(selectStatistics);
 
 	return (

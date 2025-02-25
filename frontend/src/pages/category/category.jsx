@@ -1,20 +1,27 @@
 import { useMatch, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { CategoryForm } from './components';
-import { selectCategories } from '../../store/selectors';
 import styled from 'styled-components';
+import { useCategory } from '../../hooks';
+import { Loader } from '../../components/ui';
 
 const CategoryContainer = ({ className }) => {
 	const isEditing = !!useMatch('/category/:id/edit');
 	const params = useParams();
-	const categories = useSelector(selectCategories);
-	const category = categories.find((category) => category.id === params.id);
+	const dataUseCategory = useCategory(params.id);
+	const { isLoading } = dataUseCategory;
+
+	if (isEditing && isLoading) {
+		return <Loader />;
+	}
+
+	// const categories = useSelector(selectCategories);
+	// const category = categories.find((category) => category.id === params.id);
 
 	return (
 		<div className={className}>
 			<div className="form-wrapper">
 				<h2>{isEditing ? 'Редактирование категории' : 'Новая категория'}</h2>
-				<CategoryForm category={category} />
+				<CategoryForm {...dataUseCategory} />
 			</div>
 		</div>
 	);

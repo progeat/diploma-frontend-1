@@ -37,7 +37,6 @@ export const accountsReducer = (state = initialAccountsState, { type, payload })
 					account.id === payload.id ? payload : account,
 				),
 			};
-
 		case ACTION_TYPE.REMOVE_ACCOUNT:
 			return {
 				...state,

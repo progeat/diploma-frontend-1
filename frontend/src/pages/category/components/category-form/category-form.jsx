@@ -1,35 +1,11 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Icon, Input, TabSwitcher } from '../../../../components/common';
 import { SelectForm } from '../../../../components/form';
-import { CLOSE_MODAL, openModal, updateCategories } from '../../../../store/actions';
-import { request } from '../../../../utils';
 import { categorySchema } from '../../../../utils/validators';
-import { TYPE_CATEGORY } from '../../../../constants';
+import { CATEGORY_TYPE_OPTIONS, ICON_OPTIONS } from './constants';
 import styled from 'styled-components';
-
-const CATEGORY_TYPE_OPTIONS = [
-	{ value: TYPE_CATEGORY.EXPENSE, label: 'Расход' },
-	{ value: TYPE_CATEGORY.INCOME, label: 'Доход' },
-];
-
-const ICON_OPTIONS = [
-	{ value: 'fa fa-shopping-basket', label: 'Магазины' },
-	{ value: 'fa fa-cutlery', label: 'Кафе и рестораны' },
-	{ value: 'fa fa-car', label: 'Автомобиль' },
-	{ value: 'fa fa-home', label: 'Жильё' },
-	{ value: 'fa fa-shopping-bag', label: 'Одежда' },
-	{ value: 'fa fa-gamepad', label: 'Развлечения' },
-	{ value: 'fa fa-heartbeat', label: 'Аптеки' },
-	{ value: 'fa fa-taxi', label: 'Такси' },
-	{ value: 'fa fa-exchange', label: 'Перевод' },
-	{ value: 'fa fa-money', label: 'Зарплата' },
-	{ value: 'fa fa-plane', label: 'Путешествия' },
-	{ value: 'fa fa-handshake-o', label: 'Подработка' },
-];
 
 const FormatOptionLabel = ({ value, label }) => {
 	return (
@@ -47,7 +23,15 @@ const FormatOptionLabel = ({ value, label }) => {
 	);
 };
 
-const CategoryFormContainer = ({ className, category }) => {
+const CategoryFormContainer = ({
+	className,
+	category,
+	categoryError,
+	onSubmitCategory,
+	onDeleteCategory,
+	isServerPass,
+	resetServerStatus,
+}) => {
 	let indexTypeCategoryEdited = CATEGORY_TYPE_OPTIONS.findIndex(
 		(option) => option.value === category?.type,
 	);
@@ -57,13 +41,9 @@ const CategoryFormContainer = ({ className, category }) => {
 	}
 
 	const [indexActive, setIndexActive] = useState(indexTypeCategoryEdited || 0);
-	const [isServerPass, setIsServerPass] = useState(null);
-	const [serverError, setServerError] = useState(null);
 	const indexIconCategoryEdited = ICON_OPTIONS.findIndex(
 		(option) => option.value === category?.icon,
 	);
-	const dispatch = useDispatch();
-	const navigate = useNavigate();
 
 	const {
 		register,
@@ -80,57 +60,28 @@ const CategoryFormContainer = ({ className, category }) => {
 		resolver: yupResolver(categorySchema),
 	});
 
-	const onSubmit = ({ name, icon, color }) => {
-		request(
-			`/categories/${category?.id || ''}`,
-			`${category?.id ? 'PATCH' : 'POST'}`,
-			{
-				name,
-				type: CATEGORY_TYPE_OPTIONS[indexActive].value,
-				icon: icon.value,
-				color,
-			},
-		).then(({ error, data }) => {
-			if (error) {
-				setServerError(`Ошибка запроса: ${error}`);
-				return;
-			}
-
-			setIsServerPass(true);
-			dispatch(updateCategories);
-			if (!category) {
-				setIndexActive(0);
-				reset();
-			}
-		});
-	};
-
 	const onToggleActive = (index) => {
 		setIndexActive(index);
 	};
 
-	const onDeleteCategory = (id) => {
-		dispatch(
-			openModal({
-				text: 'Удалить категорию?',
-				onConfirm: () => {
-					request(`/categories/${id}`, 'DELETE').then(() => {
-						dispatch(updateCategories);
-						navigate(-1);
-					});
-
-					dispatch(CLOSE_MODAL);
-				},
-				onCancel: () => dispatch(CLOSE_MODAL),
-			}),
-		);
-	};
-
 	const formError = errors?.name?.message || errors?.type?.message;
-	const errorMessage = formError || serverError;
+	const errorMessage = formError || categoryError;
 
 	return (
-		<form className={className} onSubmit={handleSubmit(onSubmit)}>
+		<form
+			className={className}
+			onSubmit={handleSubmit(({ name, color, icon }) =>
+				onSubmitCategory({
+					formData: {
+						name,
+						type: CATEGORY_TYPE_OPTIONS[indexActive].value,
+						color,
+						icon: icon.value,
+					},
+					resetForm: reset,
+				}),
+			)}
+		>
 			<div className="switcher-wrapper">
 				<TabSwitcher
 					className="switcher"
@@ -147,10 +98,7 @@ const CategoryFormContainer = ({ className, category }) => {
 				type="text"
 				placeholder="Название категории..."
 				{...register('name', {
-					onChange: () => {
-						setServerError(null);
-						setIsServerPass(null);
-					},
+					onChange: resetServerStatus,
 				})}
 			/>
 			<SelectForm
@@ -166,10 +114,7 @@ const CategoryFormContainer = ({ className, category }) => {
 				type="color"
 				placeholder="Выберите цвет..."
 				{...register('color', {
-					onChange: () => {
-						setServerError(null);
-						setIsServerPass(null);
-					},
+					onChange: resetServerStatus,
 				})}
 			/>
 			<Button className="button-submit" type="submit" disabled={!!formError}>
@@ -181,7 +126,7 @@ const CategoryFormContainer = ({ className, category }) => {
 				<button
 					className="delete-button"
 					type="button"
-					onClick={() => onDeleteCategory(category?.id)}
+					onClick={onDeleteCategory}
 				>
 					Удалить категорию
 				</button>

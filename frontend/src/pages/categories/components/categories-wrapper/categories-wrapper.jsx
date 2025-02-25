@@ -7,11 +7,7 @@ import styled from 'styled-components';
 
 // TODO продумать вывод ошибки запроса категорий
 const CategoriesWrapperContainer = ({ className }) => {
-	const { categories, loadCategories, isLoading, error } = useCategories();
-
-	useEffect(() => {
-		loadCategories();
-	}, []);
+	const { categories, isLoading, error } = useCategories();
 
 	if (isLoading || !categories) {
 		return <Loader />;

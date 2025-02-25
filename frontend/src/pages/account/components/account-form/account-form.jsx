@@ -1,28 +1,15 @@
-import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Input } from '../../../../components/common';
 import { SelectForm } from '../../../../components/form';
-import { request } from '../../../../utils';
-import { CLOSE_MODAL, openModal, updateAccounts } from '../../../../store/actions';
 import { accountSchema } from '../../../../utils/validators';
-import { GET_TYPE_ACCOUNT, TYPE_ACCOUNT } from '../../../../constants';
+import { ACCOUNT_TYPE_OPTIONS } from './constants';
 import styled from 'styled-components';
-
-const ACCOUNT_TYPE_OPTIONS = [
-	{ value: TYPE_ACCOUNT.DEBIT, label: GET_TYPE_ACCOUNT[TYPE_ACCOUNT.DEBIT] },
-	{ value: TYPE_ACCOUNT.CREDIT, label: GET_TYPE_ACCOUNT[TYPE_ACCOUNT.CREDIT] },
-	{ value: TYPE_ACCOUNT.DEPOSIT, label: GET_TYPE_ACCOUNT[TYPE_ACCOUNT.DEPOSIT] },
-	{ value: TYPE_ACCOUNT.SAVINGS, label: GET_TYPE_ACCOUNT[TYPE_ACCOUNT.SAVINGS] },
-	{ value: TYPE_ACCOUNT.CASH, label: GET_TYPE_ACCOUNT[TYPE_ACCOUNT.CASH] },
-];
 
 const AccountFormContainer = ({
 	className,
 	account,
-	serverError,
+	accountError,
 	isServerPass,
 	onSubmitAccount,
 	onDeleteAccount,
@@ -31,10 +18,6 @@ const AccountFormContainer = ({
 	const indexTypeAccountEdited = ACCOUNT_TYPE_OPTIONS.findIndex(
 		(option) => option.value === account?.type,
 	);
-	const params = useParams();
-
-	const dispatch = useDispatch();
-	const navigate = useNavigate();
 
 	const {
 		register,
@@ -53,7 +36,7 @@ const AccountFormContainer = ({
 
 	const formError =
 		errors?.name?.message || errors?.type?.message || errors?.balance?.message;
-	const errorMessage = formError || serverError;
+	const errorMessage = formError || accountError;
 
 	return (
 		<form

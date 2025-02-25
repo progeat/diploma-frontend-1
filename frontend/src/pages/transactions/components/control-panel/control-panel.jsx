@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import { Icon } from '../../../../components/common';
+import { useAccounts, useCategories } from '../../../../hooks';
 import {
 	RESET_FILTER_ACCOUNT,
 	RESET_FILTER_CATEGORY,
@@ -12,24 +13,20 @@ import {
 	setFilterCategory,
 	setFilterDate,
 } from '../../../../store/actions';
-import { selectAccounts, selectCategories } from '../../../../store/selectors';
+import { createSelectorOptions } from './helpers';
 import styled from 'styled-components';
 
-const createSelectorOptions = (arrayValues) =>
-	arrayValues.map((obj) => ({ value: obj.id, label: obj.name }));
-
 const ControlPanelContainer = ({ className }) => {
-	const accounts = useSelector(selectAccounts);
-	const categories = useSelector(selectCategories);
+	const { accounts } = useAccounts();
+	const { categories } = useCategories();
+	const [dateRange, setDateRange] = useState([null, null]);
+	const [startDate, endDate] = dateRange;
+	const dispatch = useDispatch();
 
 	const accountsOptions = createSelectorOptions(accounts);
 	const categoriesOptions = createSelectorOptions(categories);
 
-	const dispatch = useDispatch();
-
-	const [dateRange, setDateRange] = useState([null, null]);
-	const [startDate, endDate] = dateRange;
-
+	// TODO сделать всю логику через пользовательский хук
 	const onSetFilterDate = ([start, end]) => {
 		setDateRange([start, end]);
 

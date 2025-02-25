@@ -20,19 +20,14 @@ const TransactionContainer = ({ className }) => {
 		categories,
 		isLoading: isLoadingCategories,
 		error: errorCategories,
-		loadCategories,
 	} = useCategories();
 	const {
 		accounts,
 		isLoading: isLoadingAccounts,
 		error: errorAccounts,
-		loadAccounts,
 	} = useAccounts();
 
 	useEffect(() => {
-		loadAccounts();
-		loadCategories();
-
 		if (!isEditing) {
 			return;
 		}
