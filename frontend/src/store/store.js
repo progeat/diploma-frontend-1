@@ -7,6 +7,7 @@ import {
 	accountsReducer,
 	categoryReducer,
 	categoriesReducer,
+	transactionsReducer,
 	statisticsReducer,
 } from './reducers';
 
@@ -17,6 +18,7 @@ const reducer = combineReducers({
 	accounts: accountsReducer,
 	category: categoryReducer,
 	categories: categoriesReducer,
+	transations: transactionsReducer,
 	statistics: statisticsReducer,
 });
 

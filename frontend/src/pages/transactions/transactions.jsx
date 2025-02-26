@@ -20,7 +20,7 @@ const TransactionsContainer = ({ className }) => {
 	// const { account, category, dateRange } = filter;
 	// const transactionListRef = useRef(null);
 	// const paginationRef = useRef(null);
-	const [triggerFlag, setTriggerFlag] = useState(false);
+	// const [triggerFlag, setTriggerFlag] = useState(false);
 	const dataUseTransactions = useTransactions();
 	const { transactions } = dataUseTransactions;
 

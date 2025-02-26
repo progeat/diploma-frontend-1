@@ -1,7 +1,6 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loadCategoriesAsync } from '../store/actions';
-import { selectCategories } from '../store/selectors';
+import { debounce } from '../utils';
 
 const getNumberLimitPage = (listHeight) => Math.floor(listHeight / 70);
 
@@ -14,6 +13,7 @@ export const useTransactions = () => {
 	const [searchPhrase, setSearchPhrase] = useState('');
 	const filter = useSelector(selectFilter);
 	const { account, category, dateRange } = filter;
+	const [triggerFlag, setTriggerFlag] = useState(false);
 	const transactionListRef = useRef(null);
 	const paginationRef = useRef(null);
 
@@ -22,7 +22,6 @@ export const useTransactions = () => {
 	// }, [dispatch]);
 
 	useEffect(() => {
-		setIsLoading(true);
 		const listElement = transactionListRef.current;
 		const paginationElement = paginationRef.current;
 		let transactionsLimitOnPage = null;
@@ -39,26 +38,12 @@ export const useTransactions = () => {
 			loadTransactionsAsync({
 				searchPhrase,
 				page,
+				transactionsLimitOnPage,
 				dateRange,
 				account,
 				category,
 			}),
 		);
-
-		// request(
-		// 	`/transactions?search=${searchPhrase}&page=${page}&limit=${transactionsLimitOnPage}&dateStart=${dateRange.start}&dateEnd=${dateRange.end}&account=${account}&category=${category}`,
-		// )
-		// 	.then(({ data: { transactions, lastPage } }) => {
-		// 		setTransactions(transactions);
-		// 		setLastPage(lastPage);
-
-		// 		if (page > lastPage) {
-		// 			setPage(lastPage);
-		// 		}
-		// 	})
-		// 	.finally(() => {
-		// 		setIsLoading(false);
-		// 	});
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [page, filter, triggerFlag]);
 
@@ -69,14 +54,10 @@ export const useTransactions = () => {
 		startDelayedSearch(!triggerFlag);
 	};
 
-	// useEffect(() => {
-	// 	if (!categories) {
-	// 		loadCategories();
-	// 	}
-	// }, [loadCategories, categories]);
-
 	return {
 		transactions,
+		transactionsOnPage,
+		onSearch,
 		isLoading,
 		error,
 	};
