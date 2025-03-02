@@ -8,7 +8,7 @@ const TransactionSchema = mongoose.Schema(
       required: true,
     },
     type: {
-      type: Number,
+      type: String,
       required: true,
     },
     account: {
@@ -24,6 +24,9 @@ const TransactionSchema = mongoose.Schema(
     amount: {
       type: Number,
       required: true,
+    },
+    transactionAt: {
+      type: Date,
     },
     comment: {
       type: String,

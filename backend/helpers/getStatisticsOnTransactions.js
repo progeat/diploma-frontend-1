@@ -1,4 +1,5 @@
 const Category = require('../models/Category');
+const { TYPE_CATEGORY } = require('../constants/typeCategory');
 
 module.exports = async function (transactions) {
   const categories = await Category.find();
@@ -11,7 +12,7 @@ module.exports = async function (transactions) {
 
       if (!category) return;
 
-      if (category.type === 0) {
+      if (category.type === TYPE_CATEGORY.EXPENSE) {
         if (acc.expenses?.[transaction.category]) {
           acc.expenses[transaction.category].count += 1;
           acc.expenses[transaction.category].total += transaction.amount;
@@ -21,7 +22,11 @@ module.exports = async function (transactions) {
 
         acc.expenses[transaction.category] = {
           id: category.id,
-          category: category.name,
+          category: {
+            name: category.name,
+            icon: category.icon,
+            color: category.color,
+          },
           color: category.color,
           count: 1,
           total: transaction.amount,
@@ -38,7 +43,11 @@ module.exports = async function (transactions) {
 
         acc.income[transaction.category] = {
           id: category.id,
-          category: category.name,
+          category: {
+            name: category.name,
+            icon: category.icon,
+            color: category.color,
+          },
           color: category.color,
           count: 1,
           total: transaction.amount,
