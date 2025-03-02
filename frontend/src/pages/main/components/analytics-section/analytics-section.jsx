@@ -7,7 +7,7 @@ import styled from 'styled-components';
 
 const AnaliticsSectionContainer = ({ className }) => {
 	const [indexActive, setIndexActive] = useState(0);
-	const statistics = useSelector(selectStatistics);
+	const { statistics } = useSelector(selectStatistics);
 
 	const onToggleActive = (index) => {
 		setIndexActive(index);
@@ -22,9 +22,9 @@ const AnaliticsSectionContainer = ({ className }) => {
 			/>
 			<div className="analytics">
 				{indexActive === 0 ? (
-					<ExpensesChart expenses={statistics.expenses} />
+					<ExpensesChart expenses={statistics?.expenses || []} />
 				) : (
-					<IncomeChart income={statistics.income} />
+					<IncomeChart income={statistics?.income || []} />
 				)}
 			</div>
 		</div>

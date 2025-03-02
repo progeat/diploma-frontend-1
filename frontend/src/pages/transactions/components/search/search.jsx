@@ -1,16 +1,17 @@
 import { Icon, Input } from '../../../../components/common';
+import { useSearch } from './hooks';
 import styled from 'styled-components';
 
-// TODO поправить фокус на инпуте
-const SearchContainer = ({ className, searchPhrase, onChange }) => {
+const SearchContainer = ({ className }) => {
+	const { inputSearchPhrase, onSearch } = useSearch();
+
 	return (
 		<div className={className}>
 			<Input
-				value={searchPhrase}
+				value={inputSearchPhrase}
 				placeholder="Поиск по комментариям..."
 				margin="0"
-				style={{ border: 0 }}
-				onChange={onChange}
+				onChange={onSearch}
 			/>
 			<div className="icon-wrapper">
 				<Icon
@@ -26,25 +27,26 @@ const SearchContainer = ({ className, searchPhrase, onChange }) => {
 
 export const Search = styled(SearchContainer)`
 	position: relative;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	width: 100%;
-	height: 60px;
-	border: 1px solid #5e636f;
-	border-radius: 22px;
-	padding: 1px 1px 1px 10px;
-	background-color: #2b2d32;
 
 	& > input {
-		padding: 10px 32px 8px 10px;
+		width: 100%;
+		height: 60px;
+		border: 1px solid #5e636f;
+		border-radius: 22px;
+		padding: 10px 70px 8px 15px;
+		background-color: #2b2d32;
+	}
+
+	& > input:hover {
+		border-color: #cfcfcf;
 	}
 
 	& .icon-wrapper {
-		flex-shrink: 0;
-		position: relative;
-		width: 56px;
-		height: 56px;
+		position: absolute;
+		top: 3px;
+		right: 3px;
+		width: 54px;
+		height: 54px;
 		border-radius: 20px;
 		background-color: #4d525f;
 	}

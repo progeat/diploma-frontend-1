@@ -40,7 +40,7 @@ export const TabSwitcher = styled(TabSwitcherContainer)`
 		padding: 3px 10px;
 		font-size: 16px;
 		width: 100%;
-		color: #777;
+		color: #888;
 		border: 1px solid #2b2d32;
 		border-radius: 8px;
 		background-color: #2b2d32;

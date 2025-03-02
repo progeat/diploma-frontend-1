@@ -1,22 +1,22 @@
 import { request } from '../../utils';
 import { setAccounts } from './set-accounts';
-import { setAccountsError } from './set-accounts-error';
 import { setAccountsIsLoading } from './set-accounts-is-loading';
+import { setAppError } from './set-app-error';
 
-export const loadAccountsAsync = (dispatch) => {
+export const loadAccountsAsync = async (dispatch) => {
 	dispatch(setAccountsIsLoading(true));
 
-	request('/accounts')
-		.then(({ data, error }) => {
-			if (error) {
-				dispatch(setAccountsError(error));
+	try {
+		const { data, error } = await request('/accounts');
 
-				return;
-			}
+		if (error) {
+			throw new Error(`Ошибка: ${error}`);
+		}
 
-			dispatch(setAccounts(data));
-		})
-		.finally(() => {
-			dispatch(setAccountsIsLoading(false));
-		});
+		dispatch(setAccounts(data));
+	} catch (error) {
+		dispatch(setAppError(error));
+	} finally {
+		dispatch(setAccountsIsLoading(false));
+	}
 };

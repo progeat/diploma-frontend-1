@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { Icon } from '../../components/common';
 import { CategoriesWrapper } from './components';
+import { Icon } from '../../components/common';
 import styled from 'styled-components';
 
 const CategoriesContainer = ({ className }) => {

@@ -2,7 +2,6 @@ const Transaction = require('../models/Transaction');
 const createFindOptions = require('../helpers/createFindOptions');
 const updateAccountBalance = require('../helpers/updateAccountBalance');
 const { TYPE_CATEGORY } = require('../constants/typeCategory');
-const { default: mongoose } = require('mongoose');
 
 // add
 async function addTransaction(transaction) {

@@ -6,12 +6,13 @@ import {
 	Authorization,
 	Categories,
 	Category,
-	Error404,
+	NotFoundPage,
 	Main,
 	Personal,
 	Registration,
 	Transaction,
 	Transactions,
+	ErrorMessage,
 } from './pages';
 import { PrivateRoutes } from './components/routes';
 import { Modal } from './components/common';
@@ -75,7 +76,8 @@ export const App = () => {
 				</Route>
 				<Route path="/login" element={<Authorization />} />
 				<Route path="/register" element={<Registration />} />
-				<Route path="*" element={<Error404 />} />
+				<Route path="/error" element={<ErrorMessage />} />
+				<Route path="*" element={<NotFoundPage />} />
 			</Routes>
 			<Modal />
 		</AppColumn>

@@ -1,14 +1,8 @@
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link, Navigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Input } from '../../components/common';
-import { useResetForm } from '../../hooks';
-import { setUser } from '../../store/actions';
 import { selectUserRole } from '../../store/selectors';
-import { request } from '../../utils';
-import { regSchema } from '../../utils/validators';
+import { useRegistration } from './hooks';
 import { ROLE } from '../../constants';
 import styled from 'styled-components';
 
@@ -24,43 +18,9 @@ const StyledLink = styled(Link)`
 `;
 
 const RegistrationContainer = ({ className }) => {
-	const {
-		register,
-		reset,
-		handleSubmit,
-		formState: { errors },
-	} = useForm({
-		defaultValues: {
-			login: '',
-			password: '',
-			passcheck: '',
-		},
-		resolver: yupResolver(regSchema),
-	});
-
-	const [serverError, setServerError] = useState(null);
-
-	const dispatch = useDispatch();
-
+	const { register, handleSubmit, onSubmit, setServerError, errorMessage } =
+		useRegistration();
 	const roleId = useSelector(selectUserRole);
-
-	useResetForm(reset);
-
-	const onSubmit = ({ login, password }) => {
-		request('/register', 'POST', { login, password }).then(({ error, user }) => {
-			if (error) {
-				setServerError(`Ошибка запроса: ${error}`);
-				return;
-			}
-
-			dispatch(setUser(user));
-			sessionStorage.setItem('userData', JSON.stringify(user));
-		});
-	};
-
-	const formError =
-		errors?.login?.message || errors?.password?.message || errors?.passcheck?.message;
-	const errorMessage = formError || serverError;
 
 	if (roleId !== ROLE.GUEST) {
 		return <Navigate to="/" />;

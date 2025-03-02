@@ -4,5 +4,6 @@ export * from './account-reducer';
 export * from './accounts-reducer';
 export * from './category-reducer';
 export * from './categories-reducer';
+export * from './transaction-reducer';
 export * from './transactions-reducer';
 export * from './statistics-reducer';

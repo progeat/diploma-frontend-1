@@ -1,7 +1,7 @@
 import { useMatch, useParams } from 'react-router-dom';
 import { AccountForm } from './components';
 import { Loader } from '../../components/ui';
-import { useAccount } from '../../hooks';
+import { useAccount } from './hooks';
 import styled from 'styled-components';
 
 const AccountContainer = ({ className }) => {
@@ -41,9 +41,5 @@ export const Account = styled(AccountContainer)`
 		border-radius: 24px;
 		padding: 15px 30px;
 		background-color: #2b2d32;
-	}
-
-	& .error {
-		color: red;
 	}
 `;

@@ -1,7 +1,12 @@
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '../../../../../../components/common';
-import { CLOSE_MODAL, openModal, updateAccounts } from '../../../../../../store/actions';
+import {
+	CLOSE_MODAL,
+	loadAccountsAsync,
+	openModal,
+	RESET_STATISTICS,
+} from '../../../../../../store/actions';
 import { formatDate, request } from '../../../../../../utils';
 import { TYPE_CATEGORY } from '../../../../../../constants';
 import styled from 'styled-components';
@@ -14,7 +19,7 @@ const TransactionItemContainer = ({
 	category,
 	comment,
 	transactionAt,
-	setTriggerFlag,
+	setFlag,
 }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -26,8 +31,9 @@ const TransactionItemContainer = ({
 				text: 'Удалить операцию?',
 				onConfirm: () => {
 					request(`/transactions/${id}`, 'DELETE').then(() => {
-						dispatch(updateAccounts);
-						setTriggerFlag((prev) => !prev);
+						dispatch(loadAccountsAsync);
+						dispatch(RESET_STATISTICS);
+						setFlag();
 					});
 
 					dispatch(CLOSE_MODAL);
@@ -38,7 +44,7 @@ const TransactionItemContainer = ({
 	};
 
 	return (
-		<div className={className}>
+		<li className={className}>
 			<div className="item-column-left">
 				<div className="item-icon">
 					<Icon
@@ -74,7 +80,7 @@ const TransactionItemContainer = ({
 					/>
 				</div>
 			</div>
-		</div>
+		</li>
 	);
 };
 

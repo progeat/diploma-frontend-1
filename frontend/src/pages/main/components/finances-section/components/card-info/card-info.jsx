@@ -1,20 +1,30 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '../../../../../../components/common';
 import { ListAccounts, ListStatistics } from './components';
 import styled from 'styled-components';
 
-const CardInfoContainer = ({ className, title, value, path }) => {
+const CardInfoContainer = ({ className, title, path, type }) => {
+	const [isValue, setIsValue] = useState(false);
 	const navigate = useNavigate();
+
+	const toggleIsValue = (value) => {
+		setIsValue(value);
+	};
 
 	return (
 		<div className={className}>
 			<div className="header">
 				<h3 className="top-panel">{title}</h3>
-				{value && (
+				{isValue && (
 					<Icon id="fa-plus-circle" margin="0" onClick={() => navigate(path)} />
 				)}
 			</div>
-			{path === '/account' ? <ListAccounts /> : <ListStatistics value={value} />}
+			{type === 'accounts' ? (
+				<ListAccounts toggleIsValue={toggleIsValue} />
+			) : (
+				<ListStatistics type={type} toggleIsValue={toggleIsValue} />
+			)}
 		</div>
 	);
 };

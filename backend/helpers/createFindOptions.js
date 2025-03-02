@@ -14,7 +14,7 @@ module.exports = function ({
     { user: { $in: userObjectId } },
     { comment: { $regex: search, $options: 'i' } },
     {
-      createdAt: {
+      transactionAt: {
         $gte: dateStart,
         $lte: dateEnd,
       },

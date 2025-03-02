@@ -1,9 +1,6 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Icon, Input, TabSwitcher } from '../../../../components/common';
 import { SelectForm } from '../../../../components/form';
-import { categorySchema } from '../../../../utils/validators';
+import { useFormCategory } from './hooks';
 import { CATEGORY_TYPE_OPTIONS, ICON_OPTIONS } from './constants';
 import styled from 'styled-components';
 
@@ -23,65 +20,22 @@ const FormatOptionLabel = ({ value, label }) => {
 	);
 };
 
-const CategoryFormContainer = ({
-	className,
-	category,
-	categoryError,
-	onSubmitCategory,
-	onDeleteCategory,
-	isServerPass,
-	resetServerStatus,
-}) => {
-	let indexTypeCategoryEdited = CATEGORY_TYPE_OPTIONS.findIndex(
-		(option) => option.value === category?.type,
-	);
-
-	if (indexTypeCategoryEdited < 0) {
-		indexTypeCategoryEdited = 0;
-	}
-
-	const [indexActive, setIndexActive] = useState(indexTypeCategoryEdited || 0);
-	const indexIconCategoryEdited = ICON_OPTIONS.findIndex(
-		(option) => option.value === category?.icon,
-	);
-
+const CategoryFormContainer = ({ className, idCategory, category }) => {
 	const {
+		indexActive,
 		register,
 		control,
-		reset,
 		handleSubmit,
-		formState: { errors },
-	} = useForm({
-		defaultValues: {
-			name: category?.name || '',
-			icon: ICON_OPTIONS[indexIconCategoryEdited] || null,
-			color: category?.color || '#78D9C5',
-		},
-		resolver: yupResolver(categorySchema),
-	});
-
-	const onToggleActive = (index) => {
-		setIndexActive(index);
-	};
-
-	const formError = errors?.name?.message || errors?.type?.message;
-	const errorMessage = formError || categoryError;
+		resetFormMessage,
+		onToggleActive,
+		onSubmit,
+		onDeleteCategory,
+		isServerPass,
+		errorMessage,
+	} = useFormCategory({ idCategory, category });
 
 	return (
-		<form
-			className={className}
-			onSubmit={handleSubmit(({ name, color, icon }) =>
-				onSubmitCategory({
-					formData: {
-						name,
-						type: CATEGORY_TYPE_OPTIONS[indexActive].value,
-						color,
-						icon: icon.value,
-					},
-					resetForm: reset,
-				}),
-			)}
-		>
+		<form className={className} onSubmit={handleSubmit(onSubmit)}>
 			<div className="switcher-wrapper">
 				<TabSwitcher
 					className="switcher"
@@ -98,7 +52,7 @@ const CategoryFormContainer = ({
 				type="text"
 				placeholder="Название категории..."
 				{...register('name', {
-					onChange: resetServerStatus,
+					onChange: resetFormMessage,
 				})}
 			/>
 			<SelectForm
@@ -114,15 +68,15 @@ const CategoryFormContainer = ({
 				type="color"
 				placeholder="Выберите цвет..."
 				{...register('color', {
-					onChange: resetServerStatus,
+					onChange: resetFormMessage,
 				})}
 			/>
-			<Button className="button-submit" type="submit" disabled={!!formError}>
+			<Button className="button-submit" type="submit" disabled={!!errorMessage}>
 				Отправить
 			</Button>
 			{errorMessage && <div className="error">{errorMessage}</div>}
 			{isServerPass && <div className="pass">Отправленно</div>}
-			{category && (
+			{idCategory && (
 				<button
 					className="delete-button"
 					type="button"

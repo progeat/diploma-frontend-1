@@ -1,8 +1,8 @@
 import { ACTION_TYPE } from '../actions';
 
 const initialTransactionsState = {
-	transactions: null,
-	Page: 1,
+	transactions: [],
+	page: 1,
 	lastPage: 1,
 	isLoading: false,
 	error: false,
@@ -31,7 +31,7 @@ export const transactionsReducer = (
 		case ACTION_TYPE.SET_PAGE:
 			return {
 				...state,
-				Page: payload,
+				page: payload,
 			};
 		case ACTION_TYPE.SET_LAST_PAGE:
 			return {

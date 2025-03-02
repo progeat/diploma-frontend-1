@@ -1,9 +1,6 @@
 const express = require('express');
 const { getStatisticsForPeriod } = require('../controllers/statistics.js');
 const authenticated = require('../middlewares/authenticated.js');
-const hasRole = require('../middlewares/hasRole.js');
-const mapTransaction = require('../helpers/mapTransaction.js');
-const ROLES = require('../constants/roles.js');
 
 const router = express.Router({ mergeParams: true });
 

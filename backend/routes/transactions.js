@@ -45,28 +45,33 @@ router.get('/:id', authenticated, async (req, res) => {
   }
 });
 
-router.post('/', authenticated, hasRole([ROLES.USER]), async (req, res) => {
-  try {
-    const newTransaction = await addTransaction({
-      user: req.user.id,
-      type: req.body.type,
-      account: req.body.account,
-      category: req.body.category,
-      amount: req.body.amount,
-      transactionAt: req.body.transactionAt,
-      comment: req.body.comment,
-    });
+router.post(
+  '/',
+  authenticated,
+  hasRole([ROLES.USER, ROLES.ADMIN]),
+  async (req, res) => {
+    try {
+      const newTransaction = await addTransaction({
+        user: req.user.id,
+        type: req.body.type,
+        account: req.body.account,
+        category: req.body.category,
+        amount: req.body.amount,
+        transactionAt: req.body.transactionAt,
+        comment: req.body.comment,
+      });
 
-    res.send({
-      error: null,
-      data: {
-        newTransaction: mapTransaction(newTransaction.newTransaction),
-      },
-    });
-  } catch (e) {
-    res.send({ error: e.message || 'Unknown error', data: null });
+      res.send({
+        error: null,
+        data: {
+          newTransaction: mapTransaction(newTransaction.newTransaction),
+        },
+      });
+    } catch (e) {
+      res.send({ error: e.message || 'Unknown error', data: null });
+    }
   }
-});
+);
 
 router.patch('/:id', authenticated, hasRole([ROLES.USER]), async (req, res) => {
   try {

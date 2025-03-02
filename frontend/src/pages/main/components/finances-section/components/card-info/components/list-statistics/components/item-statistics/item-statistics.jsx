@@ -61,8 +61,8 @@ export const ItemStatistics = styled(ItemStatisticsContainer)`
 	}
 
 	.item-title {
-		margin-bottom: 3px;
-		font-size: 16px;
+		margin-bottom: 4px;
+		font-size: 14px;
 		font-weight: 600;
 		white-space: nowrap;
 		overflow: hidden;
@@ -77,7 +77,7 @@ export const ItemStatistics = styled(ItemStatisticsContainer)`
 	.item-right {
 		white-space: nowrap;
 		margin-left: auto;
-		font-size: 16px;
+		font-size: 15px;
 		font-weight: 600;
 	}
 `;

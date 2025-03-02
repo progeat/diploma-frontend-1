@@ -1,98 +1,20 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Input } from '../../../../components/common';
 import { Loader } from '../../../../components/ui';
-import {
-	CLOSE_MODAL,
-	LOGOUT,
-	openModal,
-	RESET_ACCOUNTS,
-	RESET_CATEGORIES,
-	setUser,
-} from '../../../../store/actions';
-import { selectUser } from '../../../../store/selectors';
-import { request } from '../../../../utils';
-import { userSchema } from '../../../../utils/validators';
+import { useFormPersonal } from './hooks/use-form-personal';
 import styled from 'styled-components';
 
 const PersonalFormContainer = ({ className }) => {
-	const [serverError, setServerError] = useState(null);
-	const [isServerPass, setIsServerPass] = useState(null);
-	const [isLoading, setIsLoading] = useState(false);
-	const user = useSelector(selectUser);
-	const dispatch = useDispatch();
-	const navigate = useNavigate();
-
-	const defaultValues = {
-		login: user.login,
-		newPassword: '',
-		oldPassword: '',
-		email: user.email || '',
-		phone: user.phone || '',
-	};
-
 	const {
 		register,
+		isDirty,
 		handleSubmit,
-		formState: { isDirty, errors },
-	} = useForm({
-		defaultValues,
-		resolver: yupResolver(userSchema),
-	});
-
-	const onDeleteUser = () => {
-		dispatch(
-			openModal({
-				text: 'Удалить аккаунт безвозвратно?',
-				onConfirm: () => {
-					request(`/user`, 'DELETE').then(() => {
-						dispatch(LOGOUT);
-						dispatch(RESET_ACCOUNTS);
-						dispatch(RESET_CATEGORIES);
-						sessionStorage.removeItem('userData');
-						navigate('/login');
-					});
-
-					dispatch(CLOSE_MODAL);
-				},
-				onCancel: () => dispatch(CLOSE_MODAL),
-			}),
-		);
-	};
-
-	const onSubmit = (data) => {
-		setIsLoading(true);
-
-		const changedData = Object.fromEntries(
-			Object.entries(data).filter(([key, value]) => value !== defaultValues[key]),
-		);
-
-		request('/user', 'PATCH', changedData)
-			.then(({ error, user }) => {
-				if (error) {
-					setServerError(`Ошибка запроса: ${error}`);
-					return;
-				}
-
-				setIsServerPass(true);
-				dispatch(setUser(user));
-				sessionStorage.setItem('userData', JSON.stringify(user));
-			})
-			.finally(() => {
-				setIsLoading(false);
-			});
-	};
-
-	const formError =
-		errors?.login?.message ||
-		errors?.email?.message ||
-		errors?.phone?.message ||
-		errors?.newPassword?.message ||
-		errors?.oldPassword?.message;
-	const errorMessage = formError || serverError;
+		onSubmit,
+		onDeleteUser,
+		resetFormMessage,
+		isLoading,
+		isServerPass,
+		errorMessage,
+	} = useFormPersonal();
 
 	if (isLoading) {
 		return <Loader />;
@@ -107,10 +29,7 @@ const PersonalFormContainer = ({ className }) => {
 					type="text"
 					placeholder="Логин..."
 					{...register('login', {
-						onChange: () => {
-							setServerError(null);
-							setIsServerPass(null);
-						},
+						onChange: resetFormMessage,
 					})}
 				/>
 				<Input
@@ -118,10 +37,7 @@ const PersonalFormContainer = ({ className }) => {
 					type="text"
 					placeholder="Почта..."
 					{...register('email', {
-						onChange: () => {
-							setServerError(null);
-							setIsServerPass(null);
-						},
+						onChange: resetFormMessage,
 					})}
 				/>
 				<Input
@@ -129,10 +45,7 @@ const PersonalFormContainer = ({ className }) => {
 					type="tel"
 					placeholder="Телефон..."
 					{...register('phone', {
-						onChange: () => {
-							setServerError(null);
-							setIsServerPass(null);
-						},
+						onChange: resetFormMessage,
 					})}
 				/>
 				<Input
@@ -140,10 +53,7 @@ const PersonalFormContainer = ({ className }) => {
 					type="password"
 					placeholder="Новый пароль..."
 					{...register('newPassword', {
-						onChange: () => {
-							setServerError(null);
-							setIsServerPass(null);
-						},
+						onChange: resetFormMessage,
 					})}
 				/>
 				<Input
@@ -151,16 +61,13 @@ const PersonalFormContainer = ({ className }) => {
 					type="password"
 					placeholder="Введите старый пароль..."
 					{...register('oldPassword', {
-						onChange: () => {
-							setServerError(null);
-							setIsServerPass(null);
-						},
+						onChange: resetFormMessage,
 					})}
 				/>
 				<Button
 					className="button-submit"
 					type="submit"
-					disabled={!isDirty || !!formError}
+					disabled={!isDirty || !!errorMessage}
 				>
 					Отправить
 				</Button>
@@ -190,6 +97,7 @@ export const PersonalForm = styled(PersonalFormContainer)`
 	& form {
 		display: flex;
 		flex-direction: column;
+		width: 100%;
 	}
 
 	& form input {

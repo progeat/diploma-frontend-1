@@ -1,67 +1,40 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import { Icon } from '../../../../components/common';
-import { useAccounts, useCategories } from '../../../../hooks';
-import {
-	RESET_FILTER_ACCOUNT,
-	RESET_FILTER_CATEGORY,
-	RESET_FILTER_DATE,
-	setFilterAccount,
-	setFilterCategory,
-	setFilterDate,
-} from '../../../../store/actions';
-import { createSelectorOptions } from './helpers';
+import { useFilter } from './hooks';
 import styled from 'styled-components';
 
 const ControlPanelContainer = ({ className }) => {
-	const { accounts } = useAccounts();
-	const { categories } = useCategories();
-	const [dateRange, setDateRange] = useState([null, null]);
-	const [startDate, endDate] = dateRange;
-	const dispatch = useDispatch();
-
-	const accountsOptions = createSelectorOptions(accounts);
-	const categoriesOptions = createSelectorOptions(categories);
-
-	// TODO сделать всю логику через пользовательский хук
-	const onSetFilterDate = ([start, end]) => {
-		setDateRange([start, end]);
-
-		if (start && end) {
-			dispatch(
-				setFilterDate({
-					start: Date.parse(start),
-					end: new Date(end).setDate(end.getDate() + 1),
-				}),
-			);
-		} else if (!start && !end) {
-			dispatch(RESET_FILTER_DATE);
-		}
-	};
-
-	const onSetFilterAccount = (select) => {
-		if (select !== null) {
-			dispatch(setFilterAccount(select.value));
-		} else {
-			dispatch(RESET_FILTER_ACCOUNT);
-		}
-	};
-
-	const onSetFilterCategory = (select) => {
-		if (select !== null) {
-			dispatch(setFilterCategory(select.value));
-		} else {
-			dispatch(RESET_FILTER_CATEGORY);
-		}
-	};
+	const {
+		accountsOptions,
+		accountOptionSelected,
+		onSetFilterAccount,
+		categoriesOptions,
+		categoryOptionSelected,
+		onSetFilterCategory,
+		startPicker,
+		endPicker,
+		onSetFilterDate,
+		isValueFilter,
+		onResetFilters,
+	} = useFilter();
 
 	return (
 		<div className={className}>
-			<h4>Фильтры :</h4>
+			<div className="top">
+				<h4>Фильтры :</h4>
+				{isValueFilter && (
+					<Icon
+						className="icon-filter"
+						id="fa fa-times-circle"
+						size="30px"
+						onClick={onResetFilters}
+					/>
+				)}
+			</div>
 			<Select
+				value={accountOptionSelected}
 				className="select"
 				classNamePrefix="select"
 				options={accountsOptions}
@@ -70,6 +43,7 @@ const ControlPanelContainer = ({ className }) => {
 				isClearable
 			/>
 			<Select
+				value={categoryOptionSelected}
 				className="select"
 				classNamePrefix="select"
 				options={categoriesOptions}
@@ -77,21 +51,21 @@ const ControlPanelContainer = ({ className }) => {
 				onChange={onSetFilterCategory}
 				isClearable
 			/>
-			{dateRange[0] && dateRange[1] && (
+			{startPicker && endPicker && (
 				<div className="icon-wrapper">
 					<Icon
 						className="icon"
 						id="fa-times"
 						size="20px"
-						onClick={() => onSetFilterDate([null, null])}
+						onClick={() => onSetFilterDate(['', ''])}
 					/>
 				</div>
 			)}
 			<DatePicker
-				selected={startDate}
+				selected={startPicker}
 				onChange={onSetFilterDate}
-				startDate={startDate}
-				endDate={endDate}
+				startDate={startPicker}
+				endDate={endPicker}
 				selectsRange
 				inline
 			/>
@@ -112,8 +86,21 @@ export const ControlPanel = styled(ControlPanelContainer)`
 	padding: 10px 10px 20px;
 	background-color: #2b2d32;
 
+	& .top {
+		position: relative;
+		display: flex;
+	}
+
 	& h4 {
 		margin: 10px;
+	}
+
+	& .icon-filter {
+		position: absolute;
+		z-index: 1;
+		top: -2px;
+		left: 50%;
+		transform: translateX(-50%);
 	}
 
 	& .icon-wrapper {

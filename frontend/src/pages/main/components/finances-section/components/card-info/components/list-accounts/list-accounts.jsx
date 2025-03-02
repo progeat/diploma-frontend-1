@@ -1,13 +1,22 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '../../../../../../../../components/common';
 import { Loader } from '../../../../../../../../components/ui';
+import { useAccounts } from '../../../../../../../../hooks';
 import { GET_TYPE_ACCOUNT } from '../../../../../../../../constants';
 import styled from 'styled-components';
-import { useAccounts } from '../../../../../../../../hooks';
 
-const ListAccountsComponent = ({ className }) => {
+const ListAccountsComponent = ({ className, toggleIsValue }) => {
 	const navigate = useNavigate();
 	const { accounts, isLoading } = useAccounts();
+
+	useEffect(() => {
+		if (accounts && accounts.length > 0) {
+			toggleIsValue(true);
+		} else {
+			toggleIsValue(false);
+		}
+	}, [accounts]);
 
 	if (isLoading || !accounts) {
 		return <Loader />;
@@ -61,13 +70,11 @@ export const ListAccounts = styled(ListAccountsComponent)`
 		margin-right: 27px;
 		padding: 5px 10px;
 		border-radius: 12px;
-		font-size: 16px;
-		font-weight: 600;
 		background-color: #393d47;
 	}
 
 	& .item:not(:last-child) {
-		margin-bottom: 5px;
+		margin-bottom: 8px;
 	}
 
 	& .item-left {
@@ -83,6 +90,8 @@ export const ListAccounts = styled(ListAccountsComponent)`
 		overflow: hidden;
 		text-overflow: ellipsis;
 		margin-bottom: 3px;
+		font-size: 15px;
+		font-weight: 600;
 	}
 
 	& .account-type {
@@ -93,5 +102,7 @@ export const ListAccounts = styled(ListAccountsComponent)`
 
 	& .balance {
 		white-space: nowrap;
+		font-size: 15px;
+		font-weight: 600;
 	}
 `;

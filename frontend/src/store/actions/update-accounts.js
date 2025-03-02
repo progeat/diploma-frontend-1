@@ -1,10 +1,17 @@
 import { request } from '../../utils';
+import { setAccountIsLoading } from './set-account-is-loading';
 import { setAccounts } from './set-accounts';
-import { setIsLoadingAccounts } from './set-is-loading-accounts';
+import { setAppError } from './set-app-error';
 
 export const updateAccounts = async (dispatch) => {
-	request('/accounts').then(({ data }) => {
+	dispatch(setAccountIsLoading(true));
+
+	try {
+		const { data } = await request('/accounts');
+
 		dispatch(setAccounts(data));
-		dispatch(setIsLoadingAccounts(false));
-	});
+		dispatch(setAccountIsLoading(false));
+	} catch (error) {
+		dispatch(setAppError(error));
+	}
 };

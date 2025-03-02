@@ -1,22 +1,27 @@
+import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '../../../../components/common';
 import { Loader } from '../../../../components/ui';
 import { TransactionItem } from './components';
+import { useTransactions } from '../../../../hooks';
 import styled from 'styled-components';
 
-const TransactionsListContainer = ({
-	className,
-	transactions,
-	transactionsOnPage,
-	isLoading = true,
-	setTriggerFlag,
-	transactionListRef,
-}) => {
+const TransactionsListContainer = ({ className, paginationRef }) => {
+	const transactionListRef = useRef();
+	const { transactions, transactionsOnPage, setFlag, isLoading } = useTransactions(
+		transactionListRef,
+		paginationRef,
+	);
 	const navigate = useNavigate();
 
 	return (
 		<div className={className}>
-			<div ref={transactionListRef} className="list">
+			<ul
+				ref={transactionListRef}
+				className={[
+					`list ${transactions.length === transactionsOnPage ? 'list-filled' : ''}`,
+				]}
+			>
 				{isLoading ? (
 					<Loader />
 				) : transactions.length > 0 ? (
@@ -30,7 +35,7 @@ const TransactionsListContainer = ({
 								amount={amount}
 								comment={comment}
 								transactionAt={transactionAt}
-								setTriggerFlag={setTriggerFlag}
+								setFlag={setFlag}
 							/>
 						),
 					)
@@ -46,7 +51,7 @@ const TransactionsListContainer = ({
 						/>
 					</>
 				)}
-			</div>
+			</ul>
 		</div>
 	);
 };
@@ -63,14 +68,16 @@ export const TransactionsList = styled(TransactionsListContainer)`
 	& .list {
 		display: flex;
 		flex-direction: column;
-		justify-content: ${({ transactions, transactionsOnPage }) =>
-			transactions.length === transactionsOnPage ? 'space-evenly' : 'start'};
+		justify-content: start;
 		min-height: 100%;
 		height: 100%;
 	}
 
-	& .list > div:not(:last-child) {
-		margin-bottom: ${({ transactions, transactionsOnPage }) =>
-			transactions.length === transactionsOnPage ? '0' : '10px'};
+	& .list > li:not(:last-child) {
+		margin-bottom: 10px;
+	}
+
+	& .list-filled {
+		justify-content: space-evenly;
 	}
 `;

@@ -1,23 +1,13 @@
-import { useSelector } from 'react-redux';
 import { CardInfo } from './components';
-import { useAccounts } from '../../../../hooks';
-import { selectStatistics } from '../../../../store/selectors';
 import styled from 'styled-components';
 
 const FinancesSectionContainer = ({ className }) => {
-	const { accounts } = useAccounts();
-	const statistics = useSelector(selectStatistics);
-
 	return (
 		<div className={className}>
 			<div className="cards-wrapper">
-				<CardInfo title="Доходы" path="/transaction" value={statistics.income} />
-				<CardInfo title="Счета" path="/account" value={accounts} />
-				<CardInfo
-					title="Расходы"
-					path="/transaction"
-					value={statistics.expenses}
-				/>
+				<CardInfo title="Доходы" path="/transaction" type="income" />
+				<CardInfo title="Счета" path="/account" type="accounts" />
+				<CardInfo title="Расходы" path="/transaction" type="expenses" />
 			</div>
 		</div>
 	);

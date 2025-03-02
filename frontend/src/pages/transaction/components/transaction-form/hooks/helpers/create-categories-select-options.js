@@ -1,4 +1,4 @@
-import { TYPE_CATEGORY } from '../../../../../constants';
+import { TYPE_CATEGORY } from '../../../../../../constants';
 
 export const createCategoriesSelectOptions = (arrayValues, index) =>
 	arrayValues.reduce((acc, obj) => {

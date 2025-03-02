@@ -12,16 +12,9 @@ const initialAppState = {
 		dateRange: { start: '', end: '' },
 		account: '',
 		category: '',
+		searchPhrase: '',
 	},
-	isLoading: {
-		accounts: true,
-		account: false,
-		categories: true,
-		category: false,
-		transactions: false,
-		transaction: false,
-		statistics: false,
-	},
+	error: null,
 };
 
 export const appReducer = (state = initialAppState, { type, payload }) => {
@@ -80,6 +73,14 @@ export const appReducer = (state = initialAppState, { type, payload }) => {
 					category: payload,
 				},
 			};
+		case ACTION_TYPE.SET_SEARCH_PHRASE:
+			return {
+				...state,
+				filter: {
+					...state.filter,
+					searchPhrase: payload,
+				},
+			};
 		case ACTION_TYPE.RESET_FILTER_CATEGORY:
 			return {
 				...state,
@@ -87,6 +88,21 @@ export const appReducer = (state = initialAppState, { type, payload }) => {
 					...state.filter,
 					category: initialAppState.filter.category,
 				},
+			};
+		case ACTION_TYPE.SET_APP_ERROR:
+			return {
+				...state,
+				error: payload,
+			};
+		case ACTION_TYPE.RESET_APP_ERROR:
+			return {
+				...state,
+				error: initialAppState.error,
+			};
+		case ACTION_TYPE.RESET_FILTERS:
+			return {
+				...state,
+				filter: initialAppState.filter,
 			};
 		case ACTION_TYPE.SET_IS_LOADING:
 			return {

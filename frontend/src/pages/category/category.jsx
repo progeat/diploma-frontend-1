@@ -1,8 +1,8 @@
 import { useMatch, useParams } from 'react-router-dom';
 import { CategoryForm } from './components';
-import styled from 'styled-components';
-import { useCategory } from '../../hooks';
 import { Loader } from '../../components/ui';
+import { useCategory } from './hooks';
+import styled from 'styled-components';
 
 const CategoryContainer = ({ className }) => {
 	const isEditing = !!useMatch('/category/:id/edit');
@@ -13,9 +13,6 @@ const CategoryContainer = ({ className }) => {
 	if (isEditing && isLoading) {
 		return <Loader />;
 	}
-
-	// const categories = useSelector(selectCategories);
-	// const category = categories.find((category) => category.id === params.id);
 
 	return (
 		<div className={className}>

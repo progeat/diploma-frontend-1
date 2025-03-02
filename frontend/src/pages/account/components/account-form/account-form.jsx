@@ -1,56 +1,29 @@
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Input } from '../../../../components/common';
 import { SelectForm } from '../../../../components/form';
-import { accountSchema } from '../../../../utils/validators';
 import { ACCOUNT_TYPE_OPTIONS } from './constants';
+import { useFormAccount } from './hooks';
 import styled from 'styled-components';
 
-const AccountFormContainer = ({
-	className,
-	account,
-	accountError,
-	isServerPass,
-	onSubmitAccount,
-	onDeleteAccount,
-	resetServerStatus,
-}) => {
-	const indexTypeAccountEdited = ACCOUNT_TYPE_OPTIONS.findIndex(
-		(option) => option.value === account?.type,
-	);
-
+const AccountFormContainer = ({ className, account, idAccount }) => {
 	const {
 		register,
 		control,
-		reset,
 		handleSubmit,
-		formState: { errors },
-	} = useForm({
-		defaultValues: {
-			name: account?.name || '',
-			type: ACCOUNT_TYPE_OPTIONS[indexTypeAccountEdited] || ACCOUNT_TYPE_OPTIONS[0],
-			balance: account?.balance || 0,
-		},
-		resolver: yupResolver(accountSchema),
-	});
-
-	const formError =
-		errors?.name?.message || errors?.type?.message || errors?.balance?.message;
-	const errorMessage = formError || accountError;
+		onSubmit,
+		onDeleteAccount,
+		resetFormMessage,
+		isServerPass,
+		errorMessage,
+	} = useFormAccount({ idAccount, account });
 
 	return (
-		<form
-			className={className}
-			onSubmit={handleSubmit((formData) =>
-				onSubmitAccount({ formData, resetForm: reset }),
-			)}
-		>
+		<form className={className} onSubmit={handleSubmit(onSubmit)}>
 			<Input
 				label="Имя"
 				type="text"
 				placeholder="Имя счёта..."
 				{...register('name', {
-					onChange: resetServerStatus,
+					onChange: resetFormMessage,
 				})}
 			/>
 			<SelectForm
@@ -65,15 +38,15 @@ const AccountFormContainer = ({
 				type="number"
 				placeholder="Баланс..."
 				{...register('balance', {
-					onChange: resetServerStatus,
+					onChange: resetFormMessage,
 				})}
 			/>
-			<Button className="button-submit" type="submit" disabled={!!formError}>
+			<Button className="button-submit" type="submit" disabled={!!errorMessage}>
 				Отправить
 			</Button>
 			{errorMessage && <div className="error">{errorMessage}</div>}
 			{isServerPass && <div className="pass">Отправленно</div>}
-			{account && (
+			{idAccount && (
 				<button className="delete-button" type="button" onClick={onDeleteAccount}>
 					Удалить счёт
 				</button>

@@ -1,22 +1,22 @@
 import { request } from '../../utils';
+import { setAppError } from './set-app-error';
 import { setCategories } from './set-categories';
-import { setCategoriesError } from './set-categories-error';
 import { setCategoriesIsLoading } from './set-categories-is-loading';
 
-export const loadCategoriesAsync = (dispatch) => {
+export const loadCategoriesAsync = async (dispatch) => {
 	dispatch(setCategoriesIsLoading(true));
 
-	request('/categories')
-		.then(({ data, error }) => {
-			if (error) {
-				dispatch(setCategoriesError(error));
+	try {
+		const { data, error } = await request('/categories');
 
-				return;
-			}
+		if (error) {
+			throw new Error(`Ошибка: ${error}`);
+		}
 
-			dispatch(setCategories(data));
-		})
-		.finally(() => {
-			dispatch(setCategoriesIsLoading(false));
-		});
+		dispatch(setCategories(data));
+	} catch (error) {
+		dispatch(setAppError(error));
+	} finally {
+		dispatch(setCategoriesIsLoading(false));
+	}
 };

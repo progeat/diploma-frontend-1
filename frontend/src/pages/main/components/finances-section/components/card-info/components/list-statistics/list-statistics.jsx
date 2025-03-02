@@ -1,19 +1,29 @@
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { ItemStatistics } from './components';
 import { Icon } from '../../../../../../../../components/common';
 import { Loader } from '../../../../../../../../components/ui';
-import { selectIsLoadingStatistics } from '../../../../../../../../store/selectors';
-import { ItemStatistics } from './components';
+import { selectStatistics } from '../../../../../../../../store/selectors';
 
-export const ListStatistics = ({ className, value }) => {
+export const ListStatistics = ({ type, toggleIsValue }) => {
 	const navigate = useNavigate();
-	const isLoading = useSelector(selectIsLoadingStatistics);
+	const { statistics, isLoading } = useSelector(selectStatistics);
+	const statisticsCategory = statistics[type];
+
+	useEffect(() => {
+		if (statisticsCategory && statisticsCategory.length > 0) {
+			toggleIsValue(true);
+		} else {
+			toggleIsValue(false);
+		}
+	}, [statisticsCategory]);
 
 	if (isLoading) {
 		return <Loader />;
 	}
 
-	if (!value.length) {
+	if (!statisticsCategory.length) {
 		return (
 			<Icon
 				style={{ textAlign: 'center' }}
@@ -26,8 +36,8 @@ export const ListStatistics = ({ className, value }) => {
 	}
 
 	return (
-		<ul className={className}>
-			{value.map(({ id, category, count, total }) => (
+		<ul>
+			{statisticsCategory.map(({ id, category, count, total }) => (
 				<ItemStatistics
 					key={id}
 					category={category}

@@ -1,4 +1,6 @@
+import { useNavigate } from 'react-router-dom';
 import { CategoriesItem } from './components';
+import { Icon } from '../../../../../../components/common';
 import { TYPE_CATEGORY } from '../../../../../../constants';
 import styled from 'styled-components';
 
@@ -6,15 +8,26 @@ const CategoriesListContainer = ({ className, categories, typeCategory }) => {
 	const filteredCategories = categories.filter(
 		(category) => category.type === typeCategory,
 	);
+	const navigate = useNavigate();
 
 	return (
 		<div className={className}>
 			{typeCategory === TYPE_CATEGORY.INCOME ? <h3>Доход</h3> : <h3>Расход</h3>}
-			<ul>
-				{filteredCategories.map((category) => (
-					<CategoriesItem key={category.id} category={category} />
-				))}
-			</ul>
+			{!filteredCategories.length ? (
+				<Icon
+					style={{ textAlign: 'center' }}
+					id="fa-plus-circle"
+					margin="0"
+					size="80px"
+					onClick={() => navigate('/category')}
+				/>
+			) : (
+				<ul>
+					{filteredCategories.map((category) => (
+						<CategoriesItem key={category.id} category={category} />
+					))}
+				</ul>
+			)}
 		</div>
 	);
 };

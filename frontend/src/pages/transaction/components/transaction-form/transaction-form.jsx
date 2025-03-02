@@ -1,21 +1,10 @@
-import { ru } from 'date-fns/locale';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import DatePicker from 'react-datepicker';
+import { ru } from 'date-fns/locale';
 import { Button, Icon, Input, TabSwitcher } from '../../../../components/common';
 import { SelectForm } from '../../../../components/form';
-import { request } from '../../../../utils';
-import { transactionSchema } from '../../../../utils/validators';
-import { CLOSE_MODAL, openModal, updateAccounts } from '../../../../store/actions';
-import {
-	createAccountsSelectOptions,
-	createCategoriesSelectOptions,
-	findIndexForSelect,
-} from './utils';
-import { NAMES_TYPES_CATEGORY, TYPE_CATEGORY } from '../../../../constants';
+import { useFormTransaction } from './hooks';
+import { NAMES_TYPES_CATEGORY } from '../../../../constants';
 import styled from 'styled-components';
 
 const Label = styled.label`
@@ -25,118 +14,31 @@ const Label = styled.label`
 	color: #cfcfcf;
 `;
 
-// TODO завершить процесс внедрения таба
 const TransactionFormContainer = ({
 	className,
+	idTransaction,
 	transaction,
-	transactionId,
 	categories,
 	accounts,
 }) => {
-	const [indexActive, setIndexActive] = useState(
-		transaction?.type === TYPE_CATEGORY.INCOME ? 1 : 0,
-	);
-
-	const valueDate = transaction?.transactionAt
-		? new Date(transaction?.transactionAt)
-		: new Date();
-
-	const [startDate, setStartDate] = useState(valueDate);
-	const [serverError, setServerError] = useState(null);
-	const [isServerPass, setIsServerPass] = useState(null);
-	const navigate = useNavigate();
-	const dispatch = useDispatch();
-
-	const categoriesOptions = createCategoriesSelectOptions(categories, indexActive);
-	const accountsOptions = createAccountsSelectOptions(accounts);
-
-	const indexSelectForCategory = findIndexForSelect(
-		transaction?.category,
-		categoriesOptions,
-	);
-	const indexSelectForAccount = findIndexForSelect(
-		transaction?.account,
-		accountsOptions,
-	);
-
 	const {
+		indexActive,
+		categoriesOptions,
+		accountsOptions,
+		startDate,
+		setStartDate,
+		onToggleActive,
 		register,
 		control,
-		reset,
 		handleSubmit,
-		formState: { errors },
-	} = useForm({
-		defaultValues: {
-			amount: transaction?.amount || 0,
-			categorySelected: categoriesOptions[indexSelectForCategory] || null,
-			accountSelected: accountsOptions[indexSelectForAccount] || null,
-			comment: transaction?.comment || '',
-		},
-		resolver: yupResolver(transactionSchema),
-	});
-
-	// TODO если ошибка прилетела с сервера, то при повторной отправке формы обнулять ошибку перед запросом(в других формах тоже подправить)
-	const onSubmit = ({ amount, categorySelected, accountSelected, comment }) => {
-		setServerError(null);
-
-		const categoryType = categories.find(
-			(category) => category.id === categorySelected.value,
-		).type;
-
-		request(
-			`/transactions/${transactionId || ''}`,
-			`${transactionId ? 'PATCH' : 'POST'}`,
-			{
-				type: categoryType,
-				amount,
-				category: categorySelected.value,
-				account: accountSelected.value,
-				transactionAt: startDate,
-				comment,
-			},
-		).then(({ error, data }) => {
-			if (error) {
-				setServerError(`Ошибка запроса: ${error}`);
-				return;
-			}
-
-			setIsServerPass(true);
-			dispatch(updateAccounts);
-			if (!transactionId) {
-				reset();
-			}
-		});
-	};
-
-	const onToggleActive = (index) => {
-		reset({ ['categorySelected']: null });
-		setIndexActive(index);
-	};
-
-	const onDeleteTransaction = (id) => {
-		dispatch(
-			openModal({
-				text: 'Удалить операцию?',
-				onConfirm: () => {
-					request(`/transactions/${id}`, 'DELETE').then(() => {
-						dispatch(updateAccounts);
-						navigate(-1);
-					});
-
-					dispatch(CLOSE_MODAL);
-				},
-				onCancel: () => dispatch(CLOSE_MODAL),
-			}),
-		);
-	};
-
-	const formError =
-		(errors?.amount?.message && 'Введите положительное число') ||
-		errors?.categorySelected?.message ||
-		errors?.accountSelected?.message ||
-		errors?.comment?.message;
-
-	const errorMessage = formError || serverError;
+		onSubmit,
+		onDeleteTransaction,
+		resetFormMessage,
+		isServerPass,
+		errorMessage,
+		formError,
+	} = useFormTransaction({ idTransaction, transaction, categories, accounts });
+	const navigate = useNavigate();
 
 	return (
 		<form className={className} onSubmit={handleSubmit(onSubmit)}>
@@ -153,10 +55,7 @@ const TransactionFormContainer = ({
 				type="number"
 				placeholder="Сумма операции..."
 				{...register('amount', {
-					onChange: () => {
-						setServerError(null);
-						setIsServerPass(null);
-					},
+					onChange: resetFormMessage,
 				})}
 			/>
 			<div className="select-wrapper">
@@ -196,7 +95,7 @@ const TransactionFormContainer = ({
 			<Label>Дата и время</Label>
 			<DatePicker
 				selected={startDate}
-				onChange={(date) => setStartDate(date)}
+				onChange={setStartDate}
 				timeFormat="HH:mm"
 				timeIntervals={15}
 				dateFormat="dd MMMM yyyy HH:mm"
@@ -209,10 +108,7 @@ const TransactionFormContainer = ({
 				type="text"
 				placeholder="Комментарий..."
 				{...register('comment', {
-					onChange: () => {
-						setServerError(null);
-						setIsServerPass(null);
-					},
+					onChange: resetFormMessage,
 				})}
 			/>
 			<Button className="button-submit" type="submit" disabled={!!formError}>
@@ -220,11 +116,11 @@ const TransactionFormContainer = ({
 			</Button>
 			{errorMessage && <div className="error">{errorMessage}</div>}
 			{isServerPass && <div className="pass">Отправленно</div>}
-			{transactionId && (
+			{idTransaction && (
 				<button
 					className="delete-button"
 					type="button"
-					onClick={() => onDeleteTransaction(transactionId)}
+					onClick={onDeleteTransaction}
 				>
 					Удалить операцию
 				</button>

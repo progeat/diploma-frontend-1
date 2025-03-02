@@ -69,11 +69,11 @@ async function updateUser(user, reqData) {
     userUpdatedData.login = reqData.login;
   }
 
-  if (reqData?.email) {
+  if (reqData?.email || reqData?.email === '') {
     userUpdatedData.email = reqData.email;
   }
 
-  if (reqData?.phone) {
+  if (reqData?.phone || reqData?.phone === '') {
     userUpdatedData.phone = reqData.phone;
   }
 

@@ -1,21 +1,33 @@
 import { forwardRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '../../../../components/common';
+import { setPage } from '../../../../store/actions';
+import { selectTransactions } from '../../../../store/selectors';
 import styled from 'styled-components';
 
-const PaginationContainer = forwardRef(({ className, page, lastPage, setPage }, ref) => {
+const PaginationContainer = forwardRef(({ className }, ref) => {
+	const { transactions, page, lastPage } = useSelector(selectTransactions);
+	const dispatch = useDispatch();
+
+	const onClickButton = (value) => {
+		dispatch(setPage(value));
+	};
+
+	if (lastPage === 1 || transactions.length === 0) return;
+
 	return (
 		<div ref={ref} className={className}>
 			<Button
 				className="pagination-button"
 				disabled={page === 1}
-				onClick={() => setPage(1)}
+				onClick={() => onClickButton(1)}
 			>
 				В начало
 			</Button>
 			<Button
 				className="pagination-button"
 				disabled={page === 1}
-				onClick={() => setPage(page - 1)}
+				onClick={() => onClickButton(page - 1)}
 			>
 				Предыдущая
 			</Button>
@@ -23,14 +35,14 @@ const PaginationContainer = forwardRef(({ className, page, lastPage, setPage }, 
 			<Button
 				className="pagination-button"
 				disabled={page === lastPage}
-				onClick={() => setPage(page + 1)}
+				onClick={() => onClickButton(page + 1)}
 			>
 				Следующая
 			</Button>
 			<Button
 				className="pagination-button"
 				disabled={page === lastPage}
-				onClick={() => setPage(lastPage)}
+				onClick={() => onClickButton(lastPage)}
 			>
 				В конец
 			</Button>

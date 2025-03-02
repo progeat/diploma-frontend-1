@@ -1,15 +1,15 @@
 import { useSelector } from 'react-redux';
 import { TabSwitcher } from '../../../../components/common';
-import { useAccounts } from '../../../../hooks';
-import { selectStatistics } from '../../../../store/selectors';
+import { useStatistics } from '../../hooks';
 import { getNamesOfPastMonths, getTotalPrice, getTotalSavings } from './utils';
 import styled from 'styled-components';
+import { selectAccounts } from '../../../../store/selectors';
 
-const TopPanelContainer = ({ className, indexActive, onToggleActive }) => {
-	const { accounts } = useAccounts();
-	const statistics = useSelector(selectStatistics);
-	const namesTabSwitcher = getNamesOfPastMonths(3);
+const TopPanelContainer = ({ className }) => {
+	const { statistics, indexSelect, onToggleSelect } = useStatistics();
+	const { accounts } = useSelector(selectAccounts);
 	const totalSavings = getTotalSavings(accounts);
+	const namesTabSwitcher = getNamesOfPastMonths(3);
 
 	return (
 		<div className={className}>
@@ -24,8 +24,8 @@ const TopPanelContainer = ({ className, indexActive, onToggleActive }) => {
 					<span className="title-switcher">Период за:</span>
 					<TabSwitcher
 						names={namesTabSwitcher}
-						indexActive={indexActive}
-						onToggleActive={onToggleActive}
+						indexActive={indexSelect}
+						onToggleActive={onToggleSelect}
 					/>
 				</div>
 				<div className="info-wrapper">
@@ -73,11 +73,11 @@ export const TopPanel = styled(TopPanelContainer)`
 	}
 
 	& .title-switcher {
-		color: #777;
+		color: #888;
 	}
 
 	& .total-info {
-		color: #777;
+		color: #888;
 	}
 
 	& .total-price {

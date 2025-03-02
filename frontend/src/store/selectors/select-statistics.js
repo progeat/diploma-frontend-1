@@ -1,1 +1,1 @@
-export const selectStatistics = ({ statistics }) => statistics.statistics;
+export const selectStatistics = ({ statistics }) => statistics;

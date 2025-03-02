@@ -1,11 +1,9 @@
-import { useEffect } from 'react';
 import { CategoriesList } from './components';
 import { Loader } from '../../../../components/ui';
 import { useCategories } from '../../../../hooks';
 import { TYPE_CATEGORY } from '../../../../constants';
 import styled from 'styled-components';
 
-// TODO продумать вывод ошибки запроса категорий
 const CategoriesWrapperContainer = ({ className }) => {
 	const { categories, isLoading, error } = useCategories();
 
